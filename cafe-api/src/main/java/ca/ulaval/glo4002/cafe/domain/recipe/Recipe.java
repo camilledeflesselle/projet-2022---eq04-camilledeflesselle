@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.cafe.domain.recipe;
 
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
+
 import java.util.Map;
 
 public class Recipe {

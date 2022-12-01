@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.layout.Layout;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

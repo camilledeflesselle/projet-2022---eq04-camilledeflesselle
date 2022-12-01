@@ -1,8 +1,7 @@
 package ca.ulaval.glo4002.cafe.application.layout;
 
-import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
-
 import ca.ulaval.glo4002.cafe.domain.cube.Cube;
+import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
 import ca.ulaval.glo4002.cafe.domain.cube.ICubeRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.layout.Layout;

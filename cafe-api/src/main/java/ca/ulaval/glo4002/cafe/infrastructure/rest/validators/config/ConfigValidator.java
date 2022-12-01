@@ -1,10 +1,11 @@
 package ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config;
 
 import ca.ulaval.glo4002.cafe.domain.bill.ITaxesRepository;
+import ca.ulaval.glo4002.cafe.domain.reservation.InvalidGroupReservationMethodException;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationMethod;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.ConfigDTO;
-import ca.ulaval.glo4002.cafe.domain.reservation.InvalidGroupReservationMethodException;
 import jakarta.ws.rs.BadRequestException;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Objects;

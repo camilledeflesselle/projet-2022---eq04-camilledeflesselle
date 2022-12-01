@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.cafe.application.customer;
 
 import ca.ulaval.glo4002.cafe.application.bill.BillService;
 import ca.ulaval.glo4002.cafe.application.cooking.CookingService;
-import ca.ulaval.glo4002.cafe.application.customer.CustomerService;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistsException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
@@ -12,7 +11,6 @@ import ca.ulaval.glo4002.cafe.domain.order.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
 import jakarta.ws.rs.NotFoundException;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

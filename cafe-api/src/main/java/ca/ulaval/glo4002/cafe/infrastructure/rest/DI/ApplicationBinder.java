@@ -5,10 +5,9 @@ import ca.ulaval.glo4002.cafe.application.bill.BillService;
 import ca.ulaval.glo4002.cafe.application.checkIn.CheckInService;
 import ca.ulaval.glo4002.cafe.application.close.CloseService;
 import ca.ulaval.glo4002.cafe.application.cooking.CookingService;
+import ca.ulaval.glo4002.cafe.application.customer.CustomerService;
 import ca.ulaval.glo4002.cafe.application.inventory.InventoryService;
 import ca.ulaval.glo4002.cafe.application.layout.LayoutService;
-import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config.ConfigValidator;
-import ca.ulaval.glo4002.cafe.application.customer.CustomerService;
 import ca.ulaval.glo4002.cafe.application.seating.SeatingService;
 import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
@@ -16,10 +15,12 @@ import ca.ulaval.glo4002.cafe.domain.reservation.ReservationFactory;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategyFactory;
 import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizerFactory;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.*;
+import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config.ConfigValidator;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.inventory.InventoryValidator;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.ext.Provider;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
+
 import java.util.ArrayList;
 import java.util.List;
 

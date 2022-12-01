@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.cafe.domain.reservation;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.seat.NoReservationSeatsException;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;

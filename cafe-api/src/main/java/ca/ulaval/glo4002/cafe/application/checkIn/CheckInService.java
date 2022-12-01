@@ -3,8 +3,8 @@ package ca.ulaval.glo4002.cafe.application.checkIn;
 import ca.ulaval.glo4002.cafe.application.customer.CustomerService;
 import ca.ulaval.glo4002.cafe.application.seating.SeatingService;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
-import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 import ca.ulaval.glo4002.cafe.domain.customer.DuplicateCustomerException;
+import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 
 public class CheckInService {
     private final CustomerService customerService;

@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

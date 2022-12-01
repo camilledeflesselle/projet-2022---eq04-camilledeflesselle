@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.cafe.domain.reservation;
 
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
-import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
 import ca.ulaval.glo4002.cafe.domain.seat.NoReservationSeatsException;
+import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

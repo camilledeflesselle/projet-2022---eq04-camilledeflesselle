@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.domain.cube.Cube;
 import ca.ulaval.glo4002.cafe.domain.cube.ICubeRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 

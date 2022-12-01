@@ -2,18 +2,15 @@ package ca.ulaval.glo4002.cafe.application.seating;
 
 import ca.ulaval.glo4002.cafe.domain.cube.ICubeRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
-import ca.ulaval.glo4002.cafe.domain.reservation.Group;
-import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
-import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
-import ca.ulaval.glo4002.cafe.domain.reservation.ReservationFactory;
+import ca.ulaval.glo4002.cafe.domain.reservation.*;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationMethod;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.IGroupReservationStrategy;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategyFactory;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
 import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
-import ca.ulaval.glo4002.cafe.domain.reservation.DuplicateGroupNameException;
 import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizerFactory;
+
 import java.util.List;
 
 public class SeatingService {

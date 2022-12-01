@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.cafe.domain.cube;
 
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
+
 import java.util.ArrayList;
 import java.util.List;
 

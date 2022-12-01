@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.cafe.application.close;
 
 import ca.ulaval.glo4002.cafe.application.bill.BillService;
-import ca.ulaval.glo4002.cafe.application.close.CloseService;
 import ca.ulaval.glo4002.cafe.application.customer.CustomerService;
 import ca.ulaval.glo4002.cafe.application.inventory.InventoryService;
 import ca.ulaval.glo4002.cafe.application.layout.LayoutService;

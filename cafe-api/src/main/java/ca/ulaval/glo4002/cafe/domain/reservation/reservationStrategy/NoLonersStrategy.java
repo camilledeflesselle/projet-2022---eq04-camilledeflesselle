@@ -1,9 +1,10 @@
 package ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy;
 
 import ca.ulaval.glo4002.cafe.domain.cube.Cube;
+import ca.ulaval.glo4002.cafe.domain.seat.NoSeatAvailableException;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
-import ca.ulaval.glo4002.cafe.domain.seat.NoSeatAvailableException;
+
 import java.util.ArrayList;
 import java.util.List;
 

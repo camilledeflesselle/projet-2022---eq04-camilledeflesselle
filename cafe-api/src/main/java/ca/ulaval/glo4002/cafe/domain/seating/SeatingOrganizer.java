@@ -2,10 +2,11 @@ package ca.ulaval.glo4002.cafe.domain.seating;
 
 import ca.ulaval.glo4002.cafe.domain.cube.Cube;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.IGroupReservationStrategy;
+import ca.ulaval.glo4002.cafe.domain.seat.NoSeatAvailableException;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
-import ca.ulaval.glo4002.cafe.domain.seat.NoSeatAvailableException;
 import jakarta.ws.rs.NotFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
 

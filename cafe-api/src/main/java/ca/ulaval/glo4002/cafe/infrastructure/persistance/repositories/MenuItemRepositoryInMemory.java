@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.order.IMenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.order.MenuItem;
 import jakarta.ws.rs.NotFoundException;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;

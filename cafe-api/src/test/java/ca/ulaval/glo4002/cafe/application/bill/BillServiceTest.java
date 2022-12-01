@@ -1,10 +1,10 @@
 package ca.ulaval.glo4002.cafe.application.bill;
 
-import ca.ulaval.glo4002.cafe.application.bill.BillFactory;
-import ca.ulaval.glo4002.cafe.application.bill.BillService;
 import ca.ulaval.glo4002.cafe.domain.bill.*;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
-import ca.ulaval.glo4002.cafe.domain.order.*;
+import ca.ulaval.glo4002.cafe.domain.order.IMenuItemRepository;
+import ca.ulaval.glo4002.cafe.domain.order.MenuItem;
+import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config.InvalidMenuOrderException;
 import jakarta.ws.rs.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;

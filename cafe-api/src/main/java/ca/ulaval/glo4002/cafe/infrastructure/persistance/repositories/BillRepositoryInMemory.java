@@ -2,8 +2,9 @@ package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
 import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
-import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.bill.NoBillException;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
+
 import java.util.HashMap;
 
 public class BillRepositoryInMemory implements IBillRepository {

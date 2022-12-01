@@ -2,9 +2,11 @@ package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.domain.bill.ITaxesRepository;
 import ca.ulaval.glo4002.cafe.domain.bill.TaxRate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import static java.util.Map.entry;
 
 public class TaxesRepositoryInMemory implements ITaxesRepository {

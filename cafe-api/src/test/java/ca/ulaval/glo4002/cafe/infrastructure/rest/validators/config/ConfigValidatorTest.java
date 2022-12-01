@@ -1,13 +1,10 @@
 package ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config;
 
-import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config.ConfigValidator;
 import ca.ulaval.glo4002.cafe.domain.bill.ITaxesRepository;
+import ca.ulaval.glo4002.cafe.domain.reservation.InvalidGroupReservationMethodException;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationMethod;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.TaxesRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.ConfigDTO;
-import ca.ulaval.glo4002.cafe.domain.reservation.InvalidGroupReservationMethodException;
-import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config.InvalidCountryException;
-import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config.InvalidGroupTipRateException;
 import jakarta.ws.rs.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

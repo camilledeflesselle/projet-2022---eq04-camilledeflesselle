@@ -1,17 +1,16 @@
 package ca.ulaval.glo4002.cafe.infrastructure.rest.validators.inventory;
+
 import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.InventoryDTO;
-import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.inventory.InventoryValidator;
 import jakarta.ws.rs.BadRequestException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;

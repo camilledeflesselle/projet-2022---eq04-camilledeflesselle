@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.cafe.domain.cooking.InsufficentIngredientsException;
 import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import jakarta.inject.Inject;
+
 import java.util.HashMap;
 import java.util.Map;
 
