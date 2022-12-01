@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.cafe.domain.order;
+package ca.ulaval.glo4002.cafe.domain.menu;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 

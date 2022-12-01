@@ -7,7 +7,7 @@ import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistsException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
-import ca.ulaval.glo4002.cafe.domain.order.MenuItem;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
 import jakarta.ws.rs.NotFoundException;
