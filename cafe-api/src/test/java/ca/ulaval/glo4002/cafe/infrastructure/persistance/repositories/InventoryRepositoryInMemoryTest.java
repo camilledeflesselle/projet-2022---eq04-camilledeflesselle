@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InventoryRepositoryInMemoryTest {
     private static final String AN_EXISTING_INGREDIENT_NAME = "Chocolate";
-    private static final Ingredient AN_EXISTING_INGREDIENT = new Ingredient(AN_EXISTING_INGREDIENT_NAME);
-    private static final Ingredient ANOTHER_EXISTING_INGREDIENT = new Ingredient("Water");
+    private static final Ingredient AN_EXISTING_INGREDIENT = new Ingredient(AN_EXISTING_INGREDIENT_NAME, 0);
+    private static final Ingredient ANOTHER_EXISTING_INGREDIENT = new Ingredient("Water", 0);
 
     private InventoryRepositoryInMemory inventoryRepository;
     private static final Map<Ingredient, Integer> SOME_INGREDIENTS = new HashMap<>()  {
@@ -72,9 +72,9 @@ class InventoryRepositoryInMemoryTest {
     }
 
     private void allIngredientsInStorageHaveAQuantityOfZero() {
-        assertEquals(0, inventoryRepository.findIngredientQuantity(new Ingredient("Chocolate")));
-        assertEquals(0, inventoryRepository.findIngredientQuantity(new Ingredient("Espresso")));
-        assertEquals(0, inventoryRepository.findIngredientQuantity(new Ingredient("Milk")));
-        assertEquals(0, inventoryRepository.findIngredientQuantity(new Ingredient("Water")));
+        assertEquals(0, inventoryRepository.findIngredientQuantity(new Ingredient("Chocolate", 0)));
+        assertEquals(0, inventoryRepository.findIngredientQuantity(new Ingredient("Espresso", 0)));
+        assertEquals(0, inventoryRepository.findIngredientQuantity(new Ingredient("Milk", 0)));
+        assertEquals(0, inventoryRepository.findIngredientQuantity(new Ingredient("Water", 0)));
     }
 }

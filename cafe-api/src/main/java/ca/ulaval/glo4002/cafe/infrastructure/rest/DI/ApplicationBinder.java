@@ -51,7 +51,7 @@ public class ApplicationBinder extends AbstractBinder {
         LayoutService layoutService = new LayoutService(cubesListFactory, cubeRepositoryInMemory, customerRepositoryInMemory, name, cubeNames, cubeSize);
         BillService billService = new BillService(billFactory, billRepositoryInMemory, taxesRepositoryInMemory, menuItemRepositoryInMemory);
         InventoryService inventoryService = new InventoryService(inventoryRepositoryInMemory);
-        CookingService cookingService = new CookingService(recipeRepositoryInMemory, inventoryService);
+        CookingService cookingService = new CookingService(recipeRepositoryInMemory, inventoryRepositoryInMemory);
         CustomerService customerService = new CustomerService(billService, cookingService, customerRepositoryInMemory, customerOrdersRepositoryInMemory, ordersFactory);
         SeatingService seatingService = new SeatingService(reservationStrategyFactory, reservationFactory, seatingOrganizerFactory, cubeRepositoryInMemory, reservationRepositoryInMemory);
         CheckInService checkInService = new CheckInService(customerService, seatingService);

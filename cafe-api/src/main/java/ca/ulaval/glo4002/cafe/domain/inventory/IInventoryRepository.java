@@ -6,15 +6,11 @@ import java.util.Map;
 public interface IInventoryRepository {
     List<String> getIngredientsNames();
 
-    Map<Ingredient, Integer> getInventory();
+    Map<String, Ingredient> getInventory();
 
-    Integer findIngredientQuantity(Ingredient ingredient);
+    Ingredient findByName(String name);
 
-    void saveIngredients(Map<Ingredient, Integer> inventory);
+    void save(Ingredient ingredient);
 
     void deleteAll();
-
-    void removeIngredients(Map<Ingredient, Integer> ingredientsNeeded);
-
-    void removeQuantity(Ingredient ingredient, Integer quantityNeeded);
 }

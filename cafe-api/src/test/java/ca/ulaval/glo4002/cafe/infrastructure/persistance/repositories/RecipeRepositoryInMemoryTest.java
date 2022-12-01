@@ -23,8 +23,8 @@ class RecipeRepositoryInMemoryTest {
     public void whenAddRecipe_thenStorageSizeIncrease() {
         Recipe recipe = new Recipe("New Recipe",
                 Map.ofEntries(
-                        entry(new Ingredient("Espresso"), 50),
-                        entry(new Ingredient("Milk"), 50)
+                        entry(new Ingredient("Espresso", 0), 50),
+                        entry(new Ingredient("Milk", 0), 50)
                 ));
         int oldSize = recipeRepositoryInMemory.getAmount();
 
@@ -37,25 +37,25 @@ class RecipeRepositoryInMemoryTest {
     public void whenSearchAnExistingRecipeInStorageByName_thenReturnsThisRecipe() {
         Recipe recipe = new Recipe("New Recipe",
                 Map.ofEntries(
-                        entry(new Ingredient("Espresso"), 50),
-                        entry(new Ingredient("Milk"), 50)
+                        entry(new Ingredient("Espresso", 0), 50),
+                        entry(new Ingredient("Milk", 0), 50)
                 ));
         recipeRepositoryInMemory.addRecipe(recipe);
 
-        Recipe recipeFound = recipeRepositoryInMemory.findRecipeByName("New Recipe");
+        Recipe recipeFound = recipeRepositoryInMemory.findByName("New Recipe");
 
         assertEquals(recipe, recipeFound);
     }
 
     @Test
     public void whenInitialized_thenStorageContainsAllLes4FeesRecipes() {
-        assertNotNull(recipeRepositoryInMemory.findRecipeByName("Americano"));
-        assertNotNull(recipeRepositoryInMemory.findRecipeByName("Dark Roast"));
-        assertNotNull(recipeRepositoryInMemory.findRecipeByName("Cappuccino"));
-        assertNotNull(recipeRepositoryInMemory.findRecipeByName("Espresso"));
-        assertNotNull(recipeRepositoryInMemory.findRecipeByName("Flat White"));
-        assertNotNull(recipeRepositoryInMemory.findRecipeByName("Latte"));
-        assertNotNull(recipeRepositoryInMemory.findRecipeByName("Macchiato"));
-        assertNotNull(recipeRepositoryInMemory.findRecipeByName("Mocha"));
+        assertNotNull(recipeRepositoryInMemory.findByName("Americano"));
+        assertNotNull(recipeRepositoryInMemory.findByName("Dark Roast"));
+        assertNotNull(recipeRepositoryInMemory.findByName("Cappuccino"));
+        assertNotNull(recipeRepositoryInMemory.findByName("Espresso"));
+        assertNotNull(recipeRepositoryInMemory.findByName("Flat White"));
+        assertNotNull(recipeRepositoryInMemory.findByName("Latte"));
+        assertNotNull(recipeRepositoryInMemory.findByName("Macchiato"));
+        assertNotNull(recipeRepositoryInMemory.findByName("Mocha"));
     }
 }

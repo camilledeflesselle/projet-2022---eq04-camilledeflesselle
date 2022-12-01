@@ -95,7 +95,7 @@ class InventoryValidatorTest {
 
     @Test
     public void givenAnInventoryDTOWithAnIngredientNameThatDoesExist_whenValidatingInventory_() {
-        Ingredient ingredient = new Ingredient(AN_INGREDIENT_NAME);
+        Ingredient ingredient = new Ingredient(AN_INGREDIENT_NAME, 0);
         Map<String, Integer> inventoryDTOWithIngredientNameThatDoesExist = new HashMap<>();
         inventoryDTOWithIngredientNameThatDoesExist.put(AN_INGREDIENT_NAME, 2);
         InventoryDTO inventoryDTO = new InventoryDTO(inventoryDTOWithIngredientNameThatDoesExist);

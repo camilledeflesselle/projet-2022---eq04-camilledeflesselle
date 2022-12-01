@@ -2,9 +2,14 @@ package ca.ulaval.glo4002.cafe.domain.inventory;
 
 public class Ingredient {
     private final String name;
+    private int quantity;
 
-    public Ingredient(String name) {
+    public Ingredient(String name, int i) {
         this.name = name;
+        this.quantity = i;
+    }
+
+    public static void resetIngredientCount() {
     }
 
     public String getName() {
@@ -24,7 +29,11 @@ public class Ingredient {
         return this.name.hashCode();
     }
 
-    public void use(Integer value, IInventoryRepository inventoryRepository) {
-        inventoryRepository.removeQuantity(this, value);
+    public void use(Integer quantity) {
+        this.quantity -= quantity;
+    }
+
+    public Integer getQuantity() {
+        return this.quantity;
     }
 }

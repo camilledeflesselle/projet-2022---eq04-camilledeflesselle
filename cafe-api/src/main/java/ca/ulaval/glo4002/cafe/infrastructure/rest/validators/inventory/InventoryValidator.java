@@ -35,7 +35,7 @@ public class InventoryValidator {
             if (!ingredientsNames.contains(ingredientName)) {
                 throw new BadRequestException("Ingredient name is not valid");
             }
-            Ingredient ingredient = new Ingredient(ingredientName);
+            Ingredient ingredient = new Ingredient(ingredientName, 0);
             ingredients.put(ingredient, inventory.get(ingredientName));
         }
         return ingredients;
