@@ -9,9 +9,6 @@ class GroupTest {
 
     @Test
     public void whenGroupSizeLessThanTwo_thenCannotInitializeGroup() {
-        assertThrows(InvalidGroupSizeException.class, () -> {
-                    new Group(A_GROUP_NAME, 1);
-                }
-        );
+        assertThrows(InvalidGroupSizeException.class, () -> new Group(A_GROUP_NAME, 1));
     }
 }

@@ -3,7 +3,11 @@ package ca.ulaval.glo4002.cafe.application.seating;
 import ca.ulaval.glo4002.cafe.domain.cube.Cube;
 import ca.ulaval.glo4002.cafe.domain.cube.ICubeRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
-import ca.ulaval.glo4002.cafe.domain.reservation.*;
+import ca.ulaval.glo4002.cafe.domain.reservation.DuplicateGroupNameException;
+import ca.ulaval.glo4002.cafe.domain.reservation.Group;
+import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
+import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
+import ca.ulaval.glo4002.cafe.domain.reservation.ReservationFactory;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationMethod;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.IGroupReservationStrategy;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategyFactory;
@@ -27,7 +31,6 @@ public class SeatingServiceTest {
     private static SeatingService seatingService;
     private static ReservationStrategyFactory reservationStrategyFactory;
     private static SeatingOrganizerFactory seatingOrganizerFactory;
-    private static ICubeRepository cubeRepository;
     private static IReservationRepository reservationRepository;
     private static IGroupReservationStrategy groupReservationStrategy;
     private static SeatingOrganizer seatingOrganizer;
@@ -38,7 +41,7 @@ public class SeatingServiceTest {
     public void setup() {
         reservationStrategyFactory = mock(ReservationStrategyFactory.class);
         seatingOrganizerFactory = mock(SeatingOrganizerFactory.class);
-        cubeRepository = mock(ICubeRepository.class);
+        ICubeRepository cubeRepository = mock(ICubeRepository.class);
         reservationRepository = mock(IReservationRepository.class);
         groupReservationStrategy = mock(IGroupReservationStrategy.class);
         seatingOrganizer = mock(SeatingOrganizer.class);

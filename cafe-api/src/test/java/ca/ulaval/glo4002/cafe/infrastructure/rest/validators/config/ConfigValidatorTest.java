@@ -87,7 +87,7 @@ class ConfigValidatorTest {
     }
 
     @Test
-    public void givenAnValidCountryWithoutProvinceOrState_whenCheckCoutryConfigIsValid_thenReturnTrue() {
+    public void givenAnValidCountryWithoutProvinceOrState_whenCheckCountryConfigIsValid_thenReturnTrue() {
         String aValidCountryWithoutProvinceOrState = "CL";
 
         boolean isValid = this.configValidator.isCountryValid(aValidCountryWithoutProvinceOrState, null, null);
@@ -98,9 +98,9 @@ class ConfigValidatorTest {
     @Test
     public void givenAValidCountryWithProvince_whenCheckCountryConfigIsValid_thenReturnTrue() {
         String validCountryWithProvince = "CA";
-        String validProvinceCorespondingToCountry = "QC";
+        String validProvinceCorrespondingToCountry = "QC";
 
-        boolean isValid = this.configValidator.isCountryValid(validCountryWithProvince, validProvinceCorespondingToCountry, null);
+        boolean isValid = this.configValidator.isCountryValid(validCountryWithProvince, validProvinceCorrespondingToCountry, null);
 
         assertTrue(isValid);
     }
@@ -108,9 +108,9 @@ class ConfigValidatorTest {
     @Test
     public void givenAValidCountryWithState_whenCheckCountryConfigIsValid_thenReturnTrue() {
         String validCountryWithState = "US";
-        String validStateCorespondingToCountry = "CA";
+        String validStateCorrespondingToCountry = "CA";
 
-        boolean isValid = this.configValidator.isCountryValid(validCountryWithState, null, validStateCorespondingToCountry);
+        boolean isValid = this.configValidator.isCountryValid(validCountryWithState, null, validStateCorrespondingToCountry);
 
         assertTrue(isValid);
     }

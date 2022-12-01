@@ -114,7 +114,7 @@ class InventoryServiceTest {
     }
 
     @Test
-    void givenAnInventory_whenGetInvenoryStringify_thenRepositoryIsCalled() {
+    void givenAnInventory_whenGetInventoryStringify_thenRepositoryIsCalled() {
         Map<Ingredient, Integer> ingredients = new HashMap<>();
         String ingredientName1 = "ingredientName1";
         String ingredientName2 = "ingredientName2";

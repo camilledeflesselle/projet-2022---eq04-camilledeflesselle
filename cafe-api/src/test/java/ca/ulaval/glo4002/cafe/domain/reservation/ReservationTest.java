@@ -32,9 +32,7 @@ class ReservationTest {
     public void givenReservationWithEmptySeatIdsList_whenGetFirstReservedSeatId_thenReturnsException() {
         reservation = new Reservation(group, EMPTY_SEAT_IDS_LIST);
 
-        assertThrows(NoReservationSeatsException.class, () -> {
-                    reservation.popFirstReservedSeatId();
-                }
+        assertThrows(NoReservationSeatsException.class, () -> reservation.popFirstReservedSeatId()
         );
     }
 

@@ -49,9 +49,7 @@ public class SeatingOrganizerTest {
         List<Cube> cubes = cubesListFactory.create(A_CUBE_NAME, 1);
         SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes, groupReservationStrategyMock);
 
-        assertThrows(NotFoundException.class, () -> {
-            seatingOrganizer.findSeatBySeatId(new SeatId(5));
-        });
+        assertThrows(NotFoundException.class, () -> seatingOrganizer.findSeatBySeatId(new SeatId(5)));
     }
 
     @Test
@@ -92,9 +90,7 @@ public class SeatingOrganizerTest {
         List<Cube> cubes = cubesListFactory.create(A_CUBE_NAME, 2);
         SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes, groupReservationStrategyMock);
 
-        assertThrows(NoSeatAvailableException.class, () -> {
-                    seatingOrganizer.reserveSeats(3, A_GROUP_NAME);
-                }
+        assertThrows(NoSeatAvailableException.class, () -> seatingOrganizer.reserveSeats(3, A_GROUP_NAME)
         );
     }
 

@@ -49,9 +49,7 @@ public class CustomerRepositoryInMemoryTest {
 
     @Test
     public void givenCustomerThatDoesntExistInRepository_whenSearchingForCustomer_thenNoCustomerIsFound() {
-        assertThrows(CustomerDoesNotExistsException.class, () -> {
-                    customerRepositoryInMemory.findCustomerByCustomerId(A_CUSTOMER_ID);
-                }
+        assertThrows(CustomerDoesNotExistsException.class, () -> customerRepositoryInMemory.findCustomerByCustomerId(A_CUSTOMER_ID)
         );
     }
 
@@ -74,9 +72,7 @@ public class CustomerRepositoryInMemoryTest {
         customerRepositoryInMemory.deleteCustomerByCustomerId(A_CUSTOMER.getId());
 
         assertEquals(1, customerRepositoryInMemory.getAmount());
-        assertThrows(CustomerDoesNotExistsException.class, () -> {
-                    customerRepositoryInMemory.findCustomerByCustomerId(A_CUSTOMER_ID);
-                }
+        assertThrows(CustomerDoesNotExistsException.class, () -> customerRepositoryInMemory.findCustomerByCustomerId(A_CUSTOMER_ID)
         );
     }
 

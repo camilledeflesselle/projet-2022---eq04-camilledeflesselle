@@ -1,6 +1,11 @@
 package ca.ulaval.glo4002.cafe.application.bill;
 
-import ca.ulaval.glo4002.cafe.domain.bill.*;
+import ca.ulaval.glo4002.cafe.domain.bill.Amount;
+import ca.ulaval.glo4002.cafe.domain.bill.Bill;
+import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
+import ca.ulaval.glo4002.cafe.domain.bill.ITaxesRepository;
+import ca.ulaval.glo4002.cafe.domain.bill.TaxRate;
+import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.order.IMenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.order.MenuItem;
