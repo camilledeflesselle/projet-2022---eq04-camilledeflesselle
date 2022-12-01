@@ -15,4 +15,6 @@ public interface IInventoryRepository {
     void deleteAll();
 
     void removeIngredients(Map<Ingredient, Integer> ingredientsNeeded);
+
+    void removeQuantity(Ingredient ingredient, Integer quantityNeeded);
 }

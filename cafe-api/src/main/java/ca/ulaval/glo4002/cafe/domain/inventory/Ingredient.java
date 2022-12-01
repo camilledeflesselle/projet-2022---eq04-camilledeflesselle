@@ -23,4 +23,8 @@ public class Ingredient {
     public int hashCode() {
         return this.name.hashCode();
     }
+
+    public void use(Integer value, IInventoryRepository inventoryRepository) {
+        inventoryRepository.removeQuantity(this, value);
+    }
 }

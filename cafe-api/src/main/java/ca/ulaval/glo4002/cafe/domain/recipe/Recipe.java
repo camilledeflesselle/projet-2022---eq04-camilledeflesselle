@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.cafe.domain.recipe;
 
+import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 
 import java.util.Map;
@@ -19,5 +20,11 @@ public class Recipe {
 
     public Map<Ingredient, Integer> getIngredients() {
         return this.ingredients;
+    }
+
+    public void makeRecipe(IInventoryRepository inventoryRepository) {
+        for (Map.Entry<Ingredient, Integer> ingredient : ingredients.entrySet()) {
+            ingredient.getKey().use(ingredient.getValue(), inventoryRepository);
+        }
     }
 }

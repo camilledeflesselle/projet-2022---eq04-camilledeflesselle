@@ -56,8 +56,8 @@ public class InventoryRepositoryInMemory implements IInventoryRepository {
             this.removeQuantity(ingredient.getKey(), quantityNeeded);
         }
     }
-
-    private void removeQuantity(Ingredient ingredient, Integer quantityNeeded) {
+    @Override
+    public void removeQuantity(Ingredient ingredient, Integer quantityNeeded) {
         this.inventory.put(ingredient, this.inventory.get(ingredient) - quantityNeeded);
     }
 
