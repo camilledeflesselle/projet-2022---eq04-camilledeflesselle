@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.cafe.application.customer;
 
-import ca.ulaval.glo4002.cafe.application.bill.BillService;
 import ca.ulaval.glo4002.cafe.application.cooking.CookingService;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistsException;
@@ -18,7 +17,7 @@ public class CustomerService {
     private final CookingService cookingService;
     private final ICustomerRepository customerRepository;
     private final OrdersFactory ordersFactory;
-    private IMenuItemRepository menuItemRepository;
+    private final IMenuItemRepository menuItemRepository;
 
     public CustomerService(CookingService cookingService, ICustomerRepository customerRepository, OrdersFactory ordersFactory, IMenuItemRepository menuItemRepository) {
         this.cookingService = cookingService;
@@ -50,7 +49,7 @@ public class CustomerService {
         List<MenuItem> menuItems = this.ordersFactory.buildMenuItemListFromStr(menuItemsStrList, this.menuItemRepository);
         Order newOrder = this.ordersFactory.create(menuItems);
         this.cookingService.cookOrder(newOrder);
-        Customer customer = this.findCustomer(customerId);
+        Customer customer = this.customerRepository.findCustomerByCustomerId(customerId);
         customer.updateOrder(newOrder);
         this.customerRepository.saveCustomer(customer);
     }

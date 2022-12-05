@@ -1,13 +1,10 @@
 package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.application.menu.CoffeeFactory;
-import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
-import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import jakarta.ws.rs.NotFoundException;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,10 +17,10 @@ public class MenuItemRepositoryInMemory implements IMenuItemRepository {
     }
 
     @Override
-    public MenuItem findMenuItemById(MenuItemId id) {
+    public MenuItem findMenuItemByName(String name) {
         MenuItem menuItem = menuItems
                 .stream()
-                .filter(item -> Objects.equals(item.getId(), id))
+                .filter(item -> Objects.equals(item.getId().getName(), name))
                 .findFirst()
                 .orElse(null);
 

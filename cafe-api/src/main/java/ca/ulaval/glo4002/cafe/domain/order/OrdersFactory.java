@@ -18,7 +18,7 @@ public class OrdersFactory {
         List<MenuItem> menuItemList = new ArrayList<>();
         for (String menuItemStr : menuItemStrList) {
             try {
-                MenuItem menuItem = menuItemRepository.findMenuItemById(new MenuItemId(menuItemStr));
+                MenuItem menuItem = menuItemRepository.findMenuItemByName(menuItemStr);
                 menuItemList.add(menuItem);
             } catch (NotFoundException e) {
                 throw new InvalidMenuOrderException();

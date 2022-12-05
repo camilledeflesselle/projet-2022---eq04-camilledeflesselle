@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.cafe.domain.order;
 
 import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
-import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config.InvalidMenuOrderException;
 import jakarta.ws.rs.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +19,8 @@ import static org.mockito.Mockito.when;
 class OrdersFactoryTest {
 
     private IMenuItemRepository menuItemRepository;
-    private static final MenuItemId AN_ITEM_NAME = new MenuItemId("Café");
-    private static final MenuItemId ANOTHER_ITEM_NAME = new MenuItemId("Big10");
+    private static final String AN_ITEM_NAME = "Café";
+    private static final String ANOTHER_ITEM_NAME = "Big10";
     private OrdersFactory ordersFactory;
 
     @BeforeEach
@@ -37,8 +36,8 @@ class OrdersFactoryTest {
 
     @Test
     public void givenMenuItemNamesWithOneThatIsNotInRepository_whenBuildingMenuItemsList_thenThrowsInvalidMenuOrderException() {
-        List<String> menuItemsStr = new ArrayList<>(List.of(AN_ITEM_NAME.getName(), ANOTHER_ITEM_NAME.getName()));
-        when(menuItemRepository.findMenuItemById(ANOTHER_ITEM_NAME)).thenThrow(NotFoundException.class);
+        List<String> menuItemsStr = new ArrayList<>(List.of(AN_ITEM_NAME, ANOTHER_ITEM_NAME));
+        when(menuItemRepository.findMenuItemByName(ANOTHER_ITEM_NAME)).thenThrow(NotFoundException.class);
 
         assertThrows(
                 InvalidMenuOrderException.class,
@@ -48,13 +47,13 @@ class OrdersFactoryTest {
 
     @Test
     public void givenMenuItemNamesThatExistInRepository_whenBuildingMenuItemsList_thenEachIsSearchedInRepository() {
-        List<String> menuItemsStr = new ArrayList<>(List.of(AN_ITEM_NAME.getName(), ANOTHER_ITEM_NAME.getName()));
-        when(menuItemRepository.findMenuItemById(AN_ITEM_NAME)).thenReturn(mock(MenuItem.class));
-        when(menuItemRepository.findMenuItemById(ANOTHER_ITEM_NAME)).thenReturn(mock(MenuItem.class));
+        List<String> menuItemsStr = new ArrayList<>(List.of(AN_ITEM_NAME, ANOTHER_ITEM_NAME));
+        when(menuItemRepository.findMenuItemByName(AN_ITEM_NAME)).thenReturn(mock(MenuItem.class));
+        when(menuItemRepository.findMenuItemByName(ANOTHER_ITEM_NAME)).thenReturn(mock(MenuItem.class));
 
         ordersFactory.buildMenuItemListFromStr(menuItemsStr, menuItemRepository);
 
-        verify(menuItemRepository).findMenuItemById(AN_ITEM_NAME);
-        verify(menuItemRepository).findMenuItemById(ANOTHER_ITEM_NAME);
+        verify(menuItemRepository).findMenuItemByName(AN_ITEM_NAME);
+        verify(menuItemRepository).findMenuItemByName(ANOTHER_ITEM_NAME);
     }
 }
