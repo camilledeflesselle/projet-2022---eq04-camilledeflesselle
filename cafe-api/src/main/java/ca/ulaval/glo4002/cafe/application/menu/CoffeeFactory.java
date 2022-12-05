@@ -21,7 +21,7 @@ public class CoffeeFactory {
         return coffees;
     }
 
-    private MenuItem create(CoffeeType type) {
+    public MenuItem create(CoffeeType type) {
         return switch (type) {
             case AMERICANO -> new MenuItem(type.getId(), new Amount(2.25f));
             case DARK_ROAST -> new MenuItem(type.getId(), new Amount(2.1f));
