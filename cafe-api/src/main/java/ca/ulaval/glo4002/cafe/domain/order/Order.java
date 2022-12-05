@@ -28,4 +28,8 @@ public class Order {
     public void make(IRecipeRepository recipeRepository, IInventoryRepository inventoryRepository) {
         menuItems.forEach(menuItem -> menuItem.cook(recipeRepository, inventoryRepository));
     }
+
+    public void addMenuItem(MenuItem menuItem) {
+        this.menuItems.add(menuItem);
+    }
 }

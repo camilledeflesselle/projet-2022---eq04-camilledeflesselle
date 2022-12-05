@@ -43,7 +43,6 @@ public class ApplicationBinder extends AbstractBinder {
         CubeRepositoryInMemory cubeRepositoryInMemory = new CubeRepositoryInMemory();
         ReservationRepositoryInMemory reservationRepositoryInMemory = new ReservationRepositoryInMemory();
         CustomerRepositoryInMemory customerRepositoryInMemory = new CustomerRepositoryInMemory();
-        OrderRepositoryInMemory customerOrdersRepositoryInMemory = new OrderRepositoryInMemory();
         BillRepositoryInMemory billRepositoryInMemory = new BillRepositoryInMemory();
         TaxesRepositoryInMemory taxesRepositoryInMemory = new TaxesRepositoryInMemory();
         MenuItemRepositoryInMemory menuItemRepositoryInMemory = new MenuItemRepositoryInMemory(coffeeFactory);
@@ -57,7 +56,7 @@ public class ApplicationBinder extends AbstractBinder {
         BillService billService = new BillService(billFactory, billRepositoryInMemory, taxesRepositoryInMemory, menuItemRepositoryInMemory);
         InventoryService inventoryService = new InventoryService(inventoryRepositoryInMemory);
         CookingService cookingService = new CookingService(recipeRepositoryInMemory, inventoryRepositoryInMemory);
-        CustomerService customerService = new CustomerService(billService, cookingService, customerRepositoryInMemory, customerOrdersRepositoryInMemory, ordersFactory);
+        CustomerService customerService = new CustomerService(billService, cookingService, customerRepositoryInMemory, ordersFactory);
         SeatingService seatingService = new SeatingService(reservationStrategyFactory, reservationFactory, seatingOrganizerFactory, cubeRepositoryInMemory, reservationRepositoryInMemory);
         CheckInService checkInService = new CheckInService(customerService, seatingService);
         CloseService closeService = new CloseService(seatingService, billService, customerService, inventoryService, layoutService);

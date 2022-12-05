@@ -19,14 +19,12 @@ public class CustomerService {
     private final BillService billService;
     private final CookingService cookingService;
     private final ICustomerRepository customerRepository;
-    private final IOrderRepository orderRepository;
     private final OrdersFactory ordersFactory;
 
-    public CustomerService(BillService billService, CookingService cookingService, ICustomerRepository customerRepository, IOrderRepository orderRepository, OrdersFactory ordersFactory) {
+    public CustomerService(BillService billService, CookingService cookingService, ICustomerRepository customerRepository, OrdersFactory ordersFactory) {
         this.billService = billService;
         this.cookingService = cookingService;
         this.customerRepository = customerRepository;
-        this.orderRepository = orderRepository;
         this.ordersFactory = ordersFactory;
     }
 
@@ -34,44 +32,33 @@ public class CustomerService {
         return this.customerRepository.findCustomerByCustomerId(customerId);
     }
 
+
     public void saveCustomer(Customer customer) {
+        this.initOrder(customer);
         this.customerRepository.saveCustomer(customer);
     }
 
+    private void initOrder(Customer customer) {
+        Order order = this.ordersFactory.create(new ArrayList<>());
+        customer.setOrder(order);
+    }
+
     public Order findOrCreateEmptyOrder(CustomerId customerId) {
-        if (!this.hasOrders(customerId)) {
-            Order order = this.ordersFactory.create(new ArrayList<>());
-            this.orderRepository.saveOrdersByCustomerId(customerId, order);
-            return order;
-        }
-        return this.orderRepository.findOrderByCustomerId(customerId);
+        Customer customer = this.findCustomer(customerId);
+        return customer.getOrder();
     }
 
     public void updateOrdersOfCustomer(CustomerId customerId, List<String> menuItemsStrList) {
         List<MenuItem> menuItems = this.billService.buildMenuItemListFromStr(menuItemsStrList);
         Order newOrder = this.ordersFactory.create(menuItems);
         this.cookingService.cookOrder(newOrder);
-        if (this.hasOrders(customerId)) {
-            Order customerOrder = this.orderRepository.findOrderByCustomerId(customerId);
-            customerOrder.appendMenuItemsFrom(newOrder);
-            this.orderRepository.saveOrdersByCustomerId(customerId, customerOrder);
-        } else {
-            this.orderRepository.saveOrdersByCustomerId(customerId, newOrder);
-        }
+        Customer customer = this.findCustomer(customerId);
+        customer.updateOrder(newOrder);
+        this.customerRepository.saveCustomer(customer);
     }
 
     public void reset() {
         this.customerRepository.deleteAll();
-        this.orderRepository.deleteAll();
-    }
-
-    public boolean hasOrders(CustomerId customerId) {
-        try {
-            this.orderRepository.findOrderByCustomerId(customerId);
-            return true;
-        } catch (NotFoundException e) {
-            return false;
-        }
     }
 
     public boolean hasAlreadyVisited(Customer customer) {

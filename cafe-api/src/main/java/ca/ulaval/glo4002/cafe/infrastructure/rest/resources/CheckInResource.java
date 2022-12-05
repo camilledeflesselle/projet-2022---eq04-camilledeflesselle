@@ -35,6 +35,7 @@ public class CheckInResource {
 
     private Customer buildCustomer(CheckInDTO checkInDTO) {
         CustomerId customerId = new CustomerId(checkInDTO.getCustomerId());
+
         return new Customer(
                 customerId,
                 checkInDTO.getCustomerName(),
