@@ -4,7 +4,6 @@ import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
 import ca.ulaval.glo4002.cafe.domain.bill.TaxRate;
 import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
-import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 
 public class BillFactory {
@@ -25,7 +24,7 @@ public class BillFactory {
         return new Bill(customersOrder, subtotal, taxes, tip);
     }
 
-    private static Amount getSubtotal(Order order, Amount subtotal) {
+    private Amount getSubtotal(Order order, Amount subtotal) {
         return order.calculateTotal(subtotal);
     }
 }

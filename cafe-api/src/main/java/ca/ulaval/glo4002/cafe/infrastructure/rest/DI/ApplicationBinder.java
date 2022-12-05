@@ -53,10 +53,10 @@ public class ApplicationBinder extends AbstractBinder {
         List<String> cubeNames = new ArrayList<>(List.of("Wanda", "Bloom", "Merryweather", "Tinker Bell"));
         int cubeSize = 4;
         LayoutService layoutService = new LayoutService(cubesListFactory, cubeRepositoryInMemory, customerRepositoryInMemory, name, cubeNames, cubeSize);
-        BillService billService = new BillService(billFactory, billRepositoryInMemory, taxesRepositoryInMemory, menuItemRepositoryInMemory);
+        BillService billService = new BillService(billFactory, billRepositoryInMemory, taxesRepositoryInMemory);
         InventoryService inventoryService = new InventoryService(inventoryRepositoryInMemory);
         CookingService cookingService = new CookingService(recipeRepositoryInMemory, inventoryRepositoryInMemory);
-        CustomerService customerService = new CustomerService(billService, cookingService, customerRepositoryInMemory, ordersFactory);
+        CustomerService customerService = new CustomerService(cookingService, customerRepositoryInMemory, ordersFactory, menuItemRepositoryInMemory);
         SeatingService seatingService = new SeatingService(reservationStrategyFactory, reservationFactory, seatingOrganizerFactory, cubeRepositoryInMemory, reservationRepositoryInMemory);
         CheckInService checkInService = new CheckInService(customerService, seatingService);
         CloseService closeService = new CloseService(seatingService, billService, customerService, inventoryService, layoutService);

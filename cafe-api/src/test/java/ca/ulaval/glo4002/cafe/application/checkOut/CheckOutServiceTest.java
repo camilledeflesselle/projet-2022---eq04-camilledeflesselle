@@ -180,7 +180,7 @@ public class CheckOutServiceTest {
 
     private Order givenCustomerOrder() {
         Order order = mock(Order.class);
-        when(customerService.findOrCreateEmptyOrder(CheckOutServiceTest.A_CUSTOMER_ID)).thenReturn(order);
+        when(customerService.findOrder(CheckOutServiceTest.A_CUSTOMER_ID)).thenReturn(order);
 
         return order;
     }

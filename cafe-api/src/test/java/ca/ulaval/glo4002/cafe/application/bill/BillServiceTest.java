@@ -27,8 +27,7 @@ import static org.mockito.Mockito.*;
 class BillServiceTest {
     private static final CustomerId A_CUSTOMER_ID = new CustomerId("1");
     private static final Order SOME_CUSTOMER_ORDER = new Order(Arrays.asList(new MenuItem(new MenuItemId("Chocolate"), new Amount(13.25f)), new MenuItem(new MenuItemId("Coca"), new Amount(12.5f))));
-    private static final MenuItemId AN_ITEM_NAME = new MenuItemId("Café");
-    private static final MenuItemId ANOTHER_ITEM_NAME = new MenuItemId("Big10");
+
     private static final TaxRate A_TAX_RATE = new TaxRate(0.15f);
     private static final String A_COUNTRY = "CA";
     private static final String US_COUNTRY = "US";
@@ -42,7 +41,6 @@ class BillServiceTest {
     private BillFactory billFactory;
     private IBillRepository billRepository;
     private ITaxesRepository taxesRepository;
-    private IMenuItemRepository menuItemRepository;
     private BillService billService;
 
     @BeforeEach
@@ -50,8 +48,7 @@ class BillServiceTest {
         billFactory = mock(BillFactory.class);
         billRepository = mock(IBillRepository.class);
         taxesRepository = mock(ITaxesRepository.class);
-        menuItemRepository = mock(IMenuItemRepository.class);
-        billService = new BillService(billFactory, billRepository, taxesRepository, menuItemRepository);
+        billService = new BillService(billFactory, billRepository, taxesRepository);
     }
 
     @Test
@@ -93,29 +90,6 @@ class BillServiceTest {
         billService.getBillByCustomerId(A_CUSTOMER_ID);
 
         verify(billRepository).findBillByCustomerId(A_CUSTOMER_ID);
-    }
-
-    @Test
-    public void givenMenuItemNamesWithOneThatIsNotInRepository_whenBuildingMenuItemsList_thenThrowsInvalidMenuOrderException() {
-        List<String> menuItemsStr = new ArrayList<>(List.of(AN_ITEM_NAME.getName(), ANOTHER_ITEM_NAME.getName()));
-        when(menuItemRepository.findMenuItemById(ANOTHER_ITEM_NAME)).thenThrow(NotFoundException.class);
-
-        assertThrows(
-                InvalidMenuOrderException.class,
-                () -> billService.buildMenuItemListFromStr(menuItemsStr)
-        );
-    }
-
-    @Test
-    public void givenMenuItemNamesThatExistInRepository_whenBuildingMenuItemsList_thenEachIsSearchedInRepository() {
-        List<String> menuItemsStr = new ArrayList<>(List.of(AN_ITEM_NAME.getName(), ANOTHER_ITEM_NAME.getName()));
-        when(menuItemRepository.findMenuItemById(AN_ITEM_NAME)).thenReturn(mock(MenuItem.class));
-        when(menuItemRepository.findMenuItemById(ANOTHER_ITEM_NAME)).thenReturn(mock(MenuItem.class));
-
-        billService.buildMenuItemListFromStr(menuItemsStr);
-
-        verify(menuItemRepository).findMenuItemById(AN_ITEM_NAME);
-        verify(menuItemRepository).findMenuItemById(ANOTHER_ITEM_NAME);
     }
 
     @Test

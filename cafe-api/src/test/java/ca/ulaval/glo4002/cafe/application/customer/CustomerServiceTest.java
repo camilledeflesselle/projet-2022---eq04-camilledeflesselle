@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistsException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
+import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
@@ -34,10 +35,10 @@ class CustomerServiceTest {
     private static CookingService cookingServiceMock;
     private static ICustomerRepository customerRepositoryMock;
     private static OrdersFactory ordersFactoryMock;
+    private IMenuItemRepository menuItemRepositoryMock;
 
     @BeforeEach
     void setUp() {
-        billServiceMock = mock(BillService.class);
         cookingServiceMock = mock(CookingService.class);
         customerRepositoryMock = mock(ICustomerRepository.class);
         ordersFactoryMock = mock(OrdersFactory.class);
@@ -45,10 +46,11 @@ class CustomerServiceTest {
         existingOrderMock = mock(Order.class);
         newOrderMock = mock(Order.class);
         menuItemListMock = new ArrayList<>(List.of(mock(MenuItem.class)));
-        customerService = new CustomerService(billServiceMock, cookingServiceMock, customerRepositoryMock, ordersFactoryMock);
+        menuItemRepositoryMock = mock(IMenuItemRepository.class);
+        customerService = new CustomerService(cookingServiceMock, customerRepositoryMock, ordersFactoryMock, menuItemRepositoryMock);
     }
 
-    /*
+
     @Test
     public void whenSearchingCustomer_thenSearchRepositoryWithCustomerId() {
         customerService.findCustomer(A_CUSTOMER_ID);
@@ -63,24 +65,8 @@ class CustomerServiceTest {
         verify(customerRepositoryMock).saveCustomer(customerMock);
     }
 
-    @Test
-    public void givenNoOrderForCustomer_whenSearchingOrder_thenCreateNewOrder() {
-        Order order = new Order(new ArrayList<>());
-        when(ordersFactoryMock.create(any())).thenReturn(order);
 
-        customerService.findOrCreateEmptyOrder(A_CUSTOMER_ID);
-
-        verify(ordersFactoryMock).create(any(ArrayList.class));
-    }
-
-    @Test
-    public void whenSearchingForCustomerOrders_thenSearchInTheRepositoryWithCustomerId() {
-        customerService.findOrCreateEmptyOrder(A_CUSTOMER_ID);
-
-        verify(orderRepositoryMock, times(2)).findOrderByCustomerId(A_CUSTOMER_ID);
-    }
-
-
+    /*
     @Test
     public void whenUpdatingCustomerOrders_thenMenuItemsArePreparedFromBillService() {
         when(billServiceMock.buildMenuItemListFromStr(any())).thenReturn(menuItemListMock);
