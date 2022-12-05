@@ -8,6 +8,7 @@ import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config.InvalidMenuOrderException;
 import jakarta.ws.rs.NotFoundException;
@@ -82,7 +83,7 @@ public class BillService {
         List<MenuItem> menuItemList = new ArrayList<>();
         for (String menuItemStr : menuItemStrList) {
             try {
-                MenuItem menuItem = this.menuItemRepository.findMenuItemById(menuItemStr);
+                MenuItem menuItem = this.menuItemRepository.findMenuItemById(new MenuItemId(menuItemStr));
                 menuItemList.add(menuItem);
             } catch (NotFoundException e) {
                 throw new InvalidMenuOrderException();

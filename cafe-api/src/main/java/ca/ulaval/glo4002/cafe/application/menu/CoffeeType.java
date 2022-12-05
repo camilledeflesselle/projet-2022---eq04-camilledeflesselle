@@ -1,30 +1,24 @@
 package ca.ulaval.glo4002.cafe.application.menu;
 
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
+
 public enum CoffeeType {
-    AMERICANO("Americano"),
-    CAPPUCCINO("Cappuccino"),
-    DARK_ROAST("Dark Roast"),
-    FLAT_WHITE("Flat White"),
-    ESPRESSO("Espresso"),
-    LATTE("Latte"),
-    MACCHIATO("Macchiato"),
-    MOCHA("Mocha");
+    AMERICANO(new MenuItemId("Americano")),
+    CAPPUCCINO(new MenuItemId("Cappuccino")),
+    DARK_ROAST(new MenuItemId("Dark Roast")),
+    FLAT_WHITE(new MenuItemId("Flat White")),
+    ESPRESSO(new MenuItemId("Espresso")),
+    LATTE(new MenuItemId("Latte")),
+    MACCHIATO(new MenuItemId("Macchiato")),
+    MOCHA(new MenuItemId("Mocha"));
 
-    private final String label;
+    private final MenuItemId id;
 
-    CoffeeType(String label) {
-        this.label = label;
+    CoffeeType(MenuItemId id) {
+        this.id = id;
     }
 
-    public String getLabel() {
-        return label;
-    }
-    public CoffeeType fromLabel(String label) {
-        for (CoffeeType type : CoffeeType.values()) {
-            if (type.label.equals(label)) {
-                return type;
-            }
-        }
-        throw new IllegalArgumentException("No enum constant " + CoffeeType.class.getCanonicalName() + "." + label);
+    public MenuItemId getId() {
+        return id;
     }
 }

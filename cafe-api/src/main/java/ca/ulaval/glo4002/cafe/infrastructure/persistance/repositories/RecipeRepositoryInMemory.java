@@ -2,16 +2,13 @@ package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.application.cooking.RecipeFactory;
 import ca.ulaval.glo4002.cafe.application.menu.CoffeeType;
-import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
-import static java.util.Map.entry;
 
 public class RecipeRepositoryInMemory implements IRecipeRepository {
     private final List<Recipe> recipes;
@@ -28,7 +25,7 @@ public class RecipeRepositoryInMemory implements IRecipeRepository {
     }
 
     @Override
-    public Recipe findByName(String recipeName) {
+    public Recipe findById(MenuItemId recipeName) {
         return this.recipes.stream()
                 .filter(recipe -> recipe.getName().equals(recipeName))
                 .findFirst()

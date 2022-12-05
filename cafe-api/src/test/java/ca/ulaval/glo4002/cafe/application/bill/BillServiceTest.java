@@ -9,6 +9,7 @@ import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config.InvalidMenuOrderException;
 import jakarta.ws.rs.NotFoundException;
@@ -25,9 +26,9 @@ import static org.mockito.Mockito.*;
 
 class BillServiceTest {
     private static final CustomerId A_CUSTOMER_ID = new CustomerId("1");
-    private static final Order SOME_CUSTOMER_ORDER = new Order(Arrays.asList(new MenuItem("cheese", new Amount(13.25f)), new MenuItem("chocolate", new Amount(12.5f))));
-    private static final String AN_ITEM_NAME = "Café";
-    private static final String ANOTHER_ITEM_NAME = "Big10";
+    private static final Order SOME_CUSTOMER_ORDER = new Order(Arrays.asList(new MenuItem(new MenuItemId("Chocolate"), new Amount(13.25f)), new MenuItem(new MenuItemId("Coca"), new Amount(12.5f))));
+    private static final MenuItemId AN_ITEM_NAME = new MenuItemId("Café");
+    private static final MenuItemId ANOTHER_ITEM_NAME = new MenuItemId("Big10");
     private static final TaxRate A_TAX_RATE = new TaxRate(0.15f);
     private static final String A_COUNTRY = "CA";
     private static final String US_COUNTRY = "US";
@@ -96,7 +97,7 @@ class BillServiceTest {
 
     @Test
     public void givenMenuItemNamesWithOneThatIsNotInRepository_whenBuildingMenuItemsList_thenThrowsInvalidMenuOrderException() {
-        List<String> menuItemsStr = new ArrayList<>(List.of(AN_ITEM_NAME, ANOTHER_ITEM_NAME));
+        List<String> menuItemsStr = new ArrayList<>(List.of(AN_ITEM_NAME.getName(), ANOTHER_ITEM_NAME.getName()));
         when(menuItemRepository.findMenuItemById(ANOTHER_ITEM_NAME)).thenThrow(NotFoundException.class);
 
         assertThrows(
@@ -107,7 +108,7 @@ class BillServiceTest {
 
     @Test
     public void givenMenuItemNamesThatExistInRepository_whenBuildingMenuItemsList_thenEachIsSearchedInRepository() {
-        List<String> menuItemsStr = new ArrayList<>(List.of(AN_ITEM_NAME, ANOTHER_ITEM_NAME));
+        List<String> menuItemsStr = new ArrayList<>(List.of(AN_ITEM_NAME.getName(), ANOTHER_ITEM_NAME.getName()));
         when(menuItemRepository.findMenuItemById(AN_ITEM_NAME)).thenReturn(mock(MenuItem.class));
         when(menuItemRepository.findMenuItemById(ANOTHER_ITEM_NAME)).thenReturn(mock(MenuItem.class));
 

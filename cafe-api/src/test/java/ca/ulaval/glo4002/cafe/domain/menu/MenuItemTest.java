@@ -7,13 +7,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class MenuItemTest {
-    private static final String AN_ITEM_NAME = "Espresso";
+    private static final MenuItemId AN_ITEM_ID = new MenuItemId("Espresso");
     private static final Amount A_PRICE = new Amount(1.50f);
-    private static final MenuItem AN_ITEM = new MenuItem(AN_ITEM_NAME, A_PRICE);
+    private static final MenuItem AN_ITEM = new MenuItem(AN_ITEM_ID, A_PRICE);
 
     @Test
-    void whenGetName_thenReturnsNameOfItem() {
-        assertEquals(AN_ITEM_NAME, AN_ITEM.getName());
+    void whenGetId_thenReturnsIdOfItem() {
+        assertEquals(AN_ITEM_ID, AN_ITEM.getId());
     }
 
     @Test

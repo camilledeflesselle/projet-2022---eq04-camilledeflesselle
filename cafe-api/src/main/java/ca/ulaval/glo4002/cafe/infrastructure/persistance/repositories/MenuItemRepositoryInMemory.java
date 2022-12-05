@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.cafe.application.menu.CoffeeFactory;
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import jakarta.ws.rs.NotFoundException;
 
 import java.util.Arrays;
@@ -19,10 +20,10 @@ public class MenuItemRepositoryInMemory implements IMenuItemRepository {
     }
 
     @Override
-    public MenuItem findMenuItemById(String name) {
+    public MenuItem findMenuItemById(MenuItemId id) {
         MenuItem menuItem = menuItems
                 .stream()
-                .filter(item -> Objects.equals(item.getName(), name))
+                .filter(item -> Objects.equals(item.getId(), id))
                 .findFirst()
                 .orElse(null);
 
@@ -30,5 +31,10 @@ public class MenuItemRepositoryInMemory implements IMenuItemRepository {
             throw new NotFoundException();
         }
         return menuItem;
+    }
+
+    @Override
+    public void saveMenuItem(MenuItem menuItem) {
+        menuItems.add(menuItem);
     }
 }

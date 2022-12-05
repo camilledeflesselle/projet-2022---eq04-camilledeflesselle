@@ -6,24 +6,28 @@ import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 
 public class MenuItem {
-    private final String name;
+    private final MenuItemId id;
     private final Amount amount;
 
-    public MenuItem(String name, Amount amount) {
-        this.name = name;
+    public MenuItem(MenuItemId id, Amount amount) {
+        this.id = id;
         this.amount = amount;
     }
 
-    public String getName() {
-        return name;
+    public MenuItemId getId() {
+        return this.id;
     }
 
     public Amount getPrice() {
-        return amount;
+        return this.amount;
     }
 
     public void cook(IRecipeRepository recipeRepository, IInventoryRepository inventoryRepository) {
-        Recipe recipe = recipeRepository.findByName(this.name);
+        Recipe recipe = recipeRepository.findById(this.id);
         recipe.makeRecipe(inventoryRepository);
+    }
+
+    public String getName() {
+        return this.id.getName();
     }
 }
