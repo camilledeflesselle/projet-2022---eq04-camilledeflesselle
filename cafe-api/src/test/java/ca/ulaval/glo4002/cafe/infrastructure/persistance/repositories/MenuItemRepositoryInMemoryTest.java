@@ -9,11 +9,7 @@ import jakarta.ws.rs.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 class MenuItemRepositoryInMemoryTest {
     private static final MenuItemId AN_EXISTING_MENU_ITEM_ID = CoffeeType.AMERICANO.getId();
@@ -24,13 +20,8 @@ class MenuItemRepositoryInMemoryTest {
 
     @BeforeEach
     public void initializeRepository() {
-        coffeeFactory = mock(CoffeeFactory.class);
+        coffeeFactory = new CoffeeFactory();
         menuItemRepositoryInMemory = new MenuItemRepositoryInMemory(coffeeFactory);
-    }
-
-    @Test
-    void whenCreated_initMenu() {
-        verify(coffeeFactory).createCoffeesInLes4fees();
     }
 
     @Test
@@ -42,8 +33,8 @@ class MenuItemRepositoryInMemoryTest {
 
     @Test
     void whenInitialized_thenAllItemsOfMenuOfLes4FeesAreInStorage() {
-        //assertNotNull(menuItemRepositoryInMemory.findMenuItemById(CoffeeType.AMERICANO.getId()));
-        //Arrays.stream(CoffeeType.values).forEach(id -> assertNotNull(menuItemRepositoryInMemory.findMenuItemById(id.getId())));
+        assertNotNull(menuItemRepositoryInMemory.findMenuItemById(CoffeeType.AMERICANO.getId()));
+        //Arrays.stream(CoffeeType.values()).forEach(id -> assertNotNull(menuItemRepositoryInMemory.findMenuItemById(id.getId())));
     }
 
     @Test
