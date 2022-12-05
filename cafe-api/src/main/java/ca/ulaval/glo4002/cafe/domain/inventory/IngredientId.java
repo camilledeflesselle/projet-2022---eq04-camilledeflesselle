@@ -1,26 +1,26 @@
 package ca.ulaval.glo4002.cafe.domain.inventory;
 
-import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
-
-import java.util.Objects;
-
 public class IngredientId {
-    private final String id;
+    private final String name;
 
-    public IngredientId(String id) {
-        this.id = id;
+    public IngredientId(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o == this) return true;
-        if (!(o instanceof IngredientId)) return false;
-        return Objects.equals(((IngredientId) o).id, this.id);
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj == this) return true;
+        if (!(obj instanceof IngredientId ingredient)) return false;
+        return this.name.equals(ingredient.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return this.name.hashCode();
     }
-
 }

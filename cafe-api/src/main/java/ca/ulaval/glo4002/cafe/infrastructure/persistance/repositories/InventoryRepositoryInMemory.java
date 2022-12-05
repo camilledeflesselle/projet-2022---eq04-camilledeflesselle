@@ -10,19 +10,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InventoryRepositoryInMemory implements IInventoryRepository {
-    Map<Ingredient, Integer> inventory = new HashMap<>();
+    Map<IngredientId, Ingredient> inventory = new HashMap<>();
 
     public InventoryRepositoryInMemory() {
         this.addMenuIngredients();
     }
 
     private void addMenuIngredients() {
-        Arrays.stream(IngredientType.values()).map((IngredientType name) -> new Ingredient(name.getLabel(), 0)).forEach(this::save);
+        Arrays.stream(IngredientType.values()).map((IngredientType name) -> new Ingredient(new IngredientId(name.getLabel()), 0)).forEach(this::save);
     }
 
     @Override
     public boolean contains(String name) {
-        return this.inventory.containsKey(new Ingredient(name));
+        return this.inventory.containsKey(new IngredientId(name));
     }
 
     @Override
@@ -31,23 +31,27 @@ public class InventoryRepositoryInMemory implements IInventoryRepository {
     }
 
     @Override
-    public Ingredient find(Ingredient ingredient) {
-        return this.inventory.get(ingredient.getName());
+    public Ingredient findByName(IngredientId id) {
+        return this.inventory.get(id);
+    }
+
+    @Override
+    public Ingredient find(IngredientId id) {
+        return this.inventory.get(id);
     }
 
     @Override
     public void save(Ingredient ingredient) {
-        this.inventory.put(ingredient.getName(), ingredient.getQuantity());
+        this.inventory.put(ingredient.getId(), ingredient);
     }
 
     @Override
     public void deleteAll() {
-        this.inventory.replaceAll((key, value) -> (key, 0));
+        this.inventory.forEach((key, value) -> value.useAll());
     }
 
-    @Override
-    public Integer findIngredientQuantity(Ingredient ingredient) {
-        return this.inventory.get(ingredient);
+    public Integer findIngredientQuantity(IngredientId id) {
+        return this.inventory.get(id).getQuantity();
     }
 
 

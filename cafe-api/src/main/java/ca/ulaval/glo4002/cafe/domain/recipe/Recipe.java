@@ -26,7 +26,7 @@ public class Recipe {
 
     public void makeRecipe(IInventoryRepository inventoryRepository) {
         for (Ingredient ingredientNeeded : this.ingredients) {
-            Ingredient ingredient = inventoryRepository.find(ingredientNeeded);
+            Ingredient ingredient = inventoryRepository.find(ingredientNeeded.getId());
             ingredient.use(ingredientNeeded.getQuantity());
         }
     }

@@ -1,35 +1,21 @@
 package ca.ulaval.glo4002.cafe.domain.inventory;
 
-import ca.ulaval.glo4002.cafe.application.inventory.IngredientType;
 import ca.ulaval.glo4002.cafe.domain.cooking.InsufficentIngredientsException;
 
 public class Ingredient {
-    private final IngredientId name;
+    private final IngredientId id;
     private int quantity;
 
-    public Ingredient(String name, int quantity) {
-        this.name = new IngredientId(name);
+    public Ingredient(IngredientId id, int quantity) {
+        this.id = id;
         this.quantity = quantity;
     }
 
     public static void resetIngredientCount() {
     }
 
-    public IngredientId getName() {
-        return this.name;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (obj == this) return true;
-        if (!(obj instanceof Ingredient ingredient)) return false;
-        return this.name.equals(ingredient.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return this.name.hashCode();
+    public IngredientId getId() {
+        return this.id;
     }
 
     public void use(Integer quantity) {
@@ -41,5 +27,9 @@ public class Ingredient {
 
     public Integer getQuantity() {
         return this.quantity;
+    }
+
+    public void useAll() {
+        this.quantity = 0;
     }
 }

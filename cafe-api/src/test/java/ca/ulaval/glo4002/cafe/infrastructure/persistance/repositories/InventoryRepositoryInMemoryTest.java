@@ -2,17 +2,15 @@ package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.application.inventory.IngredientType;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
+import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class InventoryRepositoryInMemoryTest {
-    private static final Ingredient AN_EXISTING_INGREDIENT = new Ingredient(IngredientType.CHOCOLATE.getLabel(), 0);
+    private static final IngredientId AN_EXISTING_INGREDIENT_ID = new IngredientId(IngredientType.CHOCOLATE.getLabel());
+    private static final Ingredient AN_EXISTING_INGREDIENT = new Ingredient(AN_EXISTING_INGREDIENT_ID, 0);
 
     private InventoryRepositoryInMemory inventoryRepository;
 
@@ -31,7 +29,7 @@ class InventoryRepositoryInMemoryTest {
 
     @Test
     void whenFindQuantityOfExistingIngredient_thenReturnsAValue() {
-        assertNotNull(inventoryRepository.findIngredientQuantity(IngredientType.CHOCOLATE.getLabel()));
+        assertNotNull(inventoryRepository.findIngredientQuantity(AN_EXISTING_INGREDIENT_ID));
     }
 
     @Test
@@ -44,7 +42,7 @@ class InventoryRepositoryInMemoryTest {
     void whenAddIngredientsForIngredientsInStorage_thenTheirQuantitiesAreUpdated() {
         inventoryRepository.save(AN_EXISTING_INGREDIENT);
 
-        assertEquals(AN_EXISTING_INGREDIENT, inventoryRepository.findByName(AN_EXISTING_INGREDIENT.getName()));
+        assertEquals(AN_EXISTING_INGREDIENT, inventoryRepository.findByName(AN_EXISTING_INGREDIENT_ID));
     }
 
     @Test
@@ -64,6 +62,6 @@ class InventoryRepositoryInMemoryTest {
     }
 
     private void allIngredientsInStorageHaveAQuantityOfZero() {
-        assertEquals(0, inventoryRepository.findIngredientQuantity(AN_EXISTING_INGREDIENT.getName()));
+        assertEquals(0, inventoryRepository.findIngredientQuantity(AN_EXISTING_INGREDIENT_ID));
     }
 }

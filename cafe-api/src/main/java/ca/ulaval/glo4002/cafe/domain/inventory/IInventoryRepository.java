@@ -9,13 +9,13 @@ public interface IInventoryRepository {
 
     Map<IngredientId, Ingredient> getInventory();
 
-    Ingredient findByName(IngredientType name);
+    Ingredient findByName(IngredientId name);
 
     void save(Ingredient ingredient);
 
     void deleteAll();
 
-    Integer findIngredientQuantity(String ingredientName);
+    Integer findIngredientQuantity(IngredientId id);
 
-    Ingredient find(Ingredient ingredientNeeded);
+    Ingredient find(IngredientId ingredientNeeded);
 }
