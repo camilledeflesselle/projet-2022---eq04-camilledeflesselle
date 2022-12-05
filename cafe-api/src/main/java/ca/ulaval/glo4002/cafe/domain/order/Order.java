@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Order {
@@ -35,9 +36,6 @@ public class Order {
     }
 
     public Amount calculateTotal(Amount subtotal) {
-        for (MenuItem menuItem : menuItems) {
-            subtotal = subtotal.add(menuItem.getPrice());
-        }
-        return subtotal;
+        return menuItems.stream().map(MenuItem::getPrice).reduce(subtotal, Amount::add);
     }
 }
