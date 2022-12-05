@@ -1,18 +1,21 @@
 package ca.ulaval.glo4002.cafe.domain.inventory;
 
+import ca.ulaval.glo4002.cafe.application.inventory.IngredientType;
+import ca.ulaval.glo4002.cafe.domain.cooking.InsufficentIngredientsException;
+
 public class Ingredient {
-    private final String name;
+    private final IngredientId name;
     private int quantity;
 
-    public Ingredient(String name, int i) {
-        this.name = name;
-        this.quantity = i;
+    public Ingredient(String name, int quantity) {
+        this.name = new IngredientId(name);
+        this.quantity = quantity;
     }
 
     public static void resetIngredientCount() {
     }
 
-    public String getName() {
+    public IngredientId getName() {
         return this.name;
     }
 
@@ -30,6 +33,9 @@ public class Ingredient {
     }
 
     public void use(Integer quantity) {
+        if (quantity > this.quantity) {
+            throw new InsufficentIngredientsException();
+        }
         this.quantity -= quantity;
     }
 

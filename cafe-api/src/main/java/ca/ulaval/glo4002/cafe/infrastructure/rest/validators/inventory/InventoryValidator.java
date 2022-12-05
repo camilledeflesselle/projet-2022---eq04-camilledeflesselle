@@ -1,10 +1,12 @@
 package ca.ulaval.glo4002.cafe.infrastructure.rest.validators.inventory;
 
+import ca.ulaval.glo4002.cafe.application.inventory.IngredientType;
 import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.InventoryDTO;
 import jakarta.ws.rs.BadRequestException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +18,8 @@ public class InventoryValidator {
         this.inventoryRepository = inventoryRepository;
     }
 
-    public Map<Ingredient, Integer> inventoryDTOToListIngredients(InventoryDTO inventoryDTO) {
-        Map<Ingredient, Integer> ingredients = new HashMap<>();
-        List<String> ingredientsNames = inventoryRepository.getIngredientsNames();
+    public List<Ingredient> inventoryDTOToListIngredients(InventoryDTO inventoryDTO) {
+        List<Ingredient> ingredients = new ArrayList<>();
         Map<String, Integer> inventory = inventoryDTO.getInventory();
 
         if (inventory.isEmpty()) {
@@ -32,11 +33,11 @@ public class InventoryValidator {
             if (inventory.get(ingredientName) < 0) {
                 throw new BadRequestException("Ingredient quantity cannot be negative");
             }
-            if (!ingredientsNames.contains(ingredientName)) {
+            if (!this.inventoryRepository.contains(ingredientName)) {
                 throw new BadRequestException("Ingredient name is not valid");
             }
             Ingredient ingredient = new Ingredient(ingredientName, 0);
-            ingredients.put(ingredient, inventory.get(ingredientName));
+            ingredients.add(ingredient);
         }
         return ingredients;
     }

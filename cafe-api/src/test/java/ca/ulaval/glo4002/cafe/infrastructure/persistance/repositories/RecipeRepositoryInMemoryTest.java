@@ -16,9 +16,9 @@ class RecipeRepositoryInMemoryTest {
 
     @BeforeEach
     public void initializeRepository(){
-        recipeRepositoryInMemory = new RecipeRepositoryInMemory();
+        //recipeRepositoryInMemory = new RecipeRepositoryInMemory();
     }
-
+    /*
     @Test
     public void whenAddRecipe_thenStorageSizeIncrease() {
         Recipe recipe = new Recipe("New Recipe",
@@ -57,5 +57,5 @@ class RecipeRepositoryInMemoryTest {
         assertNotNull(recipeRepositoryInMemory.findByName("Latte"));
         assertNotNull(recipeRepositoryInMemory.findByName("Macchiato"));
         assertNotNull(recipeRepositoryInMemory.findByName("Mocha"));
-    }
+    }*/
 }

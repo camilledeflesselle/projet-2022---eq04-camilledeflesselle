@@ -1,16 +1,21 @@
 package ca.ulaval.glo4002.cafe.domain.inventory;
 
-import java.util.List;
+import ca.ulaval.glo4002.cafe.application.inventory.IngredientType;
+
 import java.util.Map;
 
 public interface IInventoryRepository {
-    List<String> getIngredientsNames();
+    boolean contains(String ingredientName);
 
-    Map<String, Ingredient> getInventory();
+    Map<IngredientId, Ingredient> getInventory();
 
-    Ingredient findByName(String name);
+    Ingredient findByName(IngredientType name);
 
     void save(Ingredient ingredient);
 
     void deleteAll();
+
+    Integer findIngredientQuantity(String ingredientName);
+
+    Ingredient find(Ingredient ingredientNeeded);
 }

@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
+import ca.ulaval.glo4002.cafe.application.menu.CoffeeFactory;
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import jakarta.ws.rs.NotFoundException;
@@ -7,16 +8,25 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 class MenuItemRepositoryInMemoryTest {
     private static final MenuItem AN_EXISTING_MENU_ITEM = new MenuItem("Americano", new Amount(2.25f));
     private static final String AN_EXISTING_MENU_ITEM_NAME = "Americano";
 
     private MenuItemRepositoryInMemory menuItemRepositoryInMemory;
+    private CoffeeFactory coffeeFactory;
 
     @BeforeEach
     public void initializeRepository() {
-        menuItemRepositoryInMemory = new MenuItemRepositoryInMemory();
+        coffeeFactory = mock(CoffeeFactory.class);
+        menuItemRepositoryInMemory = new MenuItemRepositoryInMemory(coffeeFactory);
+    }
+
+    @Test
+    void whenCreated_initMenu() {
+        verify(coffeeFactory).createCoffeesInLes4fees();
     }
 
     @Test

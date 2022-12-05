@@ -103,10 +103,10 @@ class InventoryValidatorTest {
         ingredientsNames.add(AN_INGREDIENT_NAME);
         when(inventoryRepository.getIngredientsNames()).thenReturn(ingredientsNames);
 
-        Map<Ingredient, Integer> result = inventoryValidator.inventoryDTOToListIngredients(inventoryDTO);
+        List<Ingredient> result = inventoryValidator.inventoryDTOToListIngredients(inventoryDTO);
 
         assertEquals(ingredientsNames.size(), result.size());
-        assertTrue(result.containsKey(ingredient));
-        assertEquals(2, result.get(ingredient));
+        assertTrue(result.contains(ingredient));
+        assertEquals(2, result.get(0).getQuantity());
     }
 }
