@@ -12,23 +12,20 @@ public class BillFactory {
 
     public Bill createBill(Order customersOrder, TaxRate taxRate) {
         Amount subtotal = new Amount(0f);
-        subtotal = getSubtotal(customersOrder, subtotal);
+        subtotal = this.getSubtotal(customersOrder, subtotal);
         Amount taxes = subtotal.applyRate(taxRate);
         return new Bill(customersOrder, subtotal, taxes, DEFAULT_TIP_RATE);
     }
 
     public Bill createBillForGroup(Order customersOrder, TaxRate taxRate, TipRate groupTipRate) {
         Amount subtotal = new Amount(0f);
-        subtotal = getSubtotal(customersOrder, subtotal);
+        subtotal = this.getSubtotal(customersOrder, subtotal);
         Amount taxes = subtotal.applyRate(taxRate);
         Amount tip = subtotal.applyRate(groupTipRate);
         return new Bill(customersOrder, subtotal, taxes, tip);
     }
 
-    private static Amount getSubtotal(Order customersOrder, Amount subtotal) {
-        for (MenuItem item : customersOrder.getMenuItems()) {
-            subtotal = subtotal.add(item.getPrice());
-        }
-        return subtotal;
+    private static Amount getSubtotal(Order order, Amount subtotal) {
+        return order.calculateTotal(subtotal);
     }
 }

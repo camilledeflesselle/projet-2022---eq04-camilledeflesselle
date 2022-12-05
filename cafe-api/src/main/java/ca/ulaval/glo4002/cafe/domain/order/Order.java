@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.cafe.domain.order;
 
+import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
@@ -31,5 +32,12 @@ public class Order {
 
     public void addMenuItem(MenuItem menuItem) {
         this.menuItems.add(menuItem);
+    }
+
+    public Amount calculateTotal(Amount subtotal) {
+        for (MenuItem menuItem : menuItems) {
+            subtotal = subtotal.add(menuItem.getPrice());
+        }
+        return subtotal;
     }
 }
