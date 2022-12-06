@@ -12,6 +12,7 @@ import ca.ulaval.glo4002.cafe.application.layout.LayoutService;
 import ca.ulaval.glo4002.cafe.application.menu.CoffeeFactory;
 import ca.ulaval.glo4002.cafe.application.seating.SeatingService;
 import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
+import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
 import ca.ulaval.glo4002.cafe.domain.reservation.ReservationFactory;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategyFactory;
@@ -48,6 +49,7 @@ public class ApplicationBinder extends AbstractBinder {
         MenuItemRepositoryInMemory menuItemRepositoryInMemory = new MenuItemRepositoryInMemory(coffeeFactory);
         InventoryRepositoryInMemory inventoryRepositoryInMemory = new InventoryRepositoryInMemory();
         RecipeRepositoryInMemory recipeRepositoryInMemory = new RecipeRepositoryInMemory(recipeFactory);
+        OrderRepositoryInMemory orderRepositoryInMemory = new OrderRepositoryInMemory();
 
         String name = "Les 4-Fées";
         List<String> cubeNames = new ArrayList<>(List.of("Wanda", "Bloom", "Merryweather", "Tinker Bell"));
@@ -56,7 +58,7 @@ public class ApplicationBinder extends AbstractBinder {
         BillService billService = new BillService(billFactory, billRepositoryInMemory, taxesRepositoryInMemory);
         InventoryService inventoryService = new InventoryService(inventoryRepositoryInMemory);
         CookingService cookingService = new CookingService(recipeRepositoryInMemory, inventoryRepositoryInMemory);
-        CustomerService customerService = new CustomerService(cookingService, customerRepositoryInMemory, ordersFactory, menuItemRepositoryInMemory);
+        CustomerService customerService = new CustomerService(cookingService, customerRepositoryInMemory, ordersFactory, menuItemRepositoryInMemory, orderRepositoryInMemory);
         SeatingService seatingService = new SeatingService(reservationStrategyFactory, reservationFactory, seatingOrganizerFactory, cubeRepositoryInMemory, reservationRepositoryInMemory);
         CheckInService checkInService = new CheckInService(customerService, seatingService);
         CloseService closeService = new CloseService(seatingService, billService, customerService, inventoryService, layoutService);

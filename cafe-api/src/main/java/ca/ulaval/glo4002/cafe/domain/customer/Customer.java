@@ -1,18 +1,13 @@
 package ca.ulaval.glo4002.cafe.domain.customer;
 
 import ca.ulaval.glo4002.cafe.domain.order.Order;
-import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
-
-import java.util.ArrayList;
 
 public class Customer {
     private final CustomerId id;
     private final String name;
     private String groupName;
     private SeatId seatId;
-
-    private Order order;
 
     public Customer(CustomerId id, String name, String groupName) {
         this.id = id;
@@ -51,17 +46,5 @@ public class Customer {
 
     public void unsetSeatId() {
         this.seatId = null;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public Order getOrder() {
-        return this.order;
-    }
-
-    public void updateOrder(Order newOrder) {
-        newOrder.getMenuItems().forEach(menuItem -> this.order.addMenuItem(menuItem));
     }
 }

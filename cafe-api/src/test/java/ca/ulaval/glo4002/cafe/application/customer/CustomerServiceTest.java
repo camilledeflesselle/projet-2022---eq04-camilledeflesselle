@@ -7,6 +7,7 @@ import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
+import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,13 +27,16 @@ class CustomerServiceTest {
     private static final CustomerId A_CUSTOMER_ID = new CustomerId("id");
     private static final List<String> SOME_MENU_ITEM_NAMES = new ArrayList<>(List.of("item1"));
     private static Customer customerMock;
+    private static Order oldOrderMock;
     private static Order newOrderMock;
     private static List<MenuItem> menuItemListMock;
     private static CustomerService customerService;
     private static CookingService cookingServiceMock;
     private static ICustomerRepository customerRepositoryMock;
+    private static IOrderRepository orderRepositoryMock;
     private static OrdersFactory ordersFactoryMock;
     private IMenuItemRepository menuItemRepositoryMock;
+    private Order concatenatedOrderMock;
 
     @BeforeEach
     void setUp() {
@@ -40,10 +44,13 @@ class CustomerServiceTest {
         customerRepositoryMock = mock(ICustomerRepository.class);
         ordersFactoryMock = mock(OrdersFactory.class);
         customerMock = mock(Customer.class);
+        oldOrderMock = mock(Order.class);
         newOrderMock = mock(Order.class);
+        concatenatedOrderMock = mock(Order.class);
         menuItemListMock = new ArrayList<>(List.of(mock(MenuItem.class)));
         menuItemRepositoryMock = mock(IMenuItemRepository.class);
-        customerService = new CustomerService(cookingServiceMock, customerRepositoryMock, ordersFactoryMock, menuItemRepositoryMock);
+        orderRepositoryMock = mock(IOrderRepository.class);
+        customerService = new CustomerService(cookingServiceMock, customerRepositoryMock, ordersFactoryMock, menuItemRepositoryMock, orderRepositoryMock);
     }
 
 
@@ -63,31 +70,19 @@ class CustomerServiceTest {
 
     @Test
     public void whenInitOrder_thenOrderIsCreated() {
-        when(customerRepositoryMock.findCustomerByCustomerId(A_CUSTOMER_ID)).thenReturn(customerMock);
-        when(ordersFactoryMock.create(any())).thenReturn(newOrderMock);
+        when(ordersFactoryMock.create(any())).thenReturn(oldOrderMock);
 
-        customerService.initOrder(customerMock);
+        customerService.initOrder(A_CUSTOMER_ID);
 
-        verify(customerMock).setOrder(newOrderMock);
-    }
-
-
-    @Test
-    public void whenUpdatingCustomerOrders_thenUpdateOrderOfCustomerWithNewOrder() {
-        when(ordersFactoryMock.buildMenuItemListFromStr(SOME_MENU_ITEM_NAMES, menuItemRepositoryMock)).thenReturn(menuItemListMock);
-        when(ordersFactoryMock.create(menuItemListMock)).thenReturn(newOrderMock);
-        when(customerRepositoryMock.findCustomerByCustomerId(A_CUSTOMER_ID)).thenReturn(customerMock);
-
-        customerService.updateOrdersOfCustomer(A_CUSTOMER_ID, SOME_MENU_ITEM_NAMES);
-
-        verify(customerMock).updateOrder(newOrderMock);
+        verify(ordersFactoryMock).create(any());
+        verify(orderRepositoryMock).saveOrdersByCustomerId(A_CUSTOMER_ID, oldOrderMock);
     }
 
     @Test
     public void whenUpdatingCustomerOrders_thenNewOrderIsCreatedFromMenuItems() {
         when(ordersFactoryMock.buildMenuItemListFromStr(SOME_MENU_ITEM_NAMES, menuItemRepositoryMock)).thenReturn(menuItemListMock);
-        when(ordersFactoryMock.create(menuItemListMock)).thenReturn(newOrderMock);
-        when(customerRepositoryMock.findCustomerByCustomerId(A_CUSTOMER_ID)).thenReturn(customerMock);
+        when(ordersFactoryMock.create(menuItemListMock)).thenReturn(oldOrderMock);
+        when(orderRepositoryMock.findOrderByCustomerId(A_CUSTOMER_ID)).thenReturn(oldOrderMock);
 
         customerService.updateOrdersOfCustomer(A_CUSTOMER_ID, SOME_MENU_ITEM_NAMES);
 
@@ -96,26 +91,42 @@ class CustomerServiceTest {
     }
 
     @Test
-    public void whenUpdatingCustomerOrders_thenNewOrderIsCooked() {
+    public void whenUpdatingCustomerOrders_thenSearchOrderOfCustomerInStorage() {
         when(ordersFactoryMock.buildMenuItemListFromStr(SOME_MENU_ITEM_NAMES, menuItemRepositoryMock)).thenReturn(menuItemListMock);
-        when(ordersFactoryMock.create(menuItemListMock)).thenReturn(newOrderMock);
-        when(customerRepositoryMock.findCustomerByCustomerId(A_CUSTOMER_ID)).thenReturn(customerMock);
+        when(ordersFactoryMock.create(menuItemListMock)).thenReturn(oldOrderMock);
+        when(orderRepositoryMock.findOrderByCustomerId(A_CUSTOMER_ID)).thenReturn(oldOrderMock);
 
         customerService.updateOrdersOfCustomer(A_CUSTOMER_ID, SOME_MENU_ITEM_NAMES);
 
-        verify(cookingServiceMock).cookOrder(newOrderMock);
+        verify(orderRepositoryMock).findOrderByCustomerId(A_CUSTOMER_ID);
+        verify(oldOrderMock).appendMenuItemsFrom(newOrderMock);
+    }
+
+
+
+    @Test
+    public void whenUpdatingCustomerOrders_thenNewOrderIsCooked() {
+        when(ordersFactoryMock.buildMenuItemListFromStr(SOME_MENU_ITEM_NAMES, menuItemRepositoryMock)).thenReturn(menuItemListMock);
+        when(ordersFactoryMock.create(menuItemListMock)).thenReturn(oldOrderMock);
+        when(orderRepositoryMock.findOrderByCustomerId(A_CUSTOMER_ID)).thenReturn(oldOrderMock);
+        when(oldOrderMock.appendMenuItemsFrom(newOrderMock)).thenReturn(concatenatedOrderMock);
+
+        customerService.updateOrdersOfCustomer(A_CUSTOMER_ID, SOME_MENU_ITEM_NAMES);
+
+        verify(cookingServiceMock).cookOrder(concatenatedOrderMock);
     }
 
 
     @Test
-    public void whenUpdatingCustomerOrders_thenUpdatingCustomerIsSaved() {
+    public void whenUpdatingCustomerOrders_thenUpdatingCustomerOrderIsSaved() {
         when(ordersFactoryMock.buildMenuItemListFromStr(SOME_MENU_ITEM_NAMES, menuItemRepositoryMock)).thenReturn(menuItemListMock);
-        when(ordersFactoryMock.create(menuItemListMock)).thenReturn(newOrderMock);
-        when(customerRepositoryMock.findCustomerByCustomerId(A_CUSTOMER_ID)).thenReturn(customerMock);
+        when(ordersFactoryMock.create(menuItemListMock)).thenReturn(oldOrderMock);
+        when(orderRepositoryMock.findOrderByCustomerId(A_CUSTOMER_ID)).thenReturn(oldOrderMock);
+        when(oldOrderMock.appendMenuItemsFrom(newOrderMock)).thenReturn(concatenatedOrderMock);
 
         customerService.updateOrdersOfCustomer(A_CUSTOMER_ID, SOME_MENU_ITEM_NAMES);
 
-        verify(customerRepositoryMock).saveCustomer(customerMock);
+        verify(orderRepositoryMock).saveOrdersByCustomerId(A_CUSTOMER_ID, concatenatedOrderMock);
     }
 
 

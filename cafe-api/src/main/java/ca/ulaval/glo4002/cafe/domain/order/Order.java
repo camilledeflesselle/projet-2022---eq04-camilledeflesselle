@@ -5,11 +5,10 @@ import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Order {
-    private final List<MenuItem> menuItems;
+    private List<MenuItem> menuItems;
 
     public Order(List<MenuItem> menuItems) {
         this.menuItems = menuItems;
@@ -23,16 +22,13 @@ public class Order {
         return menuItems.stream().map(MenuItem::getName).toList();
     }
 
-    public void appendMenuItemsFrom(Order order) {
+    public Order appendMenuItemsFrom(Order order) {
         this.menuItems.addAll(order.getMenuItems());
+        return this;
     }
 
     public void make(IRecipeRepository recipeRepository, IInventoryRepository inventoryRepository) {
         menuItems.forEach(menuItem -> menuItem.cook(recipeRepository, inventoryRepository));
-    }
-
-    public void addMenuItem(MenuItem menuItem) {
-        this.menuItems.add(menuItem);
     }
 
     public Amount calculateTotal(Amount subtotal) {
