@@ -38,7 +38,7 @@ public class InventoryService {
         Map<String, Integer> stringInventory = new HashMap<>();
         Map<IngredientId, Ingredient> inventory = this.getInventory();
         for (IngredientId ingredientId : inventory.keySet()) {
-            stringInventory.put(ingredientId.toString(), inventory.get(ingredientId).getQuantity());
+            stringInventory.put(ingredientId.getName(), inventory.get(ingredientId).getQuantity());
         }
         return stringInventory;
     }
