@@ -7,7 +7,6 @@ import ca.ulaval.glo4002.cafe.domain.bill.TaxRate;
 import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
-
 import java.util.Objects;
 
 public class BillService {
@@ -48,12 +47,12 @@ public class BillService {
     }
 
     public void processBillForCustomer(CustomerId customerId, Order order) {
-        Bill bill = this.billFactory.createBill(order, this.taxRate);
+        Bill bill = this.billFactory.createBill(order, this.taxRate, null);
         this.billRepository.saveBillByCustomerId(customerId, bill);
     }
 
     public void processBillForGroup(CustomerId customerId, Order order) {
-        Bill bill = this.billFactory.createBillForGroup(order, this.taxRate, this.groupTipRate);
+        Bill bill = this.billFactory.createBill(order, this.taxRate, this.groupTipRate);
         this.billRepository.saveBillByCustomerId(customerId, bill);
     }
 

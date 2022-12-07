@@ -7,16 +7,12 @@ import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 
 public class BillFactory {
-    public Amount DEFAULT_TIP_RATE = new Amount(0f);
+    public TipRate DEFAULT_TIP_RATE = new TipRate(0f);
 
-    public Bill createBill(Order customersOrder, TaxRate taxRate) {
-        Amount subtotal = new Amount(0f);
-        subtotal = this.getSubtotal(customersOrder, subtotal);
-        Amount taxes = subtotal.applyRate(taxRate);
-        return new Bill(customersOrder, subtotal, taxes, DEFAULT_TIP_RATE);
-    }
-
-    public Bill createBillForGroup(Order customersOrder, TaxRate taxRate, TipRate groupTipRate) {
+    public Bill createBill(Order customersOrder, TaxRate taxRate, TipRate groupTipRate) {
+        if (groupTipRate == null) {
+            groupTipRate = DEFAULT_TIP_RATE;
+        }
         Amount subtotal = new Amount(0f);
         subtotal = this.getSubtotal(customersOrder, subtotal);
         Amount taxes = subtotal.applyRate(taxRate);

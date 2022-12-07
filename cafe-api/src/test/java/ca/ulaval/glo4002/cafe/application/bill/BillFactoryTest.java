@@ -34,18 +34,18 @@ class BillFactoryTest {
 
     @Test
     public void whenCreateBill_thenReturnsBillObject(){
-        assertEquals(Bill.class, billFactory.createBill(SOME_CUSTOMER_ORDERS, A_TAX_RATE).getClass());
+        assertEquals(Bill.class, billFactory.createBill(SOME_CUSTOMER_ORDERS, A_TAX_RATE, null).getClass());
     }
 
     @Test
     public void whenCreateBillWithoutGroup_thenBillTipIsNull(){
-        bill = billFactory.createBill(SOME_CUSTOMER_ORDERS, A_TAX_RATE);
+        bill = billFactory.createBill(SOME_CUSTOMER_ORDERS, A_TAX_RATE, null);
         assertEquals(NULL_AMOUNT, bill.getTip());
     }
 
     @Test
     public void whenCreateBillWithoutMenuItems_thenBillSubtotalIsNull(){
-        bill = billFactory.createBill(SOME_CUSTOMER_ORDERS, A_TAX_RATE);
+        bill = billFactory.createBill(SOME_CUSTOMER_ORDERS, A_TAX_RATE, null);
         assertEquals(NULL_AMOUNT, bill.getSubtotal());
     }
 
@@ -55,7 +55,7 @@ class BillFactoryTest {
         SOME_MENU_ITEMS.add(ONE_ITEM);
         Order customersOrder = new Order(SOME_MENU_ITEMS);
 
-        bill = billFactory.createBill(customersOrder, A_TAX_RATE);
+        bill = billFactory.createBill(customersOrder, A_TAX_RATE, null);
 
         assertEquals(POSITIVE_AMOUNT, bill.getSubtotal());
     }
@@ -68,7 +68,7 @@ class BillFactoryTest {
         SOME_MENU_ITEMS.add(SECOND_ITEM);
         Order customersOrder = new Order(SOME_MENU_ITEMS);
 
-        bill = billFactory.createBill(customersOrder, A_TAX_RATE);
+        bill = billFactory.createBill(customersOrder, A_TAX_RATE, null);
 
         assertEquals(POSITIVE_AMOUNT.add(POSITIVE_AMOUNT), bill.getSubtotal());
     }
@@ -79,7 +79,7 @@ class BillFactoryTest {
         SOME_MENU_ITEMS.add(ONE_ITEM);
         Order customersOrder = new Order(SOME_MENU_ITEMS);
 
-        bill = billFactory.createBill(customersOrder, A_TAX_RATE);
+        bill = billFactory.createBill(customersOrder, A_TAX_RATE, null);
 
         Amount expectedTaxes = bill.getSubtotal().applyRate(A_TAX_RATE);
         assertEquals(expectedTaxes, bill.getTaxes());
@@ -87,7 +87,7 @@ class BillFactoryTest {
 
     @Test
     public void whenCreateBillForAGroup_thenReturnsBillObject(){
-        assertEquals(Bill.class, billFactory.createBillForGroup(SOME_CUSTOMER_ORDERS, A_TAX_RATE, A_GROUP_TIP_RATE).getClass());
+        assertEquals(Bill.class, billFactory.createBill(SOME_CUSTOMER_ORDERS, A_TAX_RATE, A_GROUP_TIP_RATE).getClass());
     }
 
     @Test
@@ -96,7 +96,7 @@ class BillFactoryTest {
         SOME_MENU_ITEMS.add(ONE_ITEM);
         Order customersOrder = new Order(SOME_MENU_ITEMS);
 
-        bill = billFactory.createBillForGroup(customersOrder, A_TAX_RATE, A_GROUP_TIP_RATE);
+        bill = billFactory.createBill(customersOrder, A_TAX_RATE, A_GROUP_TIP_RATE);
 
         Amount expectedTip = bill.getSubtotal().applyRate(A_GROUP_TIP_RATE);
         assertEquals(expectedTip, bill.getTip());

@@ -7,21 +7,15 @@ import ca.ulaval.glo4002.cafe.domain.bill.ITaxesRepository;
 import ca.ulaval.glo4002.cafe.domain.bill.TaxRate;
 import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
-import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
-import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config.InvalidMenuOrderException;
-import jakarta.ws.rs.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class BillServiceTest {
@@ -55,13 +49,13 @@ class BillServiceTest {
     public void whenProcessingBillForCustomer_thenCreateBillWithCustomerOrdersAndTaxRate() {
         billService.processBillForCustomer(A_CUSTOMER_ID, SOME_CUSTOMER_ORDER);
 
-        verify(billFactory).createBill(SOME_CUSTOMER_ORDER, billService.getTaxRate());
+        verify(billFactory).createBill(SOME_CUSTOMER_ORDER, billService.getTaxRate(), null);
     }
 
     @Test
     public void whenProcessingBillForCustomer_thenSaveCreatedBillInRepository() {
         Bill bill = mock(Bill.class);
-        when(billFactory.createBill(any(), any())).thenReturn(bill);
+        when(billFactory.createBill(any(), any(), any())).thenReturn(bill);
 
         billService.processBillForCustomer(A_CUSTOMER_ID, SOME_CUSTOMER_ORDER);
 
@@ -72,13 +66,13 @@ class BillServiceTest {
     public void whenProcessingBillForCustomerWithGroup_thenCreateBillWithCustomerOrdersAndTaxRateAndTipRate() {
         billService.processBillForGroup(A_CUSTOMER_ID, SOME_CUSTOMER_ORDER);
 
-        verify(billFactory).createBillForGroup(SOME_CUSTOMER_ORDER, billService.getTaxRate(), billService.getTipRate());
+        verify(billFactory).createBill(SOME_CUSTOMER_ORDER, billService.getTaxRate(), billService.getTipRate());
     }
 
     @Test
     public void whenProcessingBillForCustomerWithGroup_thenSaveCreatedBillInRepository() {
         Bill bill = mock(Bill.class);
-        when(billFactory.createBillForGroup(any(), any(), any())).thenReturn(bill);
+        when(billFactory.createBill(any(), any(), any())).thenReturn(bill);
 
         billService.processBillForGroup(A_CUSTOMER_ID, SOME_CUSTOMER_ORDER);
 

@@ -62,6 +62,7 @@ public class ApplicationBinder extends AbstractBinder {
         String name = "Les 4-Fées";
         List<String> cubeNames = new ArrayList<>(List.of("Wanda", "Bloom", "Merryweather", "Tinker Bell"));
         int cubeSize = 4;
+
         LayoutService layoutService = new LayoutService(cubesListFactory, cubeRepositoryInMemory, customerRepositoryInMemory, name, cubeNames, cubeSize, layoutDTOAssembler);
         BillService billService = new BillService(billFactory, billRepositoryInMemory, taxesRepositoryInMemory);
         InventoryService inventoryService = new InventoryService(inventoryRepositoryInMemory);
