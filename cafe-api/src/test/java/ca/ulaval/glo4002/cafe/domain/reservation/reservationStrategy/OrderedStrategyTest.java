@@ -16,8 +16,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class OrderedStrategyTest {
-    private static final int A_CUBE_SIZE = 3;
-
     private OrderedStrategy orderedStrategy;
     private SeatingOrganizer seatingOrganizer;
 
@@ -32,7 +30,7 @@ class OrderedStrategyTest {
         List<Seat> availableSeats = new ArrayList<>(List.of(new Seat(1, SeatStatus.Available)));
         when(seatingOrganizer.getFreeSeats()).thenReturn(availableSeats);
 
-        List<Seat> indexesToReserve = orderedStrategy.getReservationSeats(seatingOrganizer, 0, A_CUBE_SIZE);
+        List<Seat> indexesToReserve = orderedStrategy.getReservationSeats(seatingOrganizer, 0);
 
         assertTrue(indexesToReserve.isEmpty());
     }
@@ -44,7 +42,7 @@ class OrderedStrategyTest {
                 new Seat(3, SeatStatus.Available)));
         when(seatingOrganizer.getFreeSeats()).thenReturn(availableSeats);
 
-        List<Seat> indexesToReserve = orderedStrategy.getReservationSeats(seatingOrganizer, 2, A_CUBE_SIZE);
+        List<Seat> indexesToReserve = orderedStrategy.getReservationSeats(seatingOrganizer, 2);
 
         assertEquals(2, indexesToReserve.size());
         assertEquals(new SeatId(1), indexesToReserve.get(0).getId());
@@ -57,7 +55,7 @@ class OrderedStrategyTest {
                 new Seat(2, SeatStatus.Available)));
         when(seatingOrganizer.getFreeSeats()).thenReturn(availableSeats);
 
-        List<Seat> indexesToReserve = orderedStrategy.getReservationSeats(seatingOrganizer, 2, A_CUBE_SIZE);
+        List<Seat> indexesToReserve = orderedStrategy.getReservationSeats(seatingOrganizer, 2);
 
         assertEquals(2, indexesToReserve.size());
         assertEquals(new SeatId(1), indexesToReserve.get(0).getId());

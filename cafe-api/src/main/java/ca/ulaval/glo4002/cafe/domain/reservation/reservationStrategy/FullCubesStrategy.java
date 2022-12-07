@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class FullCubesStrategy implements IGroupReservationStrategy {
     @Override
-    public List<Seat> getReservationSeats(SeatingOrganizer seatingOrganizer, int nbToReserve, int seatsPerCube) {
+    public List<Seat> getReservationSeats(SeatingOrganizer seatingOrganizer, int nbToReserve) {
 
         List<Seat> seatsToReserve = new ArrayList<>();
         for (Cube cube : seatingOrganizer.getCubes()) {

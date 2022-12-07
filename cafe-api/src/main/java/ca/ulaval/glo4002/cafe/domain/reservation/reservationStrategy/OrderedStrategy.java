@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class OrderedStrategy implements IGroupReservationStrategy {
     @Override
-    public List<Seat> getReservationSeats(SeatingOrganizer seatingOrganizer, int nbToReserve, int seatsPerCube) {
+    public List<Seat> getReservationSeats(SeatingOrganizer seatingOrganizer, int nbToReserve) {
         List<Seat> freeSeats = seatingOrganizer.getFreeSeats();
         List<Seat> seatToReserve = new ArrayList<>();
         for (int i = 0; i < nbToReserve; i++) {

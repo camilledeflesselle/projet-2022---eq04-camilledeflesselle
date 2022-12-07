@@ -22,7 +22,6 @@ import static org.mockito.Mockito.verify;
 public class SeatingOrganizerTest {
     private static final String A_GROUP_NAME = "Family S";
     private static final int A_GROUP_SIZE = 2;
-    private static final int A_CUBE_SIZE = 2;
     private static final List<String> A_CUBE_NAME = new ArrayList<>(List.of("Bob"));
 
     private Group group;
@@ -39,7 +38,7 @@ public class SeatingOrganizerTest {
     @Test
     public void givenCubesWithoutFreeSeats_whenGetFirstFreeSeat_thenThrowsNoSeatAvailableException() {
         List<Cube> cubes = givenCubesWithoutFreeSeats();
-        SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes, groupReservationStrategyMock);
+        SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes);
 
         assertThrows(NoSeatAvailableException.class, seatingOrganizer::getFirstFreeSeat);
     }
@@ -47,7 +46,7 @@ public class SeatingOrganizerTest {
     @Test
     public void whenTryToGetNotExistingSeat_thenThrowsNotFoundException() {
         List<Cube> cubes = cubesListFactory.create(A_CUBE_NAME, 1);
-        SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes, groupReservationStrategyMock);
+        SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes);
 
         assertThrows(NotFoundException.class, () -> seatingOrganizer.findSeatBySeatId(new SeatId(5)));
     }
@@ -55,7 +54,7 @@ public class SeatingOrganizerTest {
     @Test
     public void givenOneCubeWithAllSeatsFree_whenGetFirstFreeSeat_thenReturnsTheFirstSeat() throws NoSeatAvailableException, NotFoundException {
         List<Cube> cubes = cubesListFactory.create(A_CUBE_NAME, 2);
-        SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes, groupReservationStrategyMock);
+        SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes);
 
         Seat expectedSeat = seatingOrganizer.findSeatBySeatId(new SeatId(1));
         Seat returnedSeat = seatingOrganizer.getFirstFreeSeat();
@@ -66,7 +65,7 @@ public class SeatingOrganizerTest {
     @Test
     public void givenOneCubeWithFirstSeatReserved_whenGetFirstFreeSeat_thenReturnsTheSecondSeat() throws NoSeatAvailableException, NotFoundException {
         List<Cube> cubes = givenCubeWithFirstSeatOccupied();
-        SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes, groupReservationStrategyMock);
+        SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes);
 
         Seat expectedSeat = seatingOrganizer.findSeatBySeatId(new SeatId(2));
         Seat returnedSeat = seatingOrganizer.getFirstFreeSeat();
@@ -77,7 +76,7 @@ public class SeatingOrganizerTest {
     @Test
     public void givenOneCubeWithAllFreeSeats_whenGetFreeSeats_thenReturnsAllSeats() throws NoSeatAvailableException {
         List<Cube> cubes = cubesListFactory.create(A_CUBE_NAME, 2);
-        SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes, groupReservationStrategyMock);
+        SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes);
 
         List<Seat> expectedSeats = seatingOrganizer.getCubes().get(0).getSeats();
         List<Seat> returnedSeats = seatingOrganizer.getFreeSeats();
@@ -88,20 +87,20 @@ public class SeatingOrganizerTest {
     @Test
     public void givenCubesWithAvailableSeats_whenTryToReserveMoreSeatsThanAvailable_thenThrowsInsufficientSeatsException() {
         List<Cube> cubes = cubesListFactory.create(A_CUBE_NAME, 2);
-        SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes, groupReservationStrategyMock);
+        SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes);
 
-        assertThrows(NoSeatAvailableException.class, () -> seatingOrganizer.reserveSeats(3, A_GROUP_NAME)
+        assertThrows(NoSeatAvailableException.class, () -> seatingOrganizer.reserveSeats(3, A_GROUP_NAME, groupReservationStrategyMock)
         );
     }
 
     @Test
     public void givenOneCubeWithEnoughFreeSeats_whenTryToReserveSeats_thenCallReservationStrategy() throws NoSeatAvailableException {
         List<Cube> cubes = cubesListFactory.create(A_CUBE_NAME, 2);
-        SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes, groupReservationStrategyMock);
+        SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes);
 
-        seatingOrganizer.reserveSeats(group.getSize(), group.getName());
+        seatingOrganizer.reserveSeats(group.getSize(), group.getName(), groupReservationStrategyMock);
 
-        verify(groupReservationStrategyMock).getReservationSeats(seatingOrganizer, group.getSize(), A_CUBE_SIZE);
+        verify(groupReservationStrategyMock).getReservationSeats(seatingOrganizer, group.getSize());
     }
 
     private List<Cube> givenCubesWithoutFreeSeats() {

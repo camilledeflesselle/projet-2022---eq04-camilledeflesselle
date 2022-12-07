@@ -49,7 +49,7 @@ public class SeatingServiceTest {
         cubes = new ArrayList<>(List.of(mock(Cube.class)));
         when(cubeRepository.findAll()).thenReturn(cubes);
         when(reservationStrategyFactory.createReservationStrategy(GroupReservationMethod.DEFAULT)).thenReturn(groupReservationStrategy);
-        when(seatingOrganizerFactory.createSeatingOrganizer(any(), any())).thenReturn(seatingOrganizer);
+        when(seatingOrganizerFactory.createSeatingOrganizer(any())).thenReturn(seatingOrganizer);
         seatingService = new SeatingService(reservationStrategyFactory, reservationFactory, seatingOrganizerFactory, cubeRepository, reservationRepository);
     }
 
@@ -60,7 +60,7 @@ public class SeatingServiceTest {
 
     @Test
     public void whenInitialized_thenSeatingOrganizerIsCreatedFromCubesAndReservationStrategy() {
-        verify(seatingOrganizerFactory).createSeatingOrganizer(cubes, groupReservationStrategy);
+        verify(seatingOrganizerFactory).createSeatingOrganizer(cubes);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class SeatingServiceTest {
 
     @Test
     public void whenUpdateConfig_thenSeatingOrganizerIsCreatedFromCubesAndReservationStrategy() {
-        when(seatingOrganizerFactory.createSeatingOrganizer(any(), any())).thenReturn(seatingOrganizer);
+        when(seatingOrganizerFactory.createSeatingOrganizer(any())).thenReturn(seatingOrganizer);
 
         seatingService.updateConfig(GroupReservationMethod.DEFAULT);
 
@@ -120,14 +120,14 @@ public class SeatingServiceTest {
 
         seatingService.addReservation(group);
 
-        verify(seatingOrganizer).reserveSeats(group.getSize(), group.getName());
+        verify(seatingOrganizer).reserveSeats(group.getSize(), group.getName(), groupReservationStrategy);
     }
 
     @Test
     public void givenGroupWithNoReservation_whenAddingReservation_thenReservationIsCreatedByFactory() {
         Group group = givenGroupWithoutReservation();
         List<SeatId> seatIds = new ArrayList<>(List.of(mock(SeatId.class)));
-        when(seatingOrganizer.reserveSeats(group.getSize(), group.getName())).thenReturn(seatIds);
+        when(seatingOrganizer.reserveSeats(group.getSize(), group.getName(), groupReservationStrategy)).thenReturn(seatIds);
 
         seatingService.addReservation(group);
 
@@ -139,7 +139,7 @@ public class SeatingServiceTest {
         Group group = givenGroupWithoutReservation();
         Reservation reservation = mock(Reservation.class);
         List<SeatId> seatIds = new ArrayList<>(List.of(mock(SeatId.class)));
-        when(seatingOrganizer.reserveSeats(group.getSize(), group.getName())).thenReturn(seatIds);
+        when(seatingOrganizer.reserveSeats(group.getSize(), group.getName(), groupReservationStrategy)).thenReturn(seatIds);
         when(reservationFactory.createReservation(group, seatIds)).thenReturn(reservation);
 
         seatingService.addReservation(group);

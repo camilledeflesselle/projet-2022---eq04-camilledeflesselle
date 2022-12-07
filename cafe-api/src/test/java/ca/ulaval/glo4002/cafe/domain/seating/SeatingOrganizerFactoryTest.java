@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.cafe.domain.seating;
 
 import ca.ulaval.glo4002.cafe.domain.cube.Cube;
-import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.IGroupReservationStrategy;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -16,12 +15,7 @@ class SeatingOrganizerFactoryTest {
     @Test
     public void whenCreateSeatingOrganizer_thenReturnsSeatingOrganizerObject() {
         SeatingOrganizerFactory seatingOrganizerFactory = new SeatingOrganizerFactory();
-        IGroupReservationStrategy groupReservationStrategy = givenGroupReservationStrategy();
 
-        assertEquals(SeatingOrganizer.class, seatingOrganizerFactory.createSeatingOrganizer(SOME_CUBES, groupReservationStrategy).getClass());
-    }
-
-    private IGroupReservationStrategy givenGroupReservationStrategy() {
-        return (seatingOrganizer, nbToReserve, seatsPerCube) -> null;
+        assertEquals(SeatingOrganizer.class, seatingOrganizerFactory.createSeatingOrganizer(SOME_CUBES).getClass());
     }
 }

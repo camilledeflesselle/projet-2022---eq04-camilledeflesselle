@@ -33,12 +33,12 @@ public class SeatingService {
         this.cubeRepository = cubeRepository;
         this.reservationRepository = reservationRepository;
         this.groupReservationStrategy = this.reservationStrategyFactory.createReservationStrategy(GroupReservationMethod.DEFAULT);
-        this.seatingOrganizer = this.seatingOrganizerFactory.createSeatingOrganizer(cubeRepository.findAll(), this.groupReservationStrategy);
+        this.seatingOrganizer = this.seatingOrganizerFactory.createSeatingOrganizer(cubeRepository.findAll());
     }
 
     public void updateConfig(GroupReservationMethod groupReservationMethod) {
         this.groupReservationStrategy = this.reservationStrategyFactory.createReservationStrategy(groupReservationMethod);
-        this.seatingOrganizer = this.seatingOrganizerFactory.createSeatingOrganizer(cubeRepository.findAll(), this.groupReservationStrategy);
+        this.seatingOrganizer = this.seatingOrganizerFactory.createSeatingOrganizer(cubeRepository.findAll());
     }
 
     public Seat getSeatForCustomer(Customer customer) {
@@ -55,7 +55,8 @@ public class SeatingService {
         }
         List<SeatId> reservedSeats = this.seatingOrganizer.reserveSeats(
                 group.getSize(),
-                group.getName()
+                group.getName(),
+                this.groupReservationStrategy
         );
         Reservation reservation = this.reservationFactory.createReservation(group, reservedSeats);
         this.reservationRepository.saveReservation(reservation);

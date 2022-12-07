@@ -35,7 +35,7 @@ class FullCubesStrategyTest {
     public void givenAvailableSeats_whenReserveNoSeat_thenReturnEmptyList() {
         givenEmptyCubes(A_CUBE_SIZE);
 
-        List<Seat> seatsToReserve = fullCubesStrategy.getReservationSeats(seatingOrganizer, 0, A_CUBE_SIZE);
+        List<Seat> seatsToReserve = fullCubesStrategy.getReservationSeats(seatingOrganizer, 0);
 
         assertTrue(seatsToReserve.isEmpty());
     }
@@ -45,8 +45,7 @@ class FullCubesStrategyTest {
         givenEmptyCubes(2);
 
         List<Seat> seatsToReserve = fullCubesStrategy.getReservationSeats(
-                seatingOrganizer, 1, 2
-        );
+                seatingOrganizer, 1);
 
         assertEquals(2, seatsToReserve.size());
         assertEquals(new SeatId(1), seatsToReserve.get(0).getId());
@@ -58,8 +57,7 @@ class FullCubesStrategyTest {
         givenEmptyCubes(2);
 
         List<Seat> seatsToReserve = fullCubesStrategy.getReservationSeats(
-                seatingOrganizer, 3, 2
-        );
+                seatingOrganizer, 3);
 
         assertEquals(4, seatsToReserve.size());
         assertEquals(new SeatId(1), seatsToReserve.get(0).getId());
@@ -73,8 +71,7 @@ class FullCubesStrategyTest {
         givenCubesWithOnlyLastOneEmpty(2);
 
         List<Seat> seatsToReserve = fullCubesStrategy.getReservationSeats(
-                seatingOrganizer, 1, 2
-        );
+                seatingOrganizer, 1);
 
         assertEquals(2, seatsToReserve.size());
         assertEquals(new SeatId(3), seatsToReserve.get(0).getId());
@@ -87,7 +84,7 @@ class FullCubesStrategyTest {
 
         assertThrows(
                 NoSeatAvailableException.class,
-                () -> fullCubesStrategy.getReservationSeats(seatingOrganizer, 2, 3)
+                () -> fullCubesStrategy.getReservationSeats(seatingOrganizer, 2)
         );
     }
 

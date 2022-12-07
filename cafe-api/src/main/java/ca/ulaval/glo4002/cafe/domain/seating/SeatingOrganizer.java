@@ -12,13 +12,9 @@ import java.util.List;
 
 public class SeatingOrganizer {
     private final List<Cube> cubes;
-    private final IGroupReservationStrategy groupReservationStrategy;
-    private final int seatsPerCube;
 
-    public SeatingOrganizer(List<Cube> cubes, IGroupReservationStrategy groupReservationStrategy) {
+    public SeatingOrganizer(List<Cube> cubes) {
         this.cubes = cubes;
-        this.groupReservationStrategy = groupReservationStrategy;
-        this.seatsPerCube = cubes.get(0).getSize();
     }
 
     public List<Cube> getCubes() {
@@ -39,10 +35,10 @@ public class SeatingOrganizer {
         return freeSeats;
     }
 
-    public List<SeatId> reserveSeats(int nbSeatToReserve, String groupName) {
+    public List<SeatId> reserveSeats(int nbSeatToReserve, String groupName, IGroupReservationStrategy groupReservationStrategy) {
         if (nbSeatToReserve > getFreeSeats().size()) throw new NoSeatAvailableException();
 
-        List<Seat> seatsToReserve = this.groupReservationStrategy.getReservationSeats(this, nbSeatToReserve, this.seatsPerCube);
+        List<Seat> seatsToReserve = groupReservationStrategy.getReservationSeats(this, nbSeatToReserve);
 
         List<SeatId> reservedSeatsId = new ArrayList<>();
         for (Seat seat : seatsToReserve) {

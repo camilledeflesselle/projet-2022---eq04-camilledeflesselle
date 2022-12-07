@@ -6,5 +6,5 @@ import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
 import java.util.List;
 
 public interface IGroupReservationStrategy {
-    List<Seat> getReservationSeats(SeatingOrganizer seatingOrganizer, int nbToReserve, int seatsPerCube);
+    List<Seat> getReservationSeats(SeatingOrganizer seatingOrganizer, int nbToReserve);
 }

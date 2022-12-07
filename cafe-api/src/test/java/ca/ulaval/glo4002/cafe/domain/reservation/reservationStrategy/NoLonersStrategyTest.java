@@ -35,7 +35,7 @@ class NoLonersStrategyTest {
     public void givenAvailableSeats_whenReserveNoSeat_thenReturnEmptyList() {
         givenEmptyCubes(A_CUBE_SIZE);
 
-        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 0, A_CUBE_SIZE);
+        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 0);
 
         assertTrue(seatsToReserve.isEmpty());
     }
@@ -44,7 +44,7 @@ class NoLonersStrategyTest {
     public void givenTwoCubesWithOneSeatAvailableInTheFirstOne_whenReserveThreeSeats_thenReturnTheSecondCubesSeats() {
         givenTwoCubesOfThreeSeatsWithOneSeatAvailableInTheFirstOne();
 
-        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 3, 3);
+        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 3);
 
         assertEquals(3, seatsToReserve.size());
         assertEquals(new SeatId(4), seatsToReserve.get(0).getId());
@@ -56,7 +56,7 @@ class NoLonersStrategyTest {
     public void givenTwoCubesWithTwoSeatAvailableInTheFirstOne_whenReserveThreeSeats_thenReturnTheSecondCubeSeats() {
         givenTwoCubesOfThreeSeatsWithTwoSeatsAvailableInTheFirstOne();
 
-        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 3, 3);
+        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 3);
 
         assertEquals(3, seatsToReserve.size());
         assertEquals(new SeatId(4), seatsToReserve.get(0).getId());
@@ -68,7 +68,7 @@ class NoLonersStrategyTest {
     public void givenTwoEmptyCubesOfThreeSeats_whenReserveThreeSeats_thenReturnTheFirstCubeSeats() {
         givenEmptyCubes(3);
 
-        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 3, 3);
+        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 3);
 
         assertEquals(3, seatsToReserve.size());
         assertEquals(new SeatId(1), seatsToReserve.get(0).getId());
@@ -80,7 +80,7 @@ class NoLonersStrategyTest {
     public void givenTwoCubesWithTwoSeatsAvailableInEach_whenReserveFourSeats_thenReturnTheTwoSeatsAvailableInEachOne() {
         givenTwoCubesOfThreeSeatsWithTwoSeatsAvailableInEach();
 
-        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 4, 3);
+        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 4);
 
         assertEquals(4, seatsToReserve.size());
         assertEquals(new SeatId(2), seatsToReserve.get(0).getId());
@@ -93,7 +93,7 @@ class NoLonersStrategyTest {
     public void givenTwoCubesOfFourSeatsWithFirstSeatOccupiedInEach_whenReserveFourSeats_thenReturnSecondAndThirdSeatsOfEachCube() {
         givenTwoCubesOfFourSeatsWithFirstSeatOccupiedInEach();
 
-        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 4, 3);
+        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 4);
 
         assertEquals(4, seatsToReserve.size());
         assertEquals(new SeatId(2), seatsToReserve.get(0).getId());
@@ -108,7 +108,7 @@ class NoLonersStrategyTest {
 
         assertThrows(
                 NoSeatAvailableException.class,
-                () -> noLonersStrategy.getReservationSeats(seatingOrganizer, 3, 2)
+                () -> noLonersStrategy.getReservationSeats(seatingOrganizer, 3)
         );
     }
 
@@ -118,7 +118,7 @@ class NoLonersStrategyTest {
 
         assertThrows(
                 NoSeatAvailableException.class,
-                () -> noLonersStrategy.getReservationSeats(seatingOrganizer, 4, 3)
+                () -> noLonersStrategy.getReservationSeats(seatingOrganizer, 4)
         );
     }
 

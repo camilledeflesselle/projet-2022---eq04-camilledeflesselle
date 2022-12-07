@@ -39,7 +39,7 @@ public class NoLonersStrategy implements IGroupReservationStrategy {
     }
 
     @Override
-    public List<Seat> getReservationSeats(SeatingOrganizer seatingOrganizer, int nbToReserve, int seatsPerCube) {
+    public List<Seat> getReservationSeats(SeatingOrganizer seatingOrganizer, int nbToReserve) {
         this.seatToReserve = new ArrayList<>();
         this.nbRemainToReserve = nbToReserve;
         for (Cube cube : seatingOrganizer.getCubes()) {
