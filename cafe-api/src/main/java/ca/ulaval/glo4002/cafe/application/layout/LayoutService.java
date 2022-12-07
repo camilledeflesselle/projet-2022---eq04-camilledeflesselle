@@ -4,7 +4,7 @@ import ca.ulaval.glo4002.cafe.domain.cube.Cube;
 import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
 import ca.ulaval.glo4002.cafe.domain.cube.ICubeRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
-import ca.ulaval.glo4002.cafe.domain.layout.Layout;
+import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.LayoutDTO;
 
 import java.util.List;
 
@@ -13,11 +13,12 @@ public class LayoutService {
     private final CubesListFactory cubesListFactory;
     private final ICubeRepository cubeRepository;
     private final ICustomerRepository customerRepository;
+    private final LayoutDTOAssembler layoutAssembler;
     private String name;
     private int cubeSize;
 
 
-    public LayoutService(CubesListFactory cubesListFactory, ICubeRepository cubeRepository, ICustomerRepository customerRepository, String name, List<String> cubesNames, int cubeSize) {
+    public LayoutService(CubesListFactory cubesListFactory, ICubeRepository cubeRepository, ICustomerRepository customerRepository, String name, List<String> cubesNames, int cubeSize, LayoutDTOAssembler layoutAssembler) {
         this.cubesListFactory = cubesListFactory;
         this.cubeRepository = cubeRepository;
         this.customerRepository = customerRepository;
@@ -25,6 +26,7 @@ public class LayoutService {
         this.cubesNames = cubesNames;
         this.cubeSize = cubeSize;
         this.initializeCubes();
+        this.layoutAssembler = layoutAssembler;
     }
 
     public void initializeCubes() {
@@ -32,8 +34,8 @@ public class LayoutService {
         this.cubeRepository.saveCubes(cubes);
     }
 
-    public Layout getLayout() {
-        return new Layout(this.name, this.cubeRepository, this.customerRepository);
+    public LayoutDTO getLayout() {
+        return layoutAssembler.createLayoutDTO(this.name, this.cubeRepository.findAll(), this.customerRepository.findAll());
     }
 
     public void reset() {

@@ -1,9 +1,7 @@
 package ca.ulaval.glo4002.cafe.infrastructure.rest.resources;
 
 import ca.ulaval.glo4002.cafe.application.layout.LayoutService;
-import ca.ulaval.glo4002.cafe.domain.layout.Layout;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.LayoutDTO;
-import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.LayoutDTOAssembler;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -24,7 +22,6 @@ public class LayoutResource {
 
     @GET
     public LayoutDTO layout() {
-        Layout layout = this.layoutService.getLayout();
-        return LayoutDTOAssembler.createLayoutDTO(layout);
+        return this.layoutService.getLayout();
     }
 }
