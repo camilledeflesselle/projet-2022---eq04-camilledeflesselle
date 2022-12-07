@@ -15,7 +15,6 @@ public class LayoutService {
     private final ICustomerRepository customerRepository;
     private String name;
     private int cubeSize;
-    private Layout layout;
 
 
     public LayoutService(CubesListFactory cubesListFactory, ICubeRepository cubeRepository, ICustomerRepository customerRepository, String name, List<String> cubesNames, int cubeSize) {
@@ -25,22 +24,21 @@ public class LayoutService {
         this.name = name;
         this.cubesNames = cubesNames;
         this.cubeSize = cubeSize;
-        this.initializeLayout();
+        this.initializeCubes();
     }
 
-    public void initializeLayout() {
+    public void initializeCubes() {
         List<Cube> cubes = this.cubesListFactory.create(this.cubesNames, this.cubeSize);
         this.cubeRepository.saveCubes(cubes);
-        this.layout = new Layout(this.name, this.cubeRepository, this.customerRepository);
     }
 
     public Layout getLayout() {
-        return this.layout;
+        return new Layout(this.name, this.cubeRepository, this.customerRepository);
     }
 
     public void reset() {
         this.cubeRepository.deleteAll();
-        this.initializeLayout();
+        this.initializeCubes();
     }
 
     public void updateConfig(String name, int cubeSize) {
