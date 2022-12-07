@@ -1,11 +1,12 @@
 package ca.ulaval.glo4002.cafe.application.inventory;
 
-import ca.ulaval.glo4002.cafe.domain.cooking.InsufficentIngredientsException;
 import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
+import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import jakarta.inject.Inject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class InventoryService {
@@ -16,11 +17,13 @@ public class InventoryService {
         this.inventoryRepository = inventoryRepository;
     }
 
-    public void addIngredientsInInventory(Map<Ingredient, Integer> inventory) {
-        this.inventoryRepository.saveIngredients(inventory);
+    public void addIngredientsInInventory(List<Ingredient> ingredients) {
+        for (Ingredient ingredient : ingredients) {
+            this.inventoryRepository.save(ingredient);
+        }
     }
 
-    public Map<Ingredient, Integer> getInventory() {
+    public Map<IngredientId, Ingredient> getInventory() {
         return this.inventoryRepository.getInventory();
     }
 
@@ -28,30 +31,13 @@ public class InventoryService {
         this.inventoryRepository.deleteAll();
     }
 
-    public boolean isEnoughIngredients(Map<Ingredient, Integer> ingredientsNeeded) {
-        for (Ingredient ingredient : ingredientsNeeded.keySet()) {
-            Integer quantityNeeded = ingredientsNeeded.get(ingredient);
-            Integer quantityInInventory = this.inventoryRepository.findIngredientQuantity(ingredient);
-            if (quantityNeeded > quantityInInventory) {
-                return false;
-            }
-        }
-        return true;
-    }
 
-    public void removeIngredients(Map<Ingredient, Integer> ingredientsNeeded) {
-        if (this.isEnoughIngredients(ingredientsNeeded)) {
-            this.inventoryRepository.removeIngredients(ingredientsNeeded);
-        } else {
-            throw new InsufficentIngredientsException();
-        }
-    }
 
     public Map<String, Integer> getInventoryStringify() {
         Map<String, Integer> stringInventory = new HashMap<>();
-        Map<Ingredient, Integer> inventory = this.getInventory();
-        for (Ingredient ingredient : inventory.keySet()) {
-            stringInventory.put(ingredient.getName(), inventory.get(ingredient));
+        Map<IngredientId, Ingredient> inventory = this.getInventory();
+        for (IngredientId ingredientId : inventory.keySet()) {
+            stringInventory.put(ingredientId.getName(), inventory.get(ingredientId).getQuantity());
         }
         return stringInventory;
     }

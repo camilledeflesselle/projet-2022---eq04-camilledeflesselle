@@ -4,7 +4,8 @@ import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
 import ca.ulaval.glo4002.cafe.domain.bill.TaxRate;
 import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
-import ca.ulaval.glo4002.cafe.domain.order.MenuItem;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,7 @@ class BillFactoryTest {
 
     @Test
     public void whenCreateBillWithOneMenuItem_thenBillSubtotalIsMenuItemPrice(){
-        MenuItem ONE_ITEM = new MenuItem("Chocolate", POSITIVE_AMOUNT);
+        MenuItem ONE_ITEM = new MenuItem(new MenuItemId("Dark Roast"), POSITIVE_AMOUNT);
         SOME_MENU_ITEMS.add(ONE_ITEM);
         Order customersOrder = new Order(SOME_MENU_ITEMS);
 
@@ -61,8 +62,8 @@ class BillFactoryTest {
 
     @Test
     public void whenCreateBillWithOrderOfTwoMenuItems_thenBillSubtotalIsTheSumOfPrices(){
-        MenuItem ONE_ITEM = new MenuItem("Chocolate", POSITIVE_AMOUNT);
-        MenuItem SECOND_ITEM = new MenuItem("Milk", POSITIVE_AMOUNT);
+        MenuItem ONE_ITEM = new MenuItem(new MenuItemId("Latte"), POSITIVE_AMOUNT);
+        MenuItem SECOND_ITEM = new MenuItem(new MenuItemId("Espresso"), POSITIVE_AMOUNT);
         SOME_MENU_ITEMS.add(ONE_ITEM);
         SOME_MENU_ITEMS.add(SECOND_ITEM);
         Order customersOrder = new Order(SOME_MENU_ITEMS);
@@ -74,7 +75,7 @@ class BillFactoryTest {
 
     @Test
     public void whenCreateBillWithOrderOfOneMenuItemsAndTaxRate_thenTaxesAreTheSubtotalApplyingATaxRate(){
-        MenuItem ONE_ITEM = new MenuItem("Chocolate", new Amount(10f));
+        MenuItem ONE_ITEM = new MenuItem(new MenuItemId("Latte"), new Amount(10f));
         SOME_MENU_ITEMS.add(ONE_ITEM);
         Order customersOrder = new Order(SOME_MENU_ITEMS);
 
@@ -91,7 +92,7 @@ class BillFactoryTest {
 
     @Test
     public void whenCreateBillForAGroupWithOrderAndTipRate_thenBillTipIsSubtotalApplyingTipRate() {
-        MenuItem ONE_ITEM = new MenuItem("Chocolate", POSITIVE_AMOUNT);
+        MenuItem ONE_ITEM = new MenuItem(new MenuItemId("Latte"), POSITIVE_AMOUNT);
         SOME_MENU_ITEMS.add(ONE_ITEM);
         Order customersOrder = new Order(SOME_MENU_ITEMS);
 

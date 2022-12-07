@@ -55,12 +55,12 @@ public class CheckOutService {
     }
 
     public void createBill(CustomerId customerId) {
-        Order order = this.customerService.findOrCreateEmptyOrder(customerId);
+        Order order = this.customerService.findOrder(customerId);
         this.billService.processBillForCustomer(customerId, order);
     }
 
     public void createBillForGroup(CustomerId customerId) {
-        Order order = this.customerService.findOrCreateEmptyOrder(customerId);
+        Order order = this.customerService.findOrder(customerId);
         this.billService.processBillForGroup(customerId, order);
     }
 }

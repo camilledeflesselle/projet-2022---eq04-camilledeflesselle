@@ -1,7 +1,9 @@
 package ca.ulaval.glo4002.cafe.domain.recipe;
 
-public interface IRecipeRepository {
-    Recipe findRecipeByName(String recipeName);
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 
-    void addRecipe(Recipe recipe);
+public interface IRecipeRepository {
+    Recipe findById(MenuItemId recipeName);
+
+    void save(Recipe recipe);
 }

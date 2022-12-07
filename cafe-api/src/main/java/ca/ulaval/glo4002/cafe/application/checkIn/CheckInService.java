@@ -22,6 +22,7 @@ public class CheckInService {
         Seat seat = this.seatingService.getSeatForCustomer(customer);
         seat.assign();
         customer.setSeatId(seat.getId());
+        this.customerService.initOrder(customer.getId());
         this.customerService.saveCustomer(customer);
     }
 }

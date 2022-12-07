@@ -9,6 +9,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.util.List;
 import java.util.Map;
 
 @Path("/inventory")
@@ -36,7 +37,7 @@ public class InventoryResource {
 
     @PUT
     public Response putInventory(InventoryDTO inventoryDTO) {
-        Map<Ingredient, Integer> inventory = inventoryValidator.inventoryDTOToListIngredients(inventoryDTO);
+        List<Ingredient> inventory = inventoryValidator.inventoryDTOToListIngredients(inventoryDTO);
         this.inventoryService.addIngredientsInInventory(inventory);
         return Response
                 .ok()

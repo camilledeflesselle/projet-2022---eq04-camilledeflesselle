@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.cafe.domain.order;
 
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

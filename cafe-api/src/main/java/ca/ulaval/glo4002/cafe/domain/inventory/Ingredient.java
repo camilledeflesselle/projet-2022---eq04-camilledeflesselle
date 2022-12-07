@@ -1,26 +1,33 @@
 package ca.ulaval.glo4002.cafe.domain.inventory;
 
 public class Ingredient {
-    private final String name;
+    private final IngredientId id;
+    private int quantity;
 
-    public Ingredient(String name) {
-        this.name = name;
+    public Ingredient(IngredientId id, int quantity) {
+        this.id = id;
+        this.quantity = quantity;
     }
 
-    public String getName() {
-        return this.name;
+    public IngredientId getId() {
+        return this.id;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (obj == this) return true;
-        if (!(obj instanceof Ingredient ingredient)) return false;
-        return this.name.equals(ingredient.name);
+    public void use(Integer quantity) {
+        this.quantity -= quantity;
     }
 
-    @Override
-    public int hashCode() {
-        return this.name.hashCode();
+    public Integer getQuantity() {
+        return this.quantity;
+    }
+
+    public void useAll() {
+        this.quantity = 0;
+    }
+
+    public void checkIfEnough(Integer quantity) {
+        if (quantity > this.quantity) {
+            throw new InsufficentIngredientsException();
+        }
     }
 }

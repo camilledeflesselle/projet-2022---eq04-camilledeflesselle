@@ -1,67 +1,58 @@
 package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
+import ca.ulaval.glo4002.cafe.application.inventory.IngredientType;
 import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
+import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class InventoryRepositoryInMemory implements IInventoryRepository {
-    Map<Ingredient, Integer> inventory = new HashMap<>();
+    Map<IngredientId, Ingredient> inventory = new HashMap<>();
 
     public InventoryRepositoryInMemory() {
-        this.inventory.put(new Ingredient("Chocolate"), 0);
-        this.inventory.put(new Ingredient("Espresso"), 0);
-        this.inventory.put(new Ingredient("Milk"), 0);
-        this.inventory.put(new Ingredient("Water"), 0);
+        this.addMenuIngredients();
     }
 
-    public List<String> getIngredientsNames() {
-        List<String> ingredientsNames = new ArrayList<>();
-        for (Ingredient ingredient : inventory.keySet()) {
-            ingredientsNames.add(ingredient.getName());
-        }
-        return ingredientsNames;
+    private void addMenuIngredients() {
+        Arrays.stream(IngredientType.values()).map((IngredientType name) -> new Ingredient(new IngredientId(name.getLabel()), 0)).forEach(this::save);
     }
 
     @Override
-    public Map<Ingredient, Integer> getInventory() {
+    public boolean contains(String name) {
+        return this.inventory.containsKey(new IngredientId(name));
+    }
+
+    @Override
+    public Map<IngredientId, Ingredient> getInventory() {
         return this.inventory;
     }
 
     @Override
-    public Integer findIngredientQuantity(Ingredient ingredient) {
-        return this.inventory.get(ingredient);
+    public Ingredient findByName(IngredientId id) {
+        return this.inventory.get(id);
     }
 
     @Override
-    public void saveIngredients(Map<Ingredient, Integer> inventory) {
-        for (Ingredient ingredient : inventory.keySet()) {
-            Integer quantity = inventory.get(ingredient);
-            this.addQuantity(ingredient, quantity);
-        }
+    public void removeIngredient(Ingredient ingredient) {
+        this.inventory.get(ingredient.getId()).use(ingredient.getQuantity());
+    }
+
+    @Override
+    public void save(Ingredient ingredient) {
+        this.inventory.put(ingredient.getId(), ingredient);
     }
 
     @Override
     public void deleteAll() {
-        this.inventory.replaceAll((k, v) -> 0);
+        this.inventory.forEach((key, value) -> value.useAll());
     }
 
-    @Override
-    public void removeIngredients(Map<Ingredient, Integer> ingredientsNeeded) {
-        for (Map.Entry<Ingredient, Integer> ingredient : ingredientsNeeded.entrySet()) {
-            Integer quantityNeeded = ingredientsNeeded.get(ingredient.getKey());
-            this.removeQuantity(ingredient.getKey(), quantityNeeded);
-        }
+    public Integer findIngredientQuantity(IngredientId id) {
+        return this.inventory.get(id).getQuantity();
     }
 
-    private void removeQuantity(Ingredient ingredient, Integer quantityNeeded) {
-        this.inventory.put(ingredient, this.inventory.get(ingredient) - quantityNeeded);
-    }
 
-    private void addQuantity(Ingredient ingredient, Integer delta) {
-        this.inventory.put(ingredient, this.inventory.get(ingredient) + delta);
-    }
 }

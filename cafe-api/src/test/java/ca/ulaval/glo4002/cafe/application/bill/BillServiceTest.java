@@ -7,8 +7,9 @@ import ca.ulaval.glo4002.cafe.domain.bill.ITaxesRepository;
 import ca.ulaval.glo4002.cafe.domain.bill.TaxRate;
 import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
-import ca.ulaval.glo4002.cafe.domain.order.IMenuItemRepository;
-import ca.ulaval.glo4002.cafe.domain.order.MenuItem;
+import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config.InvalidMenuOrderException;
 import jakarta.ws.rs.NotFoundException;
@@ -25,9 +26,8 @@ import static org.mockito.Mockito.*;
 
 class BillServiceTest {
     private static final CustomerId A_CUSTOMER_ID = new CustomerId("1");
-    private static final Order SOME_CUSTOMER_ORDER = new Order(Arrays.asList(new MenuItem("cheese", new Amount(13.25f)), new MenuItem("chocolate", new Amount(12.5f))));
-    private static final String AN_ITEM_NAME = "Café";
-    private static final String ANOTHER_ITEM_NAME = "Big10";
+    private static final Order SOME_CUSTOMER_ORDER = new Order(Arrays.asList(new MenuItem(new MenuItemId("Chocolate"), new Amount(13.25f)), new MenuItem(new MenuItemId("Coca"), new Amount(12.5f))));
+
     private static final TaxRate A_TAX_RATE = new TaxRate(0.15f);
     private static final String A_COUNTRY = "CA";
     private static final String US_COUNTRY = "US";
@@ -41,7 +41,6 @@ class BillServiceTest {
     private BillFactory billFactory;
     private IBillRepository billRepository;
     private ITaxesRepository taxesRepository;
-    private IMenuItemRepository menuItemRepository;
     private BillService billService;
 
     @BeforeEach
@@ -49,8 +48,7 @@ class BillServiceTest {
         billFactory = mock(BillFactory.class);
         billRepository = mock(IBillRepository.class);
         taxesRepository = mock(ITaxesRepository.class);
-        menuItemRepository = mock(IMenuItemRepository.class);
-        billService = new BillService(billFactory, billRepository, taxesRepository, menuItemRepository);
+        billService = new BillService(billFactory, billRepository, taxesRepository);
     }
 
     @Test
@@ -92,29 +90,6 @@ class BillServiceTest {
         billService.getBillByCustomerId(A_CUSTOMER_ID);
 
         verify(billRepository).findBillByCustomerId(A_CUSTOMER_ID);
-    }
-
-    @Test
-    public void givenMenuItemNamesWithOneThatIsNotInRepository_whenBuildingMenuItemsList_thenThrowsInvalidMenuOrderException() {
-        List<String> menuItemsStr = new ArrayList<>(List.of(AN_ITEM_NAME, ANOTHER_ITEM_NAME));
-        when(menuItemRepository.findMenuItemById(ANOTHER_ITEM_NAME)).thenThrow(NotFoundException.class);
-
-        assertThrows(
-                InvalidMenuOrderException.class,
-                () -> billService.buildMenuItemListFromStr(menuItemsStr)
-        );
-    }
-
-    @Test
-    public void givenMenuItemNamesThatExistInRepository_whenBuildingMenuItemsList_thenEachIsSearchedInRepository() {
-        List<String> menuItemsStr = new ArrayList<>(List.of(AN_ITEM_NAME, ANOTHER_ITEM_NAME));
-        when(menuItemRepository.findMenuItemById(AN_ITEM_NAME)).thenReturn(mock(MenuItem.class));
-        when(menuItemRepository.findMenuItemById(ANOTHER_ITEM_NAME)).thenReturn(mock(MenuItem.class));
-
-        billService.buildMenuItemListFromStr(menuItemsStr);
-
-        verify(menuItemRepository).findMenuItemById(AN_ITEM_NAME);
-        verify(menuItemRepository).findMenuItemById(ANOTHER_ITEM_NAME);
     }
 
     @Test

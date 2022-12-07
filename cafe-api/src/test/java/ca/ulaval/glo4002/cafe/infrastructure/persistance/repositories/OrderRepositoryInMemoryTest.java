@@ -2,7 +2,8 @@ package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
-import ca.ulaval.glo4002.cafe.domain.order.MenuItem;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class OrderRepositoryInMemoryTest {
     private static final CustomerId A_CUSTOMER_ID = new CustomerId("1");
     private static final OrdersFactory ordersFactory = new OrdersFactory();
-    private static final MenuItem MENU_ITEM_1 = new MenuItem("cheese", new Amount(13.25f));
+    private static final MenuItem MENU_ITEM_1 = new MenuItem(new MenuItemId("cheese"), new Amount(13.25f));
     private static final Order FIRST_ORDER = ordersFactory.create(List.of(MENU_ITEM_1));
 
 
