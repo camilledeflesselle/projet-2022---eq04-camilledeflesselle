@@ -3,8 +3,8 @@ package ca.ulaval.glo4002.cafe.application.layout;
 import ca.ulaval.glo4002.cafe.domain.cube.Cube;
 import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
 import ca.ulaval.glo4002.cafe.domain.cube.ICubeRepository;
+import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
-import ca.ulaval.glo4002.cafe.domain.layout.Layout;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class LayoutServiceTest {
     private static final String A_CAFE_NAME = "Les 4-fées";
@@ -23,18 +26,22 @@ public class LayoutServiceTest {
     private static ICubeRepository cubeRepositoryMock;
     private static ICustomerRepository customerRepositoryMock;
     private static List<Cube> cubesListMock;
+    private static LayoutDTOAssembler layoutAssemblerMock;
+    private static List<Customer> customerListMock;
 
     @BeforeEach
     public void setup() {
         cubesListFactoryMock = mock(CubesListFactory.class);
         cubeRepositoryMock = mock(ICubeRepository.class);
         customerRepositoryMock = mock(ICustomerRepository.class);
+        layoutAssemblerMock = mock(LayoutDTOAssembler.class);
         cubesListMock = new ArrayList<>(List.of(mock(Cube.class)));
+        customerListMock = new ArrayList<>(List.of(mock(Customer.class)));
     }
 
     @Test
     public void whenInitialized_cubesAreCreatedFromCubeNamesAndCubeSize() {
-        new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE);
+        new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE, layoutAssemblerMock);
 
         verify(cubesListFactoryMock).create(SOME_CUBES_NAME, A_CUBE_SIZE);
     }
@@ -42,23 +49,26 @@ public class LayoutServiceTest {
     @Test
     public void whenInitialized_cubesAreSavedInRepository() {
         when(cubesListFactoryMock.create(SOME_CUBES_NAME, A_CUBE_SIZE)).thenReturn(cubesListMock);
-        new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE);
+        new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE, layoutAssemblerMock);
 
         verify(cubeRepositoryMock).saveCubes(cubesListMock);
     }
 
     @Test
     public void whenInitialized_layoutIsCreatedFromNameAndRepositories() {
-        LayoutService layoutService = new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE);
+        LayoutService layoutService = new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE, layoutAssemblerMock);
+        when(cubesListFactoryMock.create(SOME_CUBES_NAME, A_CUBE_SIZE)).thenReturn(cubesListMock);
+        when(cubeRepositoryMock.findAll()).thenReturn(cubesListMock);
+        when(customerRepositoryMock.findAll()).thenReturn(customerListMock);
 
-        Layout expectedLayout = new Layout(A_CAFE_NAME, cubeRepositoryMock, customerRepositoryMock);
+        layoutService.getLayout();
 
-        assertEquals(expectedLayout, layoutService.getLayout());
+        verify(layoutAssemblerMock).createLayoutDTO(A_CAFE_NAME, cubesListMock, customerListMock);
     }
 
     @Test
     public void whenReset_cubesAreDeletedFromRepository() {
-        LayoutService layoutService = new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE);
+        LayoutService layoutService = new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE, layoutAssemblerMock);
 
         layoutService.reset();
 
@@ -67,7 +77,10 @@ public class LayoutServiceTest {
 
     @Test
     public void whenReset_cubesAreCreatedFromCubeNamesAndCubeSize() {
-        LayoutService layoutService = new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE);
+        LayoutService layoutService = new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE, layoutAssemblerMock);
+        when(cubesListFactoryMock.create(SOME_CUBES_NAME, A_CUBE_SIZE)).thenReturn(cubesListMock);
+        when(cubeRepositoryMock.findAll()).thenReturn(cubesListMock);
+        when(customerRepositoryMock.findAll()).thenReturn(customerListMock);
 
         layoutService.reset();
 
@@ -77,26 +90,17 @@ public class LayoutServiceTest {
     @Test
     public void whenReset_cubesAreSavedInRepository() {
         when(cubesListFactoryMock.create(SOME_CUBES_NAME, A_CUBE_SIZE)).thenReturn(cubesListMock);
-        LayoutService layoutService = new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE);
+        LayoutService layoutService = new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE, layoutAssemblerMock);
 
         layoutService.reset();
 
         verify(cubeRepositoryMock, times(2)).saveCubes(cubesListMock);
     }
 
-    @Test
-    public void whenReset_layoutIsCreatedFromNameAndRepositories() {
-        LayoutService layoutService = new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE);
-
-        layoutService.reset();
-        Layout expectedLayout = new Layout(A_CAFE_NAME, cubeRepositoryMock, customerRepositoryMock);
-
-        assertEquals(expectedLayout, layoutService.getLayout());
-    }
 
     @Test
     public void whenUpdateConfiguration_NameIsChanged() {
-        LayoutService layoutService = new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE);
+        LayoutService layoutService = new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE, layoutAssemblerMock);
         String newCafeName = "newCafeName";
 
         layoutService.updateConfig(newCafeName, A_CUBE_SIZE);
@@ -106,7 +110,7 @@ public class LayoutServiceTest {
 
     @Test
     public void whenUpdateConfiguration_SizeIsChanged() {
-        LayoutService layoutService = new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE);
+        LayoutService layoutService = new LayoutService(cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, A_CAFE_NAME, SOME_CUBES_NAME, A_CUBE_SIZE, layoutAssemblerMock);
         int newCubeSize = 5;
 
         layoutService.updateConfig(A_CAFE_NAME, newCubeSize);
