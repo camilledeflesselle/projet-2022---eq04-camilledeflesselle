@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.cafe.infrastructure.rest.mappers;
 
-import ca.ulaval.glo4002.cafe.domain.cooking.InsufficentIngredientsException;
+import ca.ulaval.glo4002.cafe.domain.inventory.InsufficentIngredientsException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;

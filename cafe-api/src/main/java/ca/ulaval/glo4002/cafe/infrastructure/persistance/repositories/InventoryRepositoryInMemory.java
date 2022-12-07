@@ -36,8 +36,8 @@ public class InventoryRepositoryInMemory implements IInventoryRepository {
     }
 
     @Override
-    public Ingredient find(IngredientId id) {
-        return this.inventory.get(id);
+    public void removeIngredient(Ingredient ingredient) {
+        this.inventory.get(ingredient.getId()).use(ingredient.getQuantity());
     }
 
     @Override

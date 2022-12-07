@@ -36,7 +36,7 @@ public class InventoryValidator {
                 throw new BadRequestException("Ingredient name is not valid");
             }
             IngredientId id = new IngredientId(ingredientName);
-            Ingredient ingredient = new Ingredient(id, 0);
+            Ingredient ingredient = new Ingredient(id, inventory.get(ingredientName));
             ingredients.add(ingredient);
         }
         return ingredients;

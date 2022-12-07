@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.cafe.domain.cooking;
+package ca.ulaval.glo4002.cafe.domain.inventory;
 
 public class InsufficentIngredientsException extends RuntimeException {
     public InsufficentIngredientsException() {

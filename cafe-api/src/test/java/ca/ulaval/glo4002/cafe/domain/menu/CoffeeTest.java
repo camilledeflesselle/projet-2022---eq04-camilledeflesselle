@@ -39,6 +39,6 @@ class CoffeeTest {
 
         coffee.makeCoffee(recipe, inventory);
 
-        verify(recipe).makeRecipe(inventory);
+        verify(recipe).cookWithStorageIn(inventory);
     }
 }

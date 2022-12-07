@@ -1,7 +1,5 @@
 package ca.ulaval.glo4002.cafe.domain.inventory;
 
-import ca.ulaval.glo4002.cafe.application.inventory.IngredientType;
-
 import java.util.Map;
 
 public interface IInventoryRepository {
@@ -17,5 +15,5 @@ public interface IInventoryRepository {
 
     Integer findIngredientQuantity(IngredientId id);
 
-    Ingredient find(IngredientId ingredientNeeded);
+    void removeIngredient(Ingredient ingredient);
 }

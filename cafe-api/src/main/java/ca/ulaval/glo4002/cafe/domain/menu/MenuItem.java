@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.cafe.domain.menu;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
-import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 
 public class MenuItem {
@@ -22,9 +21,8 @@ public class MenuItem {
         return this.amount;
     }
 
-    public void cook(IRecipeRepository recipeRepository, IInventoryRepository inventoryRepository) {
-        Recipe recipe = recipeRepository.findById(this.id);
-        recipe.makeRecipe(inventoryRepository);
+    public void cook(Recipe recipe, IInventoryRepository inventoryRepository) {
+        recipe.cookWithStorageIn(inventoryRepository);
     }
 
     public String getName() {
@@ -44,4 +42,5 @@ public class MenuItem {
     public int hashCode() {
         return this.id.hashCode();
     }
+
 }

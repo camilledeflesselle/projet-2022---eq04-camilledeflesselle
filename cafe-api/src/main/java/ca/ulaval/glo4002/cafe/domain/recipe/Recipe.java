@@ -1,33 +1,29 @@
 package ca.ulaval.glo4002.cafe.domain.recipe;
 
-import ca.ulaval.glo4002.cafe.application.menu.CoffeeFactory;
-import ca.ulaval.glo4002.cafe.application.menu.CoffeeType;
 import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 
 import java.util.List;
 
 public class Recipe {
     private final List<Ingredient> ingredients;
-    private final CoffeeType name;
+    private final MenuItemId id;
 
-    public Recipe(CoffeeType coffeeType, List<Ingredient> ingredients) {
-        this.name = coffeeType;
+    public Recipe(MenuItemId id, List<Ingredient> ingredients) {
+        this.id = id;
         this.ingredients = ingredients;
     }
 
-    public CoffeeType getName() {
-        return this.name;
+    public MenuItemId getName() {
+        return this.id;
     }
 
     public List<Ingredient> getIngredients() {
         return this.ingredients;
     }
 
-    public void makeRecipe(IInventoryRepository inventoryRepository) {
-        for (Ingredient ingredientNeeded : this.ingredients) {
-            Ingredient ingredient = inventoryRepository.find(ingredientNeeded.getId());
-            ingredient.use(ingredientNeeded.getQuantity());
-        }
+    public void cookWithStorageIn(IInventoryRepository inventoryRepository) {
+        this.ingredients.forEach(inventoryRepository::removeIngredient);
     }
 }

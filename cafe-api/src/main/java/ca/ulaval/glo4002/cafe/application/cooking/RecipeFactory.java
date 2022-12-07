@@ -24,16 +24,16 @@ public class RecipeFactory {
                         new Ingredient(espresso, 50),
                         new Ingredient(water, 50)
                 );
-                recipe = new Recipe(coffeeType, ingredients);
+                recipe = new Recipe(coffeeType.getId(), ingredients);
             }
             case DARK_ROAST -> {
                 ingredients = List.of(
-                        new Ingredient(espresso, 50),
+                        new Ingredient(espresso, 40),
                         new Ingredient(water, 40),
                         new Ingredient(chocolate, 10),
                         new Ingredient(milk, 10)
                 );
-                recipe = new Recipe(coffeeType, ingredients);
+                recipe = new Recipe(coffeeType.getId(), ingredients);
             }
             case CAPPUCCINO -> {
                 ingredients = List.of(
@@ -41,27 +41,27 @@ public class RecipeFactory {
                         new Ingredient(water, 40),
                         new Ingredient(milk, 10)
                 );
-                recipe = new Recipe(coffeeType, ingredients);
+                recipe = new Recipe(coffeeType.getId(), ingredients);
             }
             case ESPRESSO -> {
                 ingredients = List.of(
                         new Ingredient(espresso, 60)
                 );
-                recipe = new Recipe(coffeeType, ingredients);
+                recipe = new Recipe(coffeeType.getId(), ingredients);
             }
             case FLAT_WHITE, LATTE -> {
                 ingredients = List.of(
                         new Ingredient(espresso, 50),
                         new Ingredient(milk, 50)
                 );
-                recipe = new Recipe(coffeeType, ingredients);
+                recipe = new Recipe(coffeeType.getId(), ingredients);
             }
             case MACCHIATO -> {
                 ingredients = List.of(
                         new Ingredient(espresso, 80),
                         new Ingredient(milk, 20)
                 );
-                recipe = new Recipe(coffeeType, ingredients);
+                recipe = new Recipe(coffeeType.getId(), ingredients);
             }
             case MOCHA -> {
                 ingredients = List.of(
@@ -69,10 +69,10 @@ public class RecipeFactory {
                         new Ingredient(milk, 40),
                         new Ingredient(chocolate, 10)
                 );
-                recipe = new Recipe(coffeeType, ingredients);
+                recipe = new Recipe(coffeeType.getId(), ingredients);
             }
             default -> throw new IllegalArgumentException("Invalid coffee type");
         }
-    return recipe;
+        return recipe;
     }
 }

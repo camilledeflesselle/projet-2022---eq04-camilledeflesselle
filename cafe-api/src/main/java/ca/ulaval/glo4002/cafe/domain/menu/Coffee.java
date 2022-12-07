@@ -22,7 +22,7 @@ public class Coffee {
     }
 
     public void makeCoffee(Recipe recipe, IInventoryRepository inventoryRepository) {
-        recipe.makeRecipe(inventoryRepository);
+        recipe.cookWithStorageIn(inventoryRepository);
     }
 
 }
