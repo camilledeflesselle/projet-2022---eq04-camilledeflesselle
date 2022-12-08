@@ -2,12 +2,10 @@ package ca.ulaval.glo4002.cafe.domain.order;
 
 import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
-import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config.InvalidMenuOrderException;
-import jakarta.ws.rs.NotFoundException;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrdersFactory {
     public Order create(List<MenuItem> menuItems) {
@@ -15,15 +13,14 @@ public class OrdersFactory {
     }
 
     public List<MenuItem> buildMenuItemListFromStr(List<String> menuItemStrList, IMenuItemRepository menuItemRepository) {
-        List<MenuItem> menuItemList = new ArrayList<>();
-        for (String menuItemStr : menuItemStrList) {
-            try {
-                MenuItem menuItem = menuItemRepository.findMenuItemByName(menuItemStr);
-                menuItemList.add(menuItem);
-            } catch (NotFoundException e) {
-                throw new InvalidMenuOrderException();
-            }
+        return menuItemStrList.stream().map(menuItemStr -> searchMenuItem(menuItemRepository, menuItemStr)).collect(Collectors.toList());
+    }
+
+    private static MenuItem searchMenuItem(IMenuItemRepository menuItemRepository, String menuItemStr) {
+        MenuItem menuItem = menuItemRepository.findMenuItemByName(menuItemStr);
+        if (menuItem == null) {
+            throw new InvalidMenuOrderException();
         }
-        return menuItemList;
+        return menuItem;
     }
 }
