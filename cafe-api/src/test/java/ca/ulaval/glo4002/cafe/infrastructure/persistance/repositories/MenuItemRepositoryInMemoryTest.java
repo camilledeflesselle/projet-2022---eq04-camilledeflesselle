@@ -4,7 +4,6 @@ import ca.ulaval.glo4002.cafe.application.menu.CoffeeFactory;
 import ca.ulaval.glo4002.cafe.application.menu.CoffeeType;
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
-import jakarta.ws.rs.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,11 +16,10 @@ class MenuItemRepositoryInMemoryTest {
     private static final MenuItem AN_EXISTING_MENU_ITEM = new MenuItem(CoffeeType.AMERICANO.getId(), new Amount(2.25f));
 
     private MenuItemRepositoryInMemory menuItemRepositoryInMemory;
-    private CoffeeFactory coffeeFactory;
 
     @BeforeEach
     public void initializeRepository() {
-        coffeeFactory = new CoffeeFactory();
+        CoffeeFactory coffeeFactory = new CoffeeFactory();
         menuItemRepositoryInMemory = new MenuItemRepositoryInMemory(coffeeFactory);
     }
 
@@ -48,7 +46,7 @@ class MenuItemRepositoryInMemoryTest {
       }
 
     @Test
-    void whenTryToFindAnItemNotInStorage_thenRaiseNotFoundException() {
-        assertThrows(NotFoundException.class, () -> menuItemRepositoryInMemory.findMenuItemByName("Not in storage"));
+    void whenTryToFindAnItemNotInStorage_thenReturnsNull() {
+        assertNull(menuItemRepositoryInMemory.findMenuItemByName("Not in storage"));
     }
 }
