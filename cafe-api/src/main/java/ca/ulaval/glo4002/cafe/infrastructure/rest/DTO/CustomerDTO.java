@@ -16,7 +16,7 @@ public class CustomerDTO {
 
     public CustomerDTO(String name, SeatId seatId, String groupName) {
         this.name = name;
-        this.seatNumber = seatId != null ? seatId.getSerializedValue() : -1;
+        this.seatNumber = seatId != null ? seatId.getId() : -1;
         this.groupName = groupName;
     }
 

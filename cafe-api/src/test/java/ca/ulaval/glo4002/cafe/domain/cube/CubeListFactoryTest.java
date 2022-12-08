@@ -28,8 +28,8 @@ public class CubeListFactoryTest {
         Seat seat1 = cubes.get(0).getFirstFreeSeat();
         Seat seat2 = cubes.get(1).getFirstFreeSeat();
 
-        assertEquals(SeatStatus.Available, seat1.getStatus());
-        assertEquals(SeatStatus.Available, seat2.getStatus());
+        assertEquals(SeatStatus.AVAILABLE, seat1.getStatus());
+        assertEquals(SeatStatus.AVAILABLE, seat2.getStatus());
     }
 
     @Test

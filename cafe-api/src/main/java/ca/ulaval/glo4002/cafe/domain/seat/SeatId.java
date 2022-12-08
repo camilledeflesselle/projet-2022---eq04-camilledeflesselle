@@ -21,11 +21,7 @@ public class SeatId {
         return Objects.hash(id);
     }
 
-    /*
-    CAUTION! This method should ONLY be used to de-serialize the SeatId object
-    e.g. during JSON serialization step or persistence step
-     */
-    public int getSerializedValue() {
+    public int getId() {
         return id;
     }
 }

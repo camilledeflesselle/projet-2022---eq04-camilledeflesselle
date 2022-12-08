@@ -27,7 +27,7 @@ class OrderedStrategyTest {
 
     @Test
     public void givenAvailableSeats_whenReserveNoSeat_thenReturnEmptyList() {
-        List<Seat> availableSeats = new ArrayList<>(List.of(new Seat(1, SeatStatus.Available)));
+        List<Seat> availableSeats = new ArrayList<>(List.of(new Seat(1, SeatStatus.AVAILABLE)));
         when(seatingOrganizer.getFreeSeats()).thenReturn(availableSeats);
 
         List<Seat> indexesToReserve = orderedStrategy.getReservationSeats(seatingOrganizer, 0);
@@ -37,9 +37,9 @@ class OrderedStrategyTest {
 
     @Test
     public void givenANumberOfAvailableSeats_whenReserveALowerNumberOfSeats_thenReturnSeatsWithLowerIds() {
-        List<Seat> availableSeats = new ArrayList<>(List.of(new Seat(1, SeatStatus.Available),
-                new Seat(2, SeatStatus.Available),
-                new Seat(3, SeatStatus.Available)));
+        List<Seat> availableSeats = new ArrayList<>(List.of(new Seat(1, SeatStatus.AVAILABLE),
+                new Seat(2, SeatStatus.AVAILABLE),
+                new Seat(3, SeatStatus.AVAILABLE)));
         when(seatingOrganizer.getFreeSeats()).thenReturn(availableSeats);
 
         List<Seat> indexesToReserve = orderedStrategy.getReservationSeats(seatingOrganizer, 2);
@@ -51,8 +51,8 @@ class OrderedStrategyTest {
 
     @Test
     public void givenANumberOfAvailableSeats_whenReserveTheSameNumberOfSeats_thenReturnAllAvailableSeats() {
-        List<Seat> availableSeats = new ArrayList<>(List.of(new Seat(1, SeatStatus.Available),
-                new Seat(2, SeatStatus.Available)));
+        List<Seat> availableSeats = new ArrayList<>(List.of(new Seat(1, SeatStatus.AVAILABLE),
+                new Seat(2, SeatStatus.AVAILABLE)));
         when(seatingOrganizer.getFreeSeats()).thenReturn(availableSeats);
 
         List<Seat> indexesToReserve = orderedStrategy.getReservationSeats(seatingOrganizer, 2);
