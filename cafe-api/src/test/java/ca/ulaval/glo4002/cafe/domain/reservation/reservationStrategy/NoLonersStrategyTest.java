@@ -5,46 +5,45 @@ import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
 import ca.ulaval.glo4002.cafe.domain.seat.NoSeatAvailableException;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
-import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class NoLonersStrategyTest {
+
     private static final List<String> A_LIST_OF_TWO_NAMES = Arrays.asList("name_1", "name_2");
     private static final int A_CUBE_SIZE = 3;
 
     private NoLonersStrategy noLonersStrategy;
     private CubesListFactory cubesListFactory;
-    private SeatingOrganizer seatingOrganizer;
+    private List<Cube> cubes;
 
     @BeforeEach
     public void setup() {
         cubesListFactory = new CubesListFactory();
         noLonersStrategy = new NoLonersStrategy();
-        seatingOrganizer = mock(SeatingOrganizer.class);
     }
 
     @Test
     public void givenAvailableSeats_whenReserveNoSeat_thenReturnEmptyList() {
-        givenEmptyCubes(A_CUBE_SIZE);
+        cubes = givenEmptyCubes(A_CUBE_SIZE);
 
-        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 0);
+        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(cubes, 0);
 
         assertTrue(seatsToReserve.isEmpty());
     }
 
     @Test
     public void givenTwoCubesWithOneSeatAvailableInTheFirstOne_whenReserveThreeSeats_thenReturnTheSecondCubesSeats() {
-        givenTwoCubesOfThreeSeatsWithOneSeatAvailableInTheFirstOne();
+        cubes = givenTwoCubesOfThreeSeatsWithOneSeatAvailableInTheFirstOne();
 
-        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 3);
+        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(cubes, 3);
 
         assertEquals(3, seatsToReserve.size());
         assertEquals(new SeatId(4), seatsToReserve.get(0).getId());
@@ -54,9 +53,9 @@ class NoLonersStrategyTest {
 
     @Test
     public void givenTwoCubesWithTwoSeatAvailableInTheFirstOne_whenReserveThreeSeats_thenReturnTheSecondCubeSeats() {
-        givenTwoCubesOfThreeSeatsWithTwoSeatsAvailableInTheFirstOne();
+        cubes = givenTwoCubesOfThreeSeatsWithTwoSeatsAvailableInTheFirstOne();
 
-        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 3);
+        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(cubes, 3);
 
         assertEquals(3, seatsToReserve.size());
         assertEquals(new SeatId(4), seatsToReserve.get(0).getId());
@@ -66,9 +65,9 @@ class NoLonersStrategyTest {
 
     @Test
     public void givenTwoEmptyCubesOfThreeSeats_whenReserveThreeSeats_thenReturnTheFirstCubeSeats() {
-        givenEmptyCubes(3);
+        cubes = givenEmptyCubes(3);
 
-        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 3);
+        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(cubes, 3);
 
         assertEquals(3, seatsToReserve.size());
         assertEquals(new SeatId(1), seatsToReserve.get(0).getId());
@@ -78,9 +77,9 @@ class NoLonersStrategyTest {
 
     @Test
     public void givenTwoCubesWithTwoSeatsAvailableInEach_whenReserveFourSeats_thenReturnTheTwoSeatsAvailableInEachOne() {
-        givenTwoCubesOfThreeSeatsWithTwoSeatsAvailableInEach();
+        cubes = givenTwoCubesOfThreeSeatsWithTwoSeatsAvailableInEach();
 
-        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 4);
+        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(cubes, 4);
 
         assertEquals(4, seatsToReserve.size());
         assertEquals(new SeatId(2), seatsToReserve.get(0).getId());
@@ -91,9 +90,9 @@ class NoLonersStrategyTest {
 
     @Test
     public void givenTwoCubesOfFourSeatsWithFirstSeatOccupiedInEach_whenReserveFourSeats_thenReturnSecondAndThirdSeatsOfEachCube() {
-        givenTwoCubesOfFourSeatsWithFirstSeatOccupiedInEach();
+        cubes = givenTwoCubesOfFourSeatsWithFirstSeatOccupiedInEach();
 
-        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(seatingOrganizer, 4);
+        List<Seat> seatsToReserve = noLonersStrategy.getReservationSeats(cubes, 4);
 
         assertEquals(4, seatsToReserve.size());
         assertEquals(new SeatId(2), seatsToReserve.get(0).getId());
@@ -104,53 +103,52 @@ class NoLonersStrategyTest {
 
     @Test
     public void givenTwoCubesOfTwoSeats_whenReserveThreeSeats_thenNotAbleToReserve() {
-        givenEmptyCubes(2);
+        cubes = givenEmptyCubes(2);
 
         assertThrows(
                 NoSeatAvailableException.class,
-                () -> noLonersStrategy.getReservationSeats(seatingOrganizer, 3)
+                () -> noLonersStrategy.getReservationSeats(cubes, 3)
         );
     }
 
     @Test
     public void givenTwoCubesOfThreeSeatsWithOneSeatAvailableInTheFirstOne_whenReserveFourSeat_thenNotAbleToReserve() {
-        givenTwoCubesOfThreeSeatsWithOneSeatAvailableInTheFirstOne();
+        cubes = givenTwoCubesOfThreeSeatsWithOneSeatAvailableInTheFirstOne();
 
         assertThrows(
                 NoSeatAvailableException.class,
-                () -> noLonersStrategy.getReservationSeats(seatingOrganizer, 4)
+                () -> noLonersStrategy.getReservationSeats(cubes, 4)
         );
     }
 
-    private void givenEmptyCubes(int seatsPerCube) {
-        List<Cube> cubes = cubesListFactory.create(A_LIST_OF_TWO_NAMES, seatsPerCube);
-        when(seatingOrganizer.getCubes()).thenReturn(cubes);
+    private List<Cube> givenEmptyCubes(int seatsPerCube) {
+        return cubesListFactory.create(A_LIST_OF_TWO_NAMES, seatsPerCube);
     }
 
-    private void givenTwoCubesOfThreeSeatsWithOneSeatAvailableInTheFirstOne() {
+    private List<Cube> givenTwoCubesOfThreeSeatsWithOneSeatAvailableInTheFirstOne() {
         List<Cube> cubes = cubesListFactory.create(A_LIST_OF_TWO_NAMES, 3);
         cubes.get(0).getSeats().get(0).assign();
         cubes.get(0).getSeats().get(1).assign();
-        when(seatingOrganizer.getCubes()).thenReturn(cubes);
+        return cubes;
     }
 
-    private void givenTwoCubesOfThreeSeatsWithTwoSeatsAvailableInTheFirstOne() {
+    private List<Cube> givenTwoCubesOfThreeSeatsWithTwoSeatsAvailableInTheFirstOne() {
         List<Cube> cubes = cubesListFactory.create(A_LIST_OF_TWO_NAMES, 3);
         cubes.get(0).getSeats().get(0).assign();
-        when(seatingOrganizer.getCubes()).thenReturn(cubes);
+        return cubes;
     }
 
-    private void givenTwoCubesOfThreeSeatsWithTwoSeatsAvailableInEach() {
+    private List<Cube> givenTwoCubesOfThreeSeatsWithTwoSeatsAvailableInEach() {
         List<Cube> cubes = cubesListFactory.create(A_LIST_OF_TWO_NAMES, 3);
         cubes.get(0).getSeats().get(0).assign();
         cubes.get(1).getSeats().get(0).assign();
-        when(seatingOrganizer.getCubes()).thenReturn(cubes);
+        return cubes;
     }
 
-    private void givenTwoCubesOfFourSeatsWithFirstSeatOccupiedInEach() {
+    private List<Cube> givenTwoCubesOfFourSeatsWithFirstSeatOccupiedInEach() {
         List<Cube> cubes = cubesListFactory.create(A_LIST_OF_TWO_NAMES, 4);
         cubes.get(0).getSeats().get(0).assign();
         cubes.get(1).getSeats().get(0).assign();
-        when(seatingOrganizer.getCubes()).thenReturn(cubes);
+        return cubes;
     }
 }

@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy;
 import ca.ulaval.glo4002.cafe.domain.cube.Cube;
 import ca.ulaval.glo4002.cafe.domain.seat.NoSeatAvailableException;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
-import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +12,10 @@ import java.util.List;
  */
 public class FullCubesStrategy implements IGroupReservationStrategy {
     @Override
-    public List<Seat> getReservationSeats(SeatingOrganizer seatingOrganizer, int nbToReserve) {
+    public List<Seat> getReservationSeats(List<Cube> cubes, int nbToReserve) {
 
         List<Seat> seatsToReserve = new ArrayList<>();
-        for (Cube cube : seatingOrganizer.getCubes()) {
+        for (Cube cube : cubes) {
             if (cube.isEmpty() & seatsToReserve.size() < nbToReserve) {
                 seatsToReserve.addAll(cube.getSeats());
             }

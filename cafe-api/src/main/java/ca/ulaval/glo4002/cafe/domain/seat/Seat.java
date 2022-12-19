@@ -11,7 +11,7 @@ public class Seat {
     }
 
     public Seat(int seatId) {
-        this(seatId, SeatStatus.AVAILABLE);
+        this(seatId, SeatStatus.Available);
     }
 
     public String getGroupName() {
@@ -27,20 +27,20 @@ public class Seat {
     }
 
     public boolean isAvailable() {
-        return this.status == SeatStatus.AVAILABLE;
+        return this.status == SeatStatus.Available;
     }
 
     public void assign() {
-        this.status = SeatStatus.OCCUPIED;
+        this.status = SeatStatus.Occupied;
     }
 
     public void reserve(String groupName) {
-        this.status = SeatStatus.RESERVED;
+        this.status = SeatStatus.Reserved;
         this.groupName = groupName;
     }
 
     public void unassign() {
-        this.status = SeatStatus.AVAILABLE;
+        this.status = SeatStatus.Available;
         this.groupName = null;
 
     }

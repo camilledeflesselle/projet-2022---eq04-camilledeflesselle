@@ -34,8 +34,8 @@ class CubeTest {
     @Test
     public void whenInitializedWithListOfSeats_thenAllSeatsAreIncludedInCube() {
         ArrayList<Seat> expected = new ArrayList<>();
-        expected.add(new Seat(1, SeatStatus.AVAILABLE));
-        expected.add(new Seat(2, SeatStatus.AVAILABLE));
+        expected.add(new Seat(1, SeatStatus.Available));
+        expected.add(new Seat(2, SeatStatus.Available));
         Cube cube = new Cube(A_CUBE_NAME, expected);
 
         List<Seat> actual = cube.getSeats();
@@ -46,7 +46,7 @@ class CubeTest {
     @Test
     public void whenASeatIsAdded_thenIsReturnedByGetSeats() {
         Cube cube = new Cube(A_CUBE_NAME);
-        Seat seat = new Seat(1, SeatStatus.AVAILABLE);
+        Seat seat = new Seat(1, SeatStatus.Available);
         ArrayList<Seat> expected = new ArrayList<>(List.of(seat));
 
         cube.addSeat(seat.getId().getId());
@@ -58,7 +58,7 @@ class CubeTest {
     @Test
     public void whenInitializedWithAvailableSeats_thenHasFreeSeat() {
         ArrayList<Seat> seats = new ArrayList<>();
-        seats.add(new Seat(1, SeatStatus.AVAILABLE));
+        seats.add(new Seat(1, SeatStatus.Available));
         Cube cube = new Cube(A_CUBE_NAME, seats);
 
         assertTrue(cube.hasFreeSeat());
@@ -67,8 +67,8 @@ class CubeTest {
     @Test
     public void whenInitializedWithOccupiedSeats_thenHasNoFreeSeats() {
         ArrayList<Seat> seats = new ArrayList<>();
-        seats.add(new Seat(1, SeatStatus.OCCUPIED));
-        seats.add(new Seat(2, SeatStatus.OCCUPIED));
+        seats.add(new Seat(1, SeatStatus.Occupied));
+        seats.add(new Seat(2, SeatStatus.Occupied));
         Cube cube = new Cube(A_CUBE_NAME, seats);
 
         assertFalse(cube.hasFreeSeat());
@@ -77,8 +77,8 @@ class CubeTest {
     @Test
     public void givenACubeWithSecondSeatAvailable_whenGetFreeFirstFreeSeat_thenReturnsSecondSeat() {
         ArrayList<Seat> seats = new ArrayList<>();
-        Seat firstSeat = new Seat(1, SeatStatus.OCCUPIED);
-        Seat secondSeat = new Seat(2, SeatStatus.AVAILABLE);
+        Seat firstSeat = new Seat(1, SeatStatus.Occupied);
+        Seat secondSeat = new Seat(2, SeatStatus.Available);
         seats.add(firstSeat);
         seats.add(secondSeat);
         Cube cube = new Cube(A_CUBE_NAME, seats);
@@ -91,8 +91,8 @@ class CubeTest {
     @Test
     public void givenAllSeatsOccupied_whenGetFirstFreeSeat_thenReturnsNull() {
         ArrayList<Seat> seats = new ArrayList<>();
-        Seat firstSeat = new Seat(1, SeatStatus.OCCUPIED);
-        Seat secondSeat = new Seat(2, SeatStatus.OCCUPIED);
+        Seat firstSeat = new Seat(1, SeatStatus.Occupied);
+        Seat secondSeat = new Seat(2, SeatStatus.Occupied);
         seats.add(firstSeat);
         seats.add(secondSeat);
         Cube cube = new Cube(A_CUBE_NAME, seats);

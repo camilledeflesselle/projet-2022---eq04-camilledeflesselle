@@ -36,9 +36,9 @@ public class SeatingOrganizer {
     }
 
     public List<SeatId> reserveSeats(int nbSeatToReserve, String groupName, IGroupReservationStrategy groupReservationStrategy) {
-        if (nbSeatToReserve > getFreeSeats().size()) throw new NoSeatAvailableException();
+        if (nbSeatToReserve > this.getFreeSeats().size()) throw new NoSeatAvailableException();
 
-        List<Seat> seatsToReserve = groupReservationStrategy.getReservationSeats(this, nbSeatToReserve);
+        List<Seat> seatsToReserve = groupReservationStrategy.getReservationSeats(this.cubes, nbSeatToReserve);
 
         List<SeatId> reservedSeatsId = new ArrayList<>();
         for (Seat seat : seatsToReserve) {

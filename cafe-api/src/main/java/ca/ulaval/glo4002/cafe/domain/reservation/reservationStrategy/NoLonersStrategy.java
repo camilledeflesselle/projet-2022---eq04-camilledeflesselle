@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy;
 import ca.ulaval.glo4002.cafe.domain.cube.Cube;
 import ca.ulaval.glo4002.cafe.domain.seat.NoSeatAvailableException;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
-import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +38,10 @@ public class NoLonersStrategy implements IGroupReservationStrategy {
     }
 
     @Override
-    public List<Seat> getReservationSeats(SeatingOrganizer seatingOrganizer, int nbToReserve) {
+    public List<Seat> getReservationSeats(List<Cube> cubes, int nbToReserve) {
         this.seatToReserve = new ArrayList<>();
         this.nbRemainToReserve = nbToReserve;
-        for (Cube cube : seatingOrganizer.getCubes()) {
+        for (Cube cube : cubes) {
             this.freeSeatsInCube = cube.getFreeSeats();
 
             if (this.freeSeatsInCube.size() <= 1) {

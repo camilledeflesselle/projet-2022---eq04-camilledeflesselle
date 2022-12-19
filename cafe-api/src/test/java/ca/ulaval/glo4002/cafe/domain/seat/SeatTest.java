@@ -10,20 +10,20 @@ class SeatTest {
 
     @Test
     public void whenAssigned_thenStatusShouldBeOccupied() {
-        Seat seat = new Seat(1, SeatStatus.AVAILABLE);
+        Seat seat = new Seat(1, SeatStatus.Available);
 
         seat.assign();
 
-        assertEquals(SeatStatus.OCCUPIED, seat.getStatus());
+        assertEquals(SeatStatus.Occupied, seat.getStatus());
     }
 
     @Test
     public void whenReserved_thenStatusShouldBeReserved() {
-        Seat seat = new Seat(1, SeatStatus.AVAILABLE);
+        Seat seat = new Seat(1, SeatStatus.Available);
         Group group = new Group(A_GROUP_NAME, 2);
 
         seat.reserve(group.getName());
 
-        assertEquals(SeatStatus.RESERVED, seat.getStatus());
+        assertEquals(SeatStatus.Reserved, seat.getStatus());
     }
 }

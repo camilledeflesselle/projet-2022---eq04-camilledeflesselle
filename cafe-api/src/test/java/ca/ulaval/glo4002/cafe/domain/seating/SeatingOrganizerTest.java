@@ -100,7 +100,7 @@ public class SeatingOrganizerTest {
 
         seatingOrganizer.reserveSeats(group.getSize(), group.getName(), groupReservationStrategyMock);
 
-        verify(groupReservationStrategyMock).getReservationSeats(seatingOrganizer, group.getSize());
+        verify(groupReservationStrategyMock).getReservationSeats(cubes, group.getSize());
     }
 
     private List<Cube> givenCubesWithoutFreeSeats() {
