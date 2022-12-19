@@ -43,4 +43,7 @@ public class MenuItem {
         return this.id.hashCode();
     }
 
+    public boolean isCustom() {
+        return this.id.isCustom();
+    }
 }

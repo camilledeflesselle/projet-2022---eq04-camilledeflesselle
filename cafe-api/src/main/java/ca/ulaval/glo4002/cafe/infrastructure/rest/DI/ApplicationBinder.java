@@ -55,7 +55,7 @@ public class ApplicationBinder extends AbstractBinder {
         BillRepositoryInMemory billRepositoryInMemory = new BillRepositoryInMemory();
         TaxesRepositoryInMemory taxesRepositoryInMemory = new TaxesRepositoryInMemory();
         MenuItemRepositoryInMemory menuItemRepositoryInMemory = new MenuItemRepositoryInMemory(coffeeFactory);
-        IngredientRepositoryInMemory inventoryRepositoryInMemory = new IngredientRepositoryInMemory();
+        IngredientRepositoryInMemory ingredientRepositoryInMemory = new IngredientRepositoryInMemory();
         RecipeRepositoryInMemory recipeRepositoryInMemory = new RecipeRepositoryInMemory(recipeFactory);
         OrderRepositoryInMemory orderRepositoryInMemory = new OrderRepositoryInMemory();
         LayoutDTOAssembler layoutDTOAssembler = new LayoutDTOAssembler();
@@ -63,15 +63,16 @@ public class ApplicationBinder extends AbstractBinder {
         LayoutService layoutService = new LayoutService(configRepositoryInMemory, cubesListFactory, cubeRepositoryInMemory, customerRepositoryInMemory, layoutDTOAssembler);
         ConfigService configService = new ConfigService(configRepositoryInMemory);
         BillService billService = new BillService(billFactory, billRepositoryInMemory, configRepositoryInMemory);
-        InventoryService inventoryService = new InventoryService(inventoryRepositoryInMemory);
-        CookingService cookingService = new CookingService(recipeRepositoryInMemory, inventoryRepositoryInMemory);
+        InventoryService inventoryService = new InventoryService(ingredientRepositoryInMemory);
+        CookingService cookingService = new CookingService(recipeRepositoryInMemory, ingredientRepositoryInMemory);
         CustomerService customerService = new CustomerService(cookingService, customerRepositoryInMemory, ordersFactory, menuItemRepositoryInMemory, orderRepositoryInMemory);
         SeatingService seatingService = new SeatingService(reservationStrategyFactory, reservationFactory, seatingOrganizerFactory, cubeRepositoryInMemory, reservationRepositoryInMemory);
         CheckInService checkInService = new CheckInService(customerService, seatingService);
-        CloseService closeService = new CloseService(seatingService, billService, customerService, inventoryService, layoutService);
+        CloseService closeService = new CloseService(configRepositoryInMemory, cubeRepositoryInMemory, reservationRepositoryInMemory, customerRepositoryInMemory, orderRepositoryInMemory,
+                billRepositoryInMemory, menuItemRepositoryInMemory, recipeRepositoryInMemory, ingredientRepositoryInMemory, cubesListFactory);
 
         ConfigValidator configValidator = new ConfigValidator(taxesRepositoryInMemory);
-        InventoryValidator inventoryValidator = new InventoryValidator(inventoryRepositoryInMemory);
+        InventoryValidator inventoryValidator = new InventoryValidator(ingredientRepositoryInMemory);
 
         bind(configService).in(Singleton.class);
         bind(customerService).in(Singleton.class);

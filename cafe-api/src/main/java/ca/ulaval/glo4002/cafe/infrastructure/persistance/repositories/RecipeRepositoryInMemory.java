@@ -5,14 +5,13 @@ import ca.ulaval.glo4002.cafe.application.menu.CoffeeType;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class RecipeRepositoryInMemory implements IRecipeRepository {
     private final List<Recipe> recipes;
-    private RecipeFactory recipeFactory;
+    private final RecipeFactory recipeFactory;
 
     public RecipeRepositoryInMemory(RecipeFactory recipeFactory) {
         this.recipes = new ArrayList<>();
@@ -35,6 +34,11 @@ public class RecipeRepositoryInMemory implements IRecipeRepository {
     @Override
     public void save(Recipe recipe) {
         this.recipes.add(recipe);
+    }
+
+    @Override
+    public void deleteAllCustom() {
+        this.recipes.removeIf(recipe -> recipe.getName().isCustom());
     }
 
     public int getAmount() {

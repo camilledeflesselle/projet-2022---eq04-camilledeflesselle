@@ -1,31 +1,62 @@
 package ca.ulaval.glo4002.cafe.application.close;
 
-import ca.ulaval.glo4002.cafe.application.bill.BillService;
-import ca.ulaval.glo4002.cafe.application.customer.CustomerService;
-import ca.ulaval.glo4002.cafe.application.inventory.InventoryService;
-import ca.ulaval.glo4002.cafe.application.layout.LayoutService;
-import ca.ulaval.glo4002.cafe.application.seating.SeatingService;
+import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
+import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
+import ca.ulaval.glo4002.cafe.domain.cube.Cube;
+import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
+import ca.ulaval.glo4002.cafe.domain.cube.ICubeRepository;
+import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
+import ca.ulaval.glo4002.cafe.domain.inventory.IIngredientRepository;
+import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
+import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
+import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
+import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
+import java.util.List;
 
 public class CloseService {
-    SeatingService seatingService;
-    BillService billService;
-    CustomerService customerService;
-    LayoutService layoutService;
-    InventoryService inventoryService;
 
-    public CloseService(SeatingService seatingService, BillService billService, CustomerService customerService, InventoryService inventoryService, LayoutService layoutService) {
-        this.seatingService = seatingService;
-        this.billService = billService;
-        this.customerService = customerService;
-        this.inventoryService = inventoryService;
-        this.layoutService = layoutService;
+    private final IReservationRepository reservationRepository;
+    private final ICustomerRepository customerRepository;
+    private final IOrderRepository orderRepository;
+    private final IBillRepository billRepository;
+    private final ICubeRepository cubeRepository;
+    private final IMenuItemRepository menuItemRepository;
+    private final IRecipeRepository recipeRepository;
+    private final IIngredientRepository ingredientRepository;
+    private final CubesListFactory cubesListFactory;
+    private final IConfigRepository configRepository;
+
+    public CloseService(IConfigRepository configRepository, ICubeRepository cubeRepository, IReservationRepository reservationRepository,
+                        ICustomerRepository customerRepository, IOrderRepository orderRepository,
+                        IBillRepository billRepository, IMenuItemRepository menuItemRepository,
+                        IRecipeRepository recipeRepository, IIngredientRepository ingredientRepository,
+                        CubesListFactory cubesListFactory) {
+        this.configRepository = configRepository;
+        this.reservationRepository = reservationRepository;
+        this.customerRepository = customerRepository;
+        this.orderRepository = orderRepository;
+        this.billRepository = billRepository;
+        this.cubeRepository = cubeRepository;
+        this.cubesListFactory = cubesListFactory;
+        this.menuItemRepository = menuItemRepository;
+        this.recipeRepository = recipeRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
     public void closeCafe() {
-        this.seatingService.reset();
-        this.billService.reset();
-        this.customerService.reset();
-        this.inventoryService.reset();
-        this.layoutService.reset();
+        billRepository.deleteAll();
+        cubeRepository.deleteAll();
+        reservationRepository.deleteAll();
+        customerRepository.deleteAll();
+        orderRepository.deleteAll();
+        ingredientRepository.deleteAll();
+        menuItemRepository.deleteAllCustom();
+        recipeRepository.deleteAllCustom();
+        this.initializeLayout();
+    }
+
+    private void initializeLayout() {
+        List<Cube> cubes = this.cubesListFactory.create(this.configRepository.findConfig().getCubesNames(), this.configRepository.findConfig().getCubeSize());
+        this.cubeRepository.saveCubes(cubes);
     }
 }

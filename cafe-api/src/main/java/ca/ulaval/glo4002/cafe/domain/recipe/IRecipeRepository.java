@@ -6,4 +6,6 @@ public interface IRecipeRepository {
     Recipe findById(MenuItemId recipeName);
 
     void save(Recipe recipe);
+
+    void deleteAllCustom();
 }
