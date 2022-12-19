@@ -18,13 +18,20 @@ import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
 import ca.ulaval.glo4002.cafe.domain.reservation.ReservationFactory;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategyFactory;
 import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizerFactory;
-import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.*;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.BillRepositoryInMemory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.ConfigRepositoryInMemory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.CubeRepositoryInMemory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.CustomerRepositoryInMemory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.IngredientRepositoryInMemory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.MenuItemRepositoryInMemory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.OrderRepositoryInMemory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.RecipeRepositoryInMemory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.ReservationRepositoryInMemory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.TaxesRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config.ConfigValidator;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.inventory.InventoryValidator;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.ext.Provider;
-import java.util.ArrayList;
-import java.util.List;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
 
 @Provider
@@ -53,10 +60,6 @@ public class ApplicationBinder extends AbstractBinder {
         OrderRepositoryInMemory orderRepositoryInMemory = new OrderRepositoryInMemory();
         LayoutDTOAssembler layoutDTOAssembler = new LayoutDTOAssembler();
 
-        String name = "Les 4-Fées";
-        List<String> cubeNames = new ArrayList<>(List.of("Wanda", "Bloom", "Merryweather", "Tinker Bell"));
-        int cubeSize = 4;
-
         LayoutService layoutService = new LayoutService(configRepositoryInMemory, cubesListFactory, cubeRepositoryInMemory, customerRepositoryInMemory, layoutDTOAssembler);
         ConfigService configService = new ConfigService(configRepositoryInMemory);
         BillService billService = new BillService(billFactory, billRepositoryInMemory, configRepositoryInMemory);
@@ -70,6 +73,7 @@ public class ApplicationBinder extends AbstractBinder {
         ConfigValidator configValidator = new ConfigValidator(taxesRepositoryInMemory);
         InventoryValidator inventoryValidator = new InventoryValidator(inventoryRepositoryInMemory);
 
+        bind(configService).in(Singleton.class);
         bind(customerService).in(Singleton.class);
         bind(seatingService).in(Singleton.class);
         bind(billService).in(Singleton.class);
