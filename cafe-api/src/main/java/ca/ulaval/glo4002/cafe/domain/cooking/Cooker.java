@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.cafe.domain.cooking;
 
-import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
+import ca.ulaval.glo4002.cafe.domain.inventory.IIngredientRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import ca.ulaval.glo4002.cafe.domain.inventory.InsufficentIngredientsException;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
@@ -10,9 +10,9 @@ import java.util.Map;
 
 public class Cooker {
     private final IRecipeRepository recipeRepository;
-    private final IInventoryRepository inventoryRepository;
+    private final IIngredientRepository inventoryRepository;
 
-    public Cooker(IRecipeRepository recipeRepository, IInventoryRepository inventoryRepository) {
+    public Cooker(IRecipeRepository recipeRepository, IIngredientRepository inventoryRepository) {
         this.recipeRepository = recipeRepository;
         this.inventoryRepository = inventoryRepository;
     }

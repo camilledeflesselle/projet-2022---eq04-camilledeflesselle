@@ -12,11 +12,11 @@ class InventoryRepositoryInMemoryTest {
     private static final IngredientId AN_EXISTING_INGREDIENT_ID = new IngredientId(IngredientType.CHOCOLATE.getLabel());
     private static final Ingredient AN_EXISTING_INGREDIENT = new Ingredient(AN_EXISTING_INGREDIENT_ID, 0);
 
-    private InventoryRepositoryInMemory inventoryRepository;
+    private IngredientRepositoryInMemory inventoryRepository;
 
     @BeforeEach
     public void initializeRepository() {
-        inventoryRepository = new InventoryRepositoryInMemory();
+        inventoryRepository = new IngredientRepositoryInMemory();
     }
 
     @Test

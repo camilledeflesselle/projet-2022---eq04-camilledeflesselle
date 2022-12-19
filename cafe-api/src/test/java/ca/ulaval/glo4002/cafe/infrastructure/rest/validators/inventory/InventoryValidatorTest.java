@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.cafe.infrastructure.rest.validators.inventory;
 
-import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
-import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
+import ca.ulaval.glo4002.cafe.domain.inventory.IIngredientRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.InventoryDTO;
 import jakarta.ws.rs.BadRequestException;
@@ -17,14 +16,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 class InventoryValidatorTest {
-    private IInventoryRepository inventoryRepository;
+    private IIngredientRepository inventoryRepository;
     private InventoryValidator inventoryValidator;
 
     private static final IngredientId AN_INGREDIENT_NAME = new IngredientId("ingredient");
 
     @BeforeEach
     public void before() {
-        this.inventoryRepository = mock(IInventoryRepository.class);
+        this.inventoryRepository = mock(IIngredientRepository.class);
         this.inventoryValidator = new InventoryValidator(inventoryRepository);
     }
 

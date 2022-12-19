@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.application.inventory.IngredientType;
-import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
+import ca.ulaval.glo4002.cafe.domain.inventory.IIngredientRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 
@@ -9,10 +9,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InventoryRepositoryInMemory implements IInventoryRepository {
+public class IngredientRepositoryInMemory implements IIngredientRepository {
     Map<IngredientId, Ingredient> inventory = new HashMap<>();
 
-    public InventoryRepositoryInMemory() {
+    public IngredientRepositoryInMemory() {
         this.addMenuIngredients();
     }
 

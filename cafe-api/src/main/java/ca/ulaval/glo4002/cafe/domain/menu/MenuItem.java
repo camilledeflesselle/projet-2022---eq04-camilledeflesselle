@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.cafe.domain.menu;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
-import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
+import ca.ulaval.glo4002.cafe.domain.inventory.IIngredientRepository;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 
 public class MenuItem {
@@ -21,7 +21,7 @@ public class MenuItem {
         return this.amount;
     }
 
-    public void cook(Recipe recipe, IInventoryRepository inventoryRepository) {
+    public void cook(Recipe recipe, IIngredientRepository inventoryRepository) {
         recipe.cookWithStorageIn(inventoryRepository);
     }
 

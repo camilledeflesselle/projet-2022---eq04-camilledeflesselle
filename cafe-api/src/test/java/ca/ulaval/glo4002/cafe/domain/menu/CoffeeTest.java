@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.cafe.domain.menu;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
-import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
+import ca.ulaval.glo4002.cafe.domain.inventory.IIngredientRepository;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ class CoffeeTest {
 
     @Test
     void whenMakeCoffee_thenTakeIngredientsOfRecipeInStorage() {
-        IInventoryRepository inventory = mock(IInventoryRepository.class);
+        IIngredientRepository inventory = mock(IIngredientRepository.class);
         Recipe recipe = mock(Recipe.class);
 
         coffee.makeCoffee(recipe, inventory);

@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.cafe.domain.inventory;
 
 import java.util.Map;
 
-public interface IInventoryRepository {
+public interface IIngredientRepository {
     boolean contains(String ingredientName);
 
     Map<IngredientId, Ingredient> getInventory();

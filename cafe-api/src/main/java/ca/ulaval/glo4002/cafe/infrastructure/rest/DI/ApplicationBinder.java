@@ -13,7 +13,6 @@ import ca.ulaval.glo4002.cafe.application.layout.LayoutDTOAssembler;
 import ca.ulaval.glo4002.cafe.application.layout.LayoutService;
 import ca.ulaval.glo4002.cafe.application.menu.CoffeeFactory;
 import ca.ulaval.glo4002.cafe.application.seating.SeatingService;
-import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
 import ca.ulaval.glo4002.cafe.domain.reservation.ReservationFactory;
@@ -49,7 +48,7 @@ public class ApplicationBinder extends AbstractBinder {
         BillRepositoryInMemory billRepositoryInMemory = new BillRepositoryInMemory();
         TaxesRepositoryInMemory taxesRepositoryInMemory = new TaxesRepositoryInMemory();
         MenuItemRepositoryInMemory menuItemRepositoryInMemory = new MenuItemRepositoryInMemory(coffeeFactory);
-        InventoryRepositoryInMemory inventoryRepositoryInMemory = new InventoryRepositoryInMemory();
+        IngredientRepositoryInMemory inventoryRepositoryInMemory = new IngredientRepositoryInMemory();
         RecipeRepositoryInMemory recipeRepositoryInMemory = new RecipeRepositoryInMemory(recipeFactory);
         OrderRepositoryInMemory orderRepositoryInMemory = new OrderRepositoryInMemory();
         LayoutDTOAssembler layoutDTOAssembler = new LayoutDTOAssembler();

@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.cafe.application.cooking;
 
-import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
+import ca.ulaval.glo4002.cafe.domain.inventory.IIngredientRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,13 +12,13 @@ import static org.mockito.Mockito.verify;
 
 class CookingServiceTest {
     private IRecipeRepository recipeRepository;
-    private IInventoryRepository inventoryRepository;
+    private IIngredientRepository inventoryRepository;
     private CookingService cookingService;
 
     @BeforeEach
     public void setUp() {
         recipeRepository = mock(IRecipeRepository.class);
-        inventoryRepository = mock(IInventoryRepository.class);
+        inventoryRepository = mock(IIngredientRepository.class);
         cookingService = new CookingService(recipeRepository, inventoryRepository);
     }
 
