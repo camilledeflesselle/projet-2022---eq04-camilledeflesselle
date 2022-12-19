@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.cafe.domain.bill;
 
+import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

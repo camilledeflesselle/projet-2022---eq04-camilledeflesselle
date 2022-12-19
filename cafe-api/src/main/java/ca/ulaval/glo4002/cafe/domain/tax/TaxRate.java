@@ -1,4 +1,6 @@
-package ca.ulaval.glo4002.cafe.domain.bill;
+package ca.ulaval.glo4002.cafe.domain.tax;
+
+import ca.ulaval.glo4002.cafe.domain.bill.Rate;
 
 public class TaxRate extends Rate {
 

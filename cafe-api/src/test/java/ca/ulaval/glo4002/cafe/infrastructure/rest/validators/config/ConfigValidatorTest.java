@@ -1,8 +1,10 @@
 package ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config;
 
-import ca.ulaval.glo4002.cafe.domain.bill.ITaxesRepository;
+import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.reservation.InvalidGroupReservationMethodException;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationMethod;
+import ca.ulaval.glo4002.cafe.domain.tax.ITaxesRepository;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.Country;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.TaxesRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.ConfigDTO;
 import jakarta.ws.rs.BadRequestException;
@@ -11,6 +13,8 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -49,48 +53,48 @@ class ConfigValidatorTest {
     }
 
     @Test
-    public void givenANonExistingReservationMethod_whenValidatingConfig_thenNotValidateConfig() {
+    public void givenANonExistingReservationMethod_whenToConfig_thenNotValidateConfig() {
         ConfigDTO configDTO = new ConfigDTO(
                 A_NON_EXISTING_GROUP_RESERVATION_METHOD, AN_ORGANIZATION_NAME, A_CUBE_SIZE, A_COUNTRY, A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
         );
 
         assertThrows(InvalidGroupReservationMethodException.class,
-                () -> this.configValidator.validateConfig(configDTO));
+                () -> this.configValidator.toConfig(configDTO));
     }
 
     @Test
-    public void givenANegativeCubeSize_whenValidatingConfig_thenNotValidateConfig() {
+    public void givenANegativeCubeSize_whenToConfig_thenNotValidateConfig() {
         ConfigDTO configDTO = new ConfigDTO(
                 GroupReservationMethod.DEFAULT.label, AN_ORGANIZATION_NAME, A_NEGATIVE_CUBE_SIZE, A_COUNTRY, A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
         );
         assertThrows(BadRequestException.class,
-                () -> this.configValidator.validateConfig(configDTO));
+                () -> this.configValidator.toConfig(configDTO));
     }
 
     @Test
-    public void givenAnEmptyOrganizationName_whenValidatingConfig_thenNotValidateConfig() {
+    public void givenAnEmptyOrganizationName_whenToConfig_thenNotValidateConfig() {
         ConfigDTO configDTO = new ConfigDTO(
                 GroupReservationMethod.DEFAULT.label, AN_EMPTY_ORGANIZATION_NAME, A_CUBE_SIZE, A_COUNTRY, A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
         );
         assertThrows(BadRequestException.class,
-                () -> this.configValidator.validateConfig(configDTO));
+                () -> this.configValidator.toConfig(configDTO));
     }
 
     @Test
-    public void givenAnInvalidCountry_whenValidatingConfig_thenThrowInvalidCountryException() {
+    public void givenAnInvalidCountry_whenToConfig_thenThrowInvalidCountryException() {
         ConfigDTO configDTO = new ConfigDTO(
                 GroupReservationMethod.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
-            "INVALID_COUNTRY", A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
+                "INVALID_COUNTRY", A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
         );
         assertThrows(InvalidCountryException.class,
-                () -> this.configValidator.validateConfig(configDTO));
+                () -> this.configValidator.toConfig(configDTO));
     }
 
     @Test
-    public void givenAnValidCountryWithoutProvinceOrState_whenCheckCountryConfigIsValid_thenReturnTrue() {
+    public void givenAnValidCountryWithoutProvinceOrState_whenCheckCoutryConfigIsValid_thenReturnTrue() {
         String aValidCountryWithoutProvinceOrState = "CL";
 
-        boolean isValid = this.configValidator.isCountryValid(aValidCountryWithoutProvinceOrState, null, null);
+        boolean isValid = this.configValidator.validateCountry(aValidCountryWithoutProvinceOrState, null, null);
 
         assertTrue(isValid);
     }
@@ -100,7 +104,7 @@ class ConfigValidatorTest {
         String validCountryWithProvince = "CA";
         String validProvinceCorrespondingToCountry = "QC";
 
-        boolean isValid = this.configValidator.isCountryValid(validCountryWithProvince, validProvinceCorrespondingToCountry, null);
+        boolean isValid = this.configValidator.validateCountry(validCountryWithProvince, validProvinceCorrespondingToCountry, null);
 
         assertTrue(isValid);
     }
@@ -110,13 +114,13 @@ class ConfigValidatorTest {
         String validCountryWithState = "US";
         String validStateCorrespondingToCountry = "CA";
 
-        boolean isValid = this.configValidator.isCountryValid(validCountryWithState, null, validStateCorrespondingToCountry);
+        boolean isValid = this.configValidator.validateCountry(validCountryWithState, null, validStateCorrespondingToCountry);
 
         assertTrue(isValid);
     }
 
     @Test
-    public void givenAnNegativeGroupTipRate_whenValidatingConfig_thenThrowInvalidGroupTipRateException() {
+    public void givenAnNegativeGroupTipRate_whenToConfig_thenThrowInvalidGroupTipRateException() {
         String invalidNegativeGroupTipRate = "-15";
         ConfigDTO configDTO = new ConfigDTO(
                 GroupReservationMethod.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
@@ -124,11 +128,11 @@ class ConfigValidatorTest {
         );
 
         assertThrows(InvalidGroupTipRateException.class,
-                () -> this.configValidator.validateConfig(configDTO));
+                () -> this.configValidator.toConfig(configDTO));
     }
 
     @Test
-    public void givenAnValidGroupTipRate_whenValidatingConfig_thenNotThrowInvalidGroupTipRateException() {
+    public void givenAnValidGroupTipRate_whenToConfig_thenNotThrowInvalidGroupTipRateException() {
         String invalidSuperiorHundredGroupTipRate = "150";
         ConfigDTO configDTO = new ConfigDTO(
                 GroupReservationMethod.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
@@ -136,6 +140,83 @@ class ConfigValidatorTest {
         );
 
         assertThrows(InvalidGroupTipRateException.class,
-                () -> this.configValidator.validateConfig(configDTO));
+                () -> this.configValidator.toConfig(configDTO));
     }
+
+    @Test
+    public void givenNoneCountryAndEmptyStateAndProvince_whenToConfig_thenReturnConfigNotNull() {
+        ConfigDTO configDTO = new ConfigDTO(
+                GroupReservationMethod.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
+                "None", "", "", A_TIP_RATE
+        );
+
+        Config config = this.configValidator.toConfig(configDTO);
+
+        assertNotNull(config);
+    }
+
+    @Test
+    public void givenNoneCountryAndEmptyStateAndProvince_whenToConfig_thenReturnConfigWithName() {
+        ConfigDTO configDTO = new ConfigDTO(
+                GroupReservationMethod.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
+                "None", "", "", A_TIP_RATE
+        );
+
+        Config config = this.configValidator.toConfig(configDTO);
+
+        assertNotNull(config);
+
+        assertNotNull(config.getName());
+    }
+
+    @Test
+    public void givenNoneCountryAndEmptyStateAndProvince_whenToConfig_thenReturnConfigWithTaxRate() {
+        ConfigDTO configDTO = new ConfigDTO(
+                GroupReservationMethod.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
+                Country.NONE.getCountryCode().getName(), "", "", A_TIP_RATE
+        );
+
+        Config config = this.configValidator.toConfig(configDTO);
+
+        assertEquals(0, config.getTaxRate().getRate().doubleValue());
+    }
+
+    @Test
+    public void givenNoneCountryAndEmptyStateAndProvince_whenToConfig_thenReturnConfigWithCubesNames() {
+        ConfigDTO configDTO = new ConfigDTO(
+                GroupReservationMethod.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
+                "None", "", "", A_TIP_RATE
+        );
+
+        Config config = this.configValidator.toConfig(configDTO);
+
+        assertNotNull(config.getCubesNames());
+    }
+
+    @Test
+    public void givenNoneCountryAndEmptyStateAndProvince_whenToConfig_thenReturnConfigWithNotNullReservationMethod() {
+        ConfigDTO configDTO = new ConfigDTO(
+                GroupReservationMethod.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
+                "None", "", "", A_TIP_RATE
+        );
+
+        Config config = this.configValidator.toConfig(configDTO);
+
+        assertEquals(GroupReservationMethod.DEFAULT, config.getReservationMethod());
+    }
+
+    @Test
+    public void givenNoneCountryAndEmptyStateAndProvince_whenToConfig_thenReturnConfigWithNotNullGroupTipRate() {
+        ConfigDTO configDTO = new ConfigDTO(
+                GroupReservationMethod.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
+                "None", "", "", A_TIP_RATE
+        );
+
+        Config config = this.configValidator.toConfig(configDTO);
+
+        assertEquals(A_TIP_RATE.doubleValue(), config.getGroupTipRate().getRate().doubleValue());
+    }
+
+
+
 }

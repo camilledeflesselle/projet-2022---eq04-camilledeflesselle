@@ -1,21 +1,28 @@
 package ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config;
 
-import ca.ulaval.glo4002.cafe.domain.bill.ITaxesRepository;
+import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
+import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.reservation.InvalidGroupReservationMethodException;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationMethod;
+import ca.ulaval.glo4002.cafe.domain.tax.Area;
+import ca.ulaval.glo4002.cafe.domain.tax.ITaxesRepository;
+import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.Country;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.ConfigDTO;
 import jakarta.ws.rs.BadRequestException;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.List;
 
 public class ConfigValidator {
     private final ITaxesRepository taxesRepository;
-    private GroupReservationMethod reservationMethod;
+    private final Config config;
 
     public ConfigValidator(ITaxesRepository taxesRepository) {
         this.taxesRepository = taxesRepository;
+        this.config = new Config();
     }
 
     public void validateConfig(ConfigDTO configDTO) {
@@ -25,21 +32,31 @@ public class ConfigValidator {
         if (isOneConfigAttributeNull(configDTO)) {
             throw new BadRequestException();
         }
-        if (!isGroupReservationMethodValid(configDTO.getGroupReservationMethod())) {
+        if (!validateGroupReservationMethod(configDTO.getGroupReservationMethod())) {
             throw new InvalidGroupReservationMethodException();
         }
-        if (!isCubeSizeValid(configDTO.getCubeSize())) {
+        if (!validateCubeSize(configDTO.getCubeSize())) {
             throw new BadRequestException();
         }
-        if (!isOrganizationNameValid(configDTO.getOrganizationName())) {
+        if (!validateOrganizationName(configDTO.getOrganizationName())) {
             throw new BadRequestException();
         }
-        if (!isCountryValid(configDTO.getCountry(), configDTO.getProvince(), configDTO.getState())) {
+        if (!validateCountry(configDTO.getCountry(), configDTO.getProvince(), configDTO.getState())) {
             throw new InvalidCountryException();
         }
         if (!isGroupTipRateValid(configDTO.getGroupTipRate())) {
             throw new InvalidGroupTipRateException();
         }
+    }
+
+    public Config toConfig(ConfigDTO configDTO) {
+        this.validateConfig(configDTO);
+        this.config.setCubeSize(configDTO.getCubeSize());
+        this.config.setOrganizationName(configDTO.getOrganizationName());
+        this.config.setGroupTipRate(new TipRate(configDTO.getGroupTipRate().doubleValue()));
+        List<String> cubesNames = new ArrayList<>(List.of("Wanda", "Bloom", "Merryweather", "Tinker Bell"));
+        this.config.setCubesNames(cubesNames);
+        return this.config;
     }
 
     public boolean isOneConfigAttributeNull(ConfigDTO configDTO) {
@@ -51,45 +68,50 @@ public class ConfigValidator {
                 || configDTO.getGroupTipRate() == null;
     }
 
-    public boolean isGroupReservationMethodValid(String groupReservationMethod) {
+    public boolean validateGroupReservationMethod(String groupReservationMethod) {
         return Arrays.stream(
-                GroupReservationMethod.values()).anyMatch(e -> {
-                    boolean reservationIsValid = e.label.equals(groupReservationMethod);
+                GroupReservationMethod.values()).anyMatch(method -> {
+                    boolean reservationIsValid = method.label.equals(groupReservationMethod);
                     if (reservationIsValid) {
-                        reservationMethod = e;
+                        this.config.setGroupReservationMethod(method);
                     }
                     return reservationIsValid;
                 }
         );
     }
 
-    public boolean isOrganizationNameValid(String organizationName) {
+    public boolean validateOrganizationName(String organizationName) {
         return organizationName.length() > 0;
     }
 
-    public boolean isCubeSizeValid(int cubeSize) {
+    public boolean validateCubeSize(int cubeSize) {
         return cubeSize > 0;
     }
 
-    public boolean isCountryValid(String country, String province, String state) {
-        if (Objects.equals(country, "None")) return true;
-
-        if (!this.taxesRepository.findCountries().contains(country)) return false;
-
-        String option = this.taxesRepository.findCalculationTypeByCountry(country);
-
-        switch (option) {
-            case "province":
-                return this.taxesRepository.findTerritoriesNamesByCountry(country).contains(province);
-            case "state":
-                return this.taxesRepository.findTerritoriesNamesByCountry(country).contains(state);
+    public boolean validateCountry(String country, String province, String state) {
+        Country countryId = Country.toEnum(country);
+        if (countryId == null) return false;
+        Area area = null;
+        switch (countryId) {
+            case CANADA:
+                area = new Area(province);
+                break;
+            case UNITED_STATES:
+                area = new Area(state);
+                break;
+            case CL, NONE:
+                break;
+            default:
+                return false;
         }
+        TaxRate taxRate = taxesRepository.findTaxRate(countryId.getCountryCode(), area);
+        if (taxRate == null) {
+            return false;
+        }
+        this.config.setTaxRate(taxRate);
         return true;
     }
-
-    public GroupReservationMethod getGroupReservationMethod() {
-        return this.reservationMethod;
-    }
+    
 
     public boolean isGroupTipRateValid(BigDecimal groupTipRate) {
         return groupTipRate.compareTo(BigDecimal.ZERO) >= 0
