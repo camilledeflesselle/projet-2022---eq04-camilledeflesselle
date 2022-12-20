@@ -1,17 +1,20 @@
 package ca.ulaval.glo4002.cafe.infrastructure.rest.DTO;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class MenuItemDTO {
     private String name;
-
     @JsonDeserialize(keyUsing = IngredientKeyDeserializer.class)
     @JsonSerialize(keyUsing = IngredientKeySerializer.class)
     private Map<String, Integer> ingredients;
