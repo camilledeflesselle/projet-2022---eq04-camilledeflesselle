@@ -1,19 +1,18 @@
 package ca.ulaval.glo4002.cafe.infrastructure.rest.validators.inventory;
 
-import ca.ulaval.glo4002.cafe.domain.inventory.IIngredientRepository;
+import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.InventoryDTO;
 import jakarta.ws.rs.BadRequestException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class InventoryValidator {
-    private final IIngredientRepository inventoryRepository;
+    private final IInventoryRepository inventoryRepository;
 
-    public InventoryValidator(IIngredientRepository inventoryRepository) {
+    public InventoryValidator(IInventoryRepository inventoryRepository) {
         this.inventoryRepository = inventoryRepository;
     }
 
@@ -32,7 +31,7 @@ public class InventoryValidator {
             if (inventory.get(ingredientName) < 0) {
                 throw new BadRequestException("Ingredient quantity cannot be negative");
             }
-            if (!this.inventoryRepository.contains(ingredientName)) {
+            if (!this.inventoryRepository.getInventory().contains(ingredientName)) {
                 throw new BadRequestException("Ingredient name is not valid");
             }
             IngredientId id = new IngredientId(ingredientName);

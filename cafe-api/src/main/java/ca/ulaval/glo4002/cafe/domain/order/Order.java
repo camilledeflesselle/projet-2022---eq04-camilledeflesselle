@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.cafe.domain.order;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
-import ca.ulaval.glo4002.cafe.domain.inventory.IIngredientRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
+import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
@@ -31,7 +31,7 @@ public class Order {
         return this;
     }
 
-    public void make(IRecipeRepository recipeRepository, IIngredientRepository inventoryRepository) {
+    public void make(IRecipeRepository recipeRepository, Inventory inventoryRepository) {
         menuItems.forEach(menuItem -> {
             Recipe recipe = recipeRepository.findById(menuItem.getId());
             menuItem.cook(recipe, inventoryRepository);

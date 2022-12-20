@@ -1,10 +1,8 @@
 package ca.ulaval.glo4002.cafe.domain.menu;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
-import ca.ulaval.glo4002.cafe.domain.inventory.IIngredientRepository;
+import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
-
-import java.util.Map;
 
 public class MenuItem {
     private final MenuItemId id;
@@ -23,8 +21,8 @@ public class MenuItem {
         return this.amount;
     }
 
-    public void cook(Recipe recipe, IIngredientRepository inventoryRepository) {
-        recipe.cookWithStorageIn(inventoryRepository);
+    public void cook(Recipe recipe, Inventory inventory) {
+        recipe.cookWith(inventory);
     }
 
     public String getName() {

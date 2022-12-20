@@ -10,7 +10,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
-import java.util.Map;
 
 @Path("/inventory")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -27,8 +26,7 @@ public class InventoryResource {
 
     @GET
     public Response getInventory() {
-        Map<String, Integer> inventory = this.inventoryService.getInventoryStringify();
-        InventoryDTO inventoryDTO = new InventoryDTO(inventory);
+        InventoryDTO inventoryDTO = this.inventoryService.getInventory();
         return Response
                 .ok()
                 .entity(inventoryDTO.getInventory())

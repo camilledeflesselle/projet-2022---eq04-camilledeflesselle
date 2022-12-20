@@ -1,44 +1,33 @@
 package ca.ulaval.glo4002.cafe.application.inventory;
 
-import ca.ulaval.glo4002.cafe.domain.inventory.IIngredientRepository;
+import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
-import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
+import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
+import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.InventoryDTO;
 import jakarta.inject.Inject;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class InventoryService {
-    private final IIngredientRepository inventoryRepository;
+    private final IInventoryRepository inventoryRepository;
+    private final InventoryAssembler inventoryAssembler;
 
     @Inject
-    public InventoryService(IIngredientRepository inventoryRepository) {
+    public InventoryService(IInventoryRepository inventoryRepository, InventoryAssembler inventoryAssembler) {
         this.inventoryRepository = inventoryRepository;
+        this.inventoryAssembler = inventoryAssembler;
     }
 
     public void addIngredientsInInventory(List<Ingredient> ingredients) {
-        for (Ingredient ingredient : ingredients) {
-            this.inventoryRepository.save(ingredient);
-        }
+        Inventory inventory = this.inventoryRepository.getInventory();
+        ingredients.forEach(inventory::addIngredient);
     }
 
-    public Map<IngredientId, Ingredient> getInventory() {
-        return this.inventoryRepository.getInventory();
+    public InventoryDTO getInventory() {
+        Inventory inventory = this.inventoryRepository.getInventory();
+        return this.inventoryAssembler.toDTO(inventory);
     }
 
     public void reset() {
-        this.inventoryRepository.deleteAll();
-    }
-
-
-
-    public Map<String, Integer> getInventoryStringify() {
-        Map<String, Integer> stringInventory = new HashMap<>();
-        Map<IngredientId, Ingredient> inventory = this.getInventory();
-        for (IngredientId ingredientId : inventory.keySet()) {
-            stringInventory.put(ingredientId.getName(), inventory.get(ingredientId).getQuantity());
-        }
-        return stringInventory;
+        this.inventoryRepository.getInventory().reset();
     }
 }

@@ -6,7 +6,7 @@ import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
 import ca.ulaval.glo4002.cafe.domain.cube.ICubeRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
-import ca.ulaval.glo4002.cafe.domain.inventory.IIngredientRepository;
+import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
 import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
@@ -24,7 +24,7 @@ public class CloseServiceTest {
     private ICubeRepository cubeRepository;
     private IMenuItemRepository menuItemRepository;
     private IRecipeRepository recipeRepository;
-    private IIngredientRepository ingredientRepository;
+    private IInventoryRepository ingredientRepository;
     private CubesListFactory cubesListFactory;
     private CloseService closeService;
     private final Config A_CONFIG = new Config();
@@ -38,7 +38,7 @@ public class CloseServiceTest {
         cubeRepository = mock(ICubeRepository.class);
         menuItemRepository = mock(IMenuItemRepository.class);
         recipeRepository = mock(IRecipeRepository.class);
-        ingredientRepository = mock(IIngredientRepository.class);
+        ingredientRepository = mock(IInventoryRepository.class);
         cubesListFactory = mock(CubesListFactory.class);
         IConfigRepository configRepository = mock(IConfigRepository.class);
         when(configRepository.findConfig()).thenReturn(A_CONFIG);
@@ -98,7 +98,7 @@ public class CloseServiceTest {
     public void whenClosing_thenAllIngredientsAreDeleted() {
         closeService.closeCafe();
 
-        verify(ingredientRepository).deleteAll();
+        verify(ingredientRepository).reset();
     }
 
     @Test

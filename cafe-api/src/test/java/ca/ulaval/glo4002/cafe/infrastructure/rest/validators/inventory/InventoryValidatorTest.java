@@ -1,7 +1,8 @@
 package ca.ulaval.glo4002.cafe.infrastructure.rest.validators.inventory;
 
-import ca.ulaval.glo4002.cafe.domain.inventory.IIngredientRepository;
+import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
+import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.InventoryDTO;
 import jakarta.ws.rs.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,16 +15,17 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class InventoryValidatorTest {
-    private IIngredientRepository inventoryRepository;
+    private IInventoryRepository inventoryRepository;
     private InventoryValidator inventoryValidator;
 
     private static final IngredientId AN_INGREDIENT_NAME = new IngredientId("ingredient");
 
     @BeforeEach
     public void before() {
-        this.inventoryRepository = mock(IIngredientRepository.class);
+        this.inventoryRepository = mock(IInventoryRepository.class);
         this.inventoryValidator = new InventoryValidator(inventoryRepository);
     }
 
@@ -86,7 +88,7 @@ class InventoryValidatorTest {
         InventoryDTO inventoryDTO = new InventoryDTO(inventoryDTOWithIngredientNameThatDoesNotExist);
         List<String> ingredientsNames = new ArrayList<>();
         ingredientsNames.add("ingredient1");
-        //when(inventoryRepository.getIngredientsNames()).thenReturn(ingredientsNames);
+        when(inventoryRepository.getInventory()).thenReturn(new Inventory());
 
         assertThrows(BadRequestException.class,
             () -> inventoryValidator.inventoryDTOToListIngredients(inventoryDTO));

@@ -1,9 +1,8 @@
 package ca.ulaval.glo4002.cafe.domain.recipe;
 
-import ca.ulaval.glo4002.cafe.domain.inventory.IIngredientRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
+import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
-
 import java.util.List;
 
 public class Recipe {
@@ -23,7 +22,7 @@ public class Recipe {
         return this.ingredients;
     }
 
-    public void cookWithStorageIn(IIngredientRepository inventoryRepository) {
-        this.ingredients.forEach(inventoryRepository::removeIngredient);
+    public void cookWith(Inventory inventory) {
+        this.ingredients.forEach(inventory::removeQuantity);
     }
 }
