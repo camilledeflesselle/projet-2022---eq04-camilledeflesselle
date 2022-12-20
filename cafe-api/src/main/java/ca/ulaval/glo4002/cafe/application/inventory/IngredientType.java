@@ -23,4 +23,13 @@ public enum IngredientType {
         }
         throw new IllegalArgumentException("No enum constant " + IngredientType.class.getCanonicalName() + "." + label);
     }
+
+    public static boolean contains(String s) {
+        for (IngredientType type : IngredientType.values()) {
+            if (type.label.equals(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

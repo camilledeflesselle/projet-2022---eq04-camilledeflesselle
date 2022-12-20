@@ -12,6 +12,7 @@ import ca.ulaval.glo4002.cafe.application.inventory.InventoryService;
 import ca.ulaval.glo4002.cafe.application.layout.LayoutDTOAssembler;
 import ca.ulaval.glo4002.cafe.application.layout.LayoutService;
 import ca.ulaval.glo4002.cafe.application.menu.CoffeeFactory;
+import ca.ulaval.glo4002.cafe.application.menu.MenuService;
 import ca.ulaval.glo4002.cafe.application.seating.SeatingService;
 import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
@@ -30,6 +31,7 @@ import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.Reservatio
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.TaxesRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config.ConfigValidator;
 import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.inventory.InventoryValidator;
+import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.menu.MenuItemAssembler;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.ext.Provider;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
@@ -70,9 +72,11 @@ public class ApplicationBinder extends AbstractBinder {
         CheckInService checkInService = new CheckInService(customerService, seatingService);
         CloseService closeService = new CloseService(configRepositoryInMemory, cubeRepositoryInMemory, reservationRepositoryInMemory, customerRepositoryInMemory, orderRepositoryInMemory,
                 billRepositoryInMemory, menuItemRepositoryInMemory, recipeRepositoryInMemory, ingredientRepositoryInMemory, cubesListFactory);
+        MenuService menuService = new MenuService(menuItemRepositoryInMemory);
 
         ConfigValidator configValidator = new ConfigValidator(taxesRepositoryInMemory);
         InventoryValidator inventoryValidator = new InventoryValidator(ingredientRepositoryInMemory);
+        MenuItemAssembler menuItemAssembler = new MenuItemAssembler(menuItemRepositoryInMemory);
 
         bind(configService).in(Singleton.class);
         bind(customerService).in(Singleton.class);
@@ -83,8 +87,10 @@ public class ApplicationBinder extends AbstractBinder {
         bind(layoutService).in(Singleton.class);
         bind(inventoryService).in(Singleton.class);
         bind(cookingService).in(Singleton.class);
+        bind(menuService).in(Singleton.class);
 
         bind(configValidator).in(Singleton.class);
         bind(inventoryValidator).in(Singleton.class);
+        bind(menuItemAssembler).in(Singleton.class);
     }
 }

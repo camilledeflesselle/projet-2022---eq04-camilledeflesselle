@@ -4,6 +4,8 @@ import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.inventory.IIngredientRepository;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 
+import java.util.Map;
+
 public class MenuItem {
     private final MenuItemId id;
     private final Amount amount;

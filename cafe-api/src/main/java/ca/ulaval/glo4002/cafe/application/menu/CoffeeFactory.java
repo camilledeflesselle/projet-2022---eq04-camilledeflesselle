@@ -9,10 +9,6 @@ import java.util.List;
 
 public class CoffeeFactory {
 
-    public Coffee createCustomisableCoffee(String name, Amount amount) {
-        return new Coffee(name, amount);
-    }
-
     public List<MenuItem> createCoffeesInLes4fees() {
         List<MenuItem> coffees = new ArrayList<>();
         for (CoffeeType type : CoffeeType.values()) {
