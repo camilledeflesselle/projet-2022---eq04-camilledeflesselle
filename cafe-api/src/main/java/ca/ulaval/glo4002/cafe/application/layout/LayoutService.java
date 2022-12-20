@@ -5,7 +5,7 @@ import ca.ulaval.glo4002.cafe.domain.cube.Cube;
 import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
 import ca.ulaval.glo4002.cafe.domain.cube.ICubeRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
-import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.LayoutDTO;
+import ca.ulaval.glo4002.cafe.ui.rest.DTO.LayoutDTO;
 
 import java.util.List;
 

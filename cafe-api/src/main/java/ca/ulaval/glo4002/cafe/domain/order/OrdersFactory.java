@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.cafe.domain.order;
 
 import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
-import ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config.InvalidMenuOrderException;
+import ca.ulaval.glo4002.cafe.ui.rest.validators.config.InvalidMenuOrderException;
 
 import java.util.List;
 import java.util.stream.Collectors;

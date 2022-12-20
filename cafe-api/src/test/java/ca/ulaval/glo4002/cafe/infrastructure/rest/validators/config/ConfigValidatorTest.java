@@ -6,7 +6,10 @@ import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReserv
 import ca.ulaval.glo4002.cafe.domain.tax.ITaxesRepository;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.Country;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.TaxesRepositoryInMemory;
-import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.ConfigDTO;
+import ca.ulaval.glo4002.cafe.ui.rest.DTO.ConfigDTO;
+import ca.ulaval.glo4002.cafe.ui.rest.validators.config.ConfigValidator;
+import ca.ulaval.glo4002.cafe.ui.rest.validators.config.InvalidCountryException;
+import ca.ulaval.glo4002.cafe.ui.rest.validators.config.InvalidGroupTipRateException;
 import jakarta.ws.rs.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

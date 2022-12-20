@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.cafe;
 
-import ca.ulaval.glo4002.cafe.infrastructure.rest.DI.ApplicationBinder;
+import ca.ulaval.glo4002.cafe.ui.rest.DI.ApplicationBinder;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;

@@ -5,9 +5,9 @@ import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
-import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.CubeDTO;
-import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.LayoutDTO;
-import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.SeatDTO;
+import ca.ulaval.glo4002.cafe.ui.rest.DTO.CubeDTO;
+import ca.ulaval.glo4002.cafe.ui.rest.DTO.LayoutDTO;
+import ca.ulaval.glo4002.cafe.ui.rest.DTO.SeatDTO;
 
 import java.util.ArrayList;
 import java.util.HashMap;

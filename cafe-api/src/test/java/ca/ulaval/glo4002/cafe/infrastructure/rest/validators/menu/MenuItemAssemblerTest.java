@@ -1,10 +1,10 @@
 package ca.ulaval.glo4002.cafe.infrastructure.rest.validators.menu;
 
 import ca.ulaval.glo4002.cafe.application.menu.CoffeeFactory;
-import ca.ulaval.glo4002.cafe.application.menu.CoffeeType;
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.MenuItemRepositoryInMemory;
-import ca.ulaval.glo4002.cafe.infrastructure.rest.DTO.MenuItemDTO;
+import ca.ulaval.glo4002.cafe.ui.rest.DTO.MenuItemDTO;
+import ca.ulaval.glo4002.cafe.ui.rest.validators.menu.MenuItemAssembler;
 import jakarta.ws.rs.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
