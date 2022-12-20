@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.cafe.infrastructure.rest.validators.menu;
+package ca.ulaval.glo4002.cafe.ui.rest.validators.validators.menu;
 
 import ca.ulaval.glo4002.cafe.application.menu.CoffeeFactory;
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.cafe.infrastructure.rest.validators.inventory;
+package ca.ulaval.glo4002.cafe.ui.rest.validators.validators.inventory;
 
 import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;

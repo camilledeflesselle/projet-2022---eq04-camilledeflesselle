@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.cafe.infrastructure.rest.validators.config;
+package ca.ulaval.glo4002.cafe.ui.rest.validators.validators.config;
 
 import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.reservation.InvalidGroupReservationMethodException;
