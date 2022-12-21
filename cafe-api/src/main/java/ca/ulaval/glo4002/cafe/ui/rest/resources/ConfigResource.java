@@ -18,22 +18,19 @@ import jakarta.ws.rs.core.Response;
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 public class ConfigResource {
 
-    private final ConfigService configService;
-    private final ConfigValidator configValidator;
     private final CloseService closeService;
+    private final ConfigValidator configValidator;
 
     @Inject
-    public ConfigResource(ConfigService configService, ConfigValidator configValidator, CloseService closeService) {
-        this.configService = configService;
-        this.configValidator = configValidator;
+    public ConfigResource(CloseService closeService, ConfigValidator configValidator) {
         this.closeService = closeService;
+        this.configValidator = configValidator;
     }
 
     @POST
     public Response config(ConfigDTO configDTO) {
         Config config = configValidator.toConfig(configDTO);
-        this.configService.updateConfig(config);
-        this.closeService.closeCafe();
+        this.closeService.updateConfig(config);
         return Response
                 .ok()
                 .build();

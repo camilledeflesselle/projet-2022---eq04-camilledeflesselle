@@ -65,7 +65,6 @@ public class ApplicationBinder extends AbstractBinder {
         InventoryAssembler inventoryAssembler = new InventoryAssembler();
 
         LayoutService layoutService = new LayoutService(configRepositoryInMemory, cubesListFactory, cubeRepositoryInMemory, customerRepositoryInMemory, layoutDTOAssembler);
-        ConfigService configService = new ConfigService(configRepositoryInMemory);
         BillService billService = new BillService(billFactory, billRepositoryInMemory, configRepositoryInMemory);
         InventoryService inventoryService = new InventoryService(ingredientRepositoryInMemory, inventoryAssembler);
         CookingService cookingService = new CookingService(recipeRepositoryInMemory, ingredientRepositoryInMemory);
@@ -80,7 +79,6 @@ public class ApplicationBinder extends AbstractBinder {
         InventoryValidator inventoryValidator = new InventoryValidator(ingredientRepositoryInMemory);
         MenuItemAssembler menuItemAssembler = new MenuItemAssembler(menuItemRepositoryInMemory);
 
-        bind(configService).in(Singleton.class);
         bind(customerService).in(Singleton.class);
         bind(seatingService).in(Singleton.class);
         bind(billService).in(Singleton.class);
