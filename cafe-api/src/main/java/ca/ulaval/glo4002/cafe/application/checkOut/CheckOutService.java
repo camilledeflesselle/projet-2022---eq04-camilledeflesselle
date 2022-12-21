@@ -1,8 +1,6 @@
 package ca.ulaval.glo4002.cafe.application.checkOut;
 
 import ca.ulaval.glo4002.cafe.application.bill.BillFactory;
-import ca.ulaval.glo4002.cafe.application.bill.BillService;
-import ca.ulaval.glo4002.cafe.application.seating.SeatingService;
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
 import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
 import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
@@ -13,25 +11,30 @@ import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
+import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
+import ca.ulaval.glo4002.cafe.domain.reservation.NoReservationsFoundException;
 import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
+import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
 
 public class CheckOutService {
     private final ICustomerRepository customerRepository;
-    private final SeatingService seatingService;
     private IOrderRepository orderRepository;
     private IConfigRepository configRepository;
     private BillFactory billFactory;
     private IBillRepository billRepository;
+    private SeatingOrganizer seatingOrganizer;
+    private IReservationRepository reservationRepository;
 
-    public CheckOutService(ICustomerRepository customerRepository, IOrderRepository orderRepository, SeatingService seatingService, IConfigRepository configRepository, BillFactory billFactory, IBillRepository billRepository) {
+    public CheckOutService(ICustomerRepository customerRepository, IOrderRepository orderRepository, IConfigRepository configRepository, BillFactory billFactory, IBillRepository billRepository, SeatingOrganizer seatingOrganizer, IReservationRepository reservationRepository) {
         this.customerRepository = customerRepository;
         this.orderRepository = orderRepository;
-        this.seatingService = seatingService;
         this.configRepository = configRepository;
         this.billFactory = billFactory;
         this.billRepository = billRepository;
+        this.seatingOrganizer = seatingOrganizer;
+        this.reservationRepository = reservationRepository;
     }
 
     public void checkoutCustomer(CustomerId customerId) {
@@ -50,23 +53,23 @@ public class CheckOutService {
 
     private void unassignSeatToCustomer(Customer customer) {
         if (customer.hasGroup()) {
-            Reservation reservation = this.seatingService.getReservationByGroupName(customer.getGroupName());
+            Reservation reservation = this.reservationRepository.findReservationByGroupName(customer.getGroupName());
             reservation.checkoutCustomer(customer);
         }
-        Seat seat = this.seatingService.getSeatById(customer.getSeatId());
+        Seat seat = this.seatingOrganizer.findSeatBySeatId(customer.getSeatId());
         seat.unassign();
         customer.unsetSeatId();
     }
 
     private void removeReservationIfEmpty(String groupName) {
-        Reservation reservation = this.seatingService.getReservationByGroupName(groupName);
+        Reservation reservation = this.reservationRepository.findReservationByGroupName(groupName);
         if (!reservation.isEmpty()) return;
 
         for (SeatId seatId : reservation.getLockedSeatsId()) {
-            this.seatingService.getSeatById(seatId).unassign();
+            this.seatingOrganizer.findSeatBySeatId(seatId).unassign();
         }
 
-        this.seatingService.removeReservationByGroupName(groupName);
+        this.reservationRepository.removeReservationByGroupName(groupName);
     }
 
     private void createBill(Customer customer) {
@@ -74,7 +77,7 @@ public class CheckOutService {
         this.processBill(customer, order);
     }
 
-    public void processBill(Customer customer, Order order) {
+    private void processBill(Customer customer, Order order) {
         TipRate groupTipRate;
         if (customer.hasGroup()) {
             groupTipRate = this.configRepository.findConfig().getGroupTipRate();

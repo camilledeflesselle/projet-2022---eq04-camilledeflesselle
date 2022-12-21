@@ -14,11 +14,12 @@ import ca.ulaval.glo4002.cafe.application.layout.LayoutDTOAssembler;
 import ca.ulaval.glo4002.cafe.application.layout.LayoutService;
 import ca.ulaval.glo4002.cafe.application.menu.CoffeeFactory;
 import ca.ulaval.glo4002.cafe.application.menu.MenuService;
-import ca.ulaval.glo4002.cafe.application.seating.SeatingService;
+import ca.ulaval.glo4002.cafe.application.seating.ReservationService;
 import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
 import ca.ulaval.glo4002.cafe.domain.reservation.ReservationFactory;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategyFactory;
+import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
 import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizerFactory;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.BillRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.ConfigRepositoryInMemory;
@@ -53,6 +54,7 @@ public class ApplicationBinder extends AbstractBinder {
 
         ConfigRepositoryInMemory configRepositoryInMemory = new ConfigRepositoryInMemory();
         CubeRepositoryInMemory cubeRepositoryInMemory = new CubeRepositoryInMemory();
+        SeatingOrganizer seatingOrganizer = seatingOrganizerFactory.createSeatingOrganizer(cubeRepositoryInMemory.findAll());
         ReservationRepositoryInMemory reservationRepositoryInMemory = new ReservationRepositoryInMemory();
         CustomerRepositoryInMemory customerRepositoryInMemory = new CustomerRepositoryInMemory();
         BillRepositoryInMemory billRepositoryInMemory = new BillRepositoryInMemory();
@@ -69,9 +71,9 @@ public class ApplicationBinder extends AbstractBinder {
         InventoryService inventoryService = new InventoryService(ingredientRepositoryInMemory, inventoryAssembler);
         CookingService cookingService = new CookingService(recipeRepositoryInMemory, ingredientRepositoryInMemory);
         CustomerService customerService = new CustomerService(cookingService, customerRepositoryInMemory, ordersFactory, menuItemRepositoryInMemory, orderRepositoryInMemory);
-        SeatingService seatingService = new SeatingService(configRepositoryInMemory, reservationStrategyFactory, reservationFactory, seatingOrganizerFactory, cubeRepositoryInMemory, reservationRepositoryInMemory);
-        CheckInService checkInService = new CheckInService(customerRepositoryInMemory, seatingService, ordersFactory, orderRepositoryInMemory);
-        CheckOutService checkOutService = new CheckOutService(customerRepositoryInMemory, orderRepositoryInMemory, seatingService, configRepositoryInMemory, billFactory, billRepositoryInMemory);
+        ReservationService reservationService = new ReservationService(configRepositoryInMemory, reservationStrategyFactory, reservationFactory, reservationRepositoryInMemory, seatingOrganizer);
+        CheckInService checkInService = new CheckInService(customerRepositoryInMemory, seatingOrganizer, ordersFactory, orderRepositoryInMemory, reservationRepositoryInMemory);
+        CheckOutService checkOutService = new CheckOutService(customerRepositoryInMemory, orderRepositoryInMemory, configRepositoryInMemory, billFactory, billRepositoryInMemory, seatingOrganizer, reservationRepositoryInMemory);
         CloseService closeService = new CloseService(configRepositoryInMemory, cubeRepositoryInMemory, reservationRepositoryInMemory, customerRepositoryInMemory, orderRepositoryInMemory,
                 billRepositoryInMemory, menuItemRepositoryInMemory, recipeRepositoryInMemory, ingredientRepositoryInMemory, cubesListFactory);
         MenuService menuService = new MenuService(menuItemRepositoryInMemory, recipeRepositoryInMemory);
@@ -81,7 +83,7 @@ public class ApplicationBinder extends AbstractBinder {
         MenuItemAssembler menuItemAssembler = new MenuItemAssembler(menuItemRepositoryInMemory);
 
         bind(customerService).in(Singleton.class);
-        bind(seatingService).in(Singleton.class);
+        bind(reservationService).in(Singleton.class);
         bind(billService).in(Singleton.class);
         bind(checkInService).in(Singleton.class);
         bind(closeService).in(Singleton.class);

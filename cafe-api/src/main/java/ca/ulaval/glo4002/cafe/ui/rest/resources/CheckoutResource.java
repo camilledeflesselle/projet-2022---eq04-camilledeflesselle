@@ -1,9 +1,6 @@
 package ca.ulaval.glo4002.cafe.ui.rest.resources;
 
-import ca.ulaval.glo4002.cafe.application.bill.BillService;
 import ca.ulaval.glo4002.cafe.application.checkOut.CheckOutService;
-import ca.ulaval.glo4002.cafe.application.customer.CustomerService;
-import ca.ulaval.glo4002.cafe.application.seating.SeatingService;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.CheckoutDTO;
 import jakarta.inject.Inject;

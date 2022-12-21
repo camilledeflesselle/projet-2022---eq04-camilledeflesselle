@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.cafe.application.seating;
 import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.cube.Cube;
-import ca.ulaval.glo4002.cafe.domain.cube.ICubeRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.reservation.DuplicateGroupNameException;
 import ca.ulaval.glo4002.cafe.domain.reservation.Group;
@@ -16,7 +15,6 @@ import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.IGroupReser
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategyFactory;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
 import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
-import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizerFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,13 +24,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-public class SeatingServiceTest {
+public class ReservationServiceTest {
     private static final String A_GROUP_NAME = "name";
     private static final int A_GROUP_SIZE = 2;
 
-    private static SeatingService seatingService;
+    private static ReservationService reservationService;
     private static ReservationStrategyFactory reservationStrategyFactory;
-    private static SeatingOrganizerFactory seatingOrganizerFactory;
     private static IReservationRepository reservationRepository;
     private static IGroupReservationStrategy groupReservationStrategy;
     private static SeatingOrganizer seatingOrganizer;
@@ -42,8 +39,6 @@ public class SeatingServiceTest {
     @BeforeEach
     public void setup() {
         reservationStrategyFactory = mock(ReservationStrategyFactory.class);
-        seatingOrganizerFactory = mock(SeatingOrganizerFactory.class);
-        ICubeRepository cubeRepository = mock(ICubeRepository.class);
         reservationRepository = mock(IReservationRepository.class);
         groupReservationStrategy = mock(IGroupReservationStrategy.class);
         seatingOrganizer = mock(SeatingOrganizer.class);
@@ -53,16 +48,10 @@ public class SeatingServiceTest {
         Config config = mock(Config.class);
         when(config.getReservationMethod()).thenReturn(GroupReservationMethod.DEFAULT);
         when(configRepository.findConfig()).thenReturn(config);
-        when(cubeRepository.findAll()).thenReturn(cubes);
         when(reservationStrategyFactory.createReservationStrategy(GroupReservationMethod.DEFAULT)).thenReturn(groupReservationStrategy);
-        when(seatingOrganizerFactory.createSeatingOrganizer(any())).thenReturn(seatingOrganizer);
-        seatingService = new SeatingService(configRepository, reservationStrategyFactory, reservationFactory, seatingOrganizerFactory, cubeRepository, reservationRepository);
+        reservationService = new ReservationService(configRepository, reservationStrategyFactory, reservationFactory, reservationRepository, seatingOrganizer);
     }
 
-    @Test
-    public void whenInitialized_thenSeatingOrganizerIsCreatedFromCubesAndReservationStrategy() {
-        verify(seatingOrganizerFactory).createSeatingOrganizer(cubes);
-    }
     /*
     @Test
     public void whenUpdateConfig_thenGroupReservationStrategyIsCreatedFromNewReservationMethod() {
@@ -80,13 +69,13 @@ public class SeatingServiceTest {
         seatingService.updateConfig(GroupReservationMethod.DEFAULT);
 
         assertEquals(seatingOrganizer, seatingService.getSeatingOrganizer());
-    }*/
+    }
 
     @Test
     public void givenCustomerWithoutGroup_whenSearchingSeat_thenGetFirstFreeSeatFromSeatingOrganizer() {
         Customer customer = givenCustomerWithoutGroup();
 
-        seatingService.getSeatForCustomer(customer);
+        reservationService.getSeatForCustomer(customer);
 
         verify(seatingOrganizer).getFirstFreeSeat();
     }
@@ -97,7 +86,7 @@ public class SeatingServiceTest {
         Reservation reservation = mock(Reservation.class);
         when(reservationRepository.findReservationByGroupName(A_GROUP_NAME)).thenReturn(reservation);
 
-        seatingService.getSeatForCustomer(customer);
+        reservationService.getSeatForCustomer(customer);
 
         verify(reservationRepository).findReservationByGroupName(customer.getGroupName());
     }
@@ -110,16 +99,16 @@ public class SeatingServiceTest {
         when(reservationRepository.findReservationByGroupName(any())).thenReturn(reservation);
         when(reservation.popFirstReservedSeatId()).thenReturn(seatId);
 
-        seatingService.getSeatForCustomer(customer);
+        reservationService.getSeatForCustomer(customer);
 
         verify(seatingOrganizer).findSeatBySeatId(seatId);
-    }
+    }*/
 
     @Test
     public void givenGroupWithNoReservation_whenAddingReservation_thenSeatingOrganizerReservesSeatsWithGroupNameAndGroupSize() {
         Group group = givenGroupWithoutReservation();
 
-        seatingService.addReservation(group);
+        reservationService.addReservation(group);
 
         verify(seatingOrganizer).reserveSeats(group.getSize(), group.getName(), groupReservationStrategy);
     }
@@ -130,7 +119,7 @@ public class SeatingServiceTest {
         List<SeatId> seatIds = new ArrayList<>(List.of(mock(SeatId.class)));
         when(seatingOrganizer.reserveSeats(group.getSize(), group.getName(), groupReservationStrategy)).thenReturn(seatIds);
 
-        seatingService.addReservation(group);
+        reservationService.addReservation(group);
 
         verify(reservationFactory).createReservation(group, seatIds);
     }
@@ -143,7 +132,7 @@ public class SeatingServiceTest {
         when(seatingOrganizer.reserveSeats(group.getSize(), group.getName(), groupReservationStrategy)).thenReturn(seatIds);
         when(reservationFactory.createReservation(group, seatIds)).thenReturn(reservation);
 
-        seatingService.addReservation(group);
+        reservationService.addReservation(group);
 
         verify(reservationRepository).saveReservation(reservation);
     }
@@ -152,21 +141,21 @@ public class SeatingServiceTest {
     public void givenGroupWithReservationAlready_whenAddingReservation_thenThrowsDuplicateGroupNameException() {
         Group group = givenGroupWithReservationAlready();
 
-        assertThrows(DuplicateGroupNameException.class, () -> seatingService.addReservation(group));
+        assertThrows(DuplicateGroupNameException.class, () -> reservationService.addReservation(group));
     }
 
     @Test
     public void whenRequestingReservations_thenReservationsAreSearchedFromRepository() {
-        seatingService.getReservations();
+        reservationService.getReservations();
 
         verify(reservationRepository).findReservations();
     }
-
+    /*
     @Test
     public void whenNoReservationFound_thenRaiseNoReservationsFoundException() {
         when(reservationRepository.findReservationByGroupName(A_GROUP_NAME)).thenReturn(null);
 
-        assertThrows(NoReservationsFoundException.class, () -> seatingService.getReservationByGroupName(A_GROUP_NAME));
+        assertThrows(NoReservationsFoundException.class, () -> reservationService.getReservationByGroupName(A_GROUP_NAME));
 
         verify(reservationRepository).findReservationByGroupName(A_GROUP_NAME);
 
@@ -174,7 +163,7 @@ public class SeatingServiceTest {
 
     @Test
     public void whenRemovingReservationFromGroupName_thenRepositoryRemovesReservationFromGroupName() {
-        seatingService.removeReservationByGroupName(A_GROUP_NAME);
+        reservationService.removeReservationByGroupName(A_GROUP_NAME);
 
         verify(reservationRepository).removeReservationByGroupName(A_GROUP_NAME);
     }
@@ -183,17 +172,11 @@ public class SeatingServiceTest {
     public void whenRequestingSeatFromSeatId_thenSeatingOrganizerSearchesSeatFromSeatId() {
         SeatId seatId = mock(SeatId.class);
 
-        seatingService.getSeatById(seatId);
+        reservationService.getSeatById(seatId);
 
         verify(seatingOrganizer).findSeatBySeatId(seatId);
-    }
+    }*/
 
-    @Test
-    public void whenReset_thenReservationsAreDeletedFromRepository() {
-        seatingService.reset();
-
-        verify(reservationRepository).deleteAll();
-    }
 
     private Customer givenCustomerWithGroup() {
         Customer customer = mock(Customer.class);

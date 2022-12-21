@@ -1,30 +1,23 @@
 package ca.ulaval.glo4002.cafe.application.checkOut;
 
 import ca.ulaval.glo4002.cafe.application.bill.BillFactory;
-import ca.ulaval.glo4002.cafe.application.bill.BillService;
-import ca.ulaval.glo4002.cafe.application.seating.SeatingService;
+import ca.ulaval.glo4002.cafe.application.seating.ReservationService;
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
-import ca.ulaval.glo4002.cafe.domain.bill.Bill;
 import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
-import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
-import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
-import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
-import ca.ulaval.glo4002.cafe.domain.seat.Seat;
+import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
+import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
 import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -38,21 +31,25 @@ public class CheckOutServiceTest {
 
     private static CheckOutService checkOutService;
     private static ICustomerRepository customerRepository;
-    private static SeatingService seatingService;
+    private static ReservationService reservationService;
     private static IOrderRepository orderRepository;
     private IConfigRepository configRepository;
     private BillFactory billFactory;
     private IBillRepository billRepository;
+    private SeatingOrganizer seatingOrganizer;
+    private IReservationRepository reservationRepository;
 
     @BeforeEach
     public void setup() {
         customerRepository = mock(ICustomerRepository.class);
         orderRepository = mock(IOrderRepository.class);
-        seatingService = mock(SeatingService.class);
+        reservationService = mock(ReservationService.class);
         configRepository = mock(IConfigRepository.class);
         billFactory = mock(BillFactory.class);
         billRepository = mock(IBillRepository.class);
-        checkOutService = new CheckOutService(customerRepository, orderRepository, seatingService, configRepository, billFactory, billRepository);
+        seatingOrganizer = mock(SeatingOrganizer.class);
+        reservationRepository = mock(IReservationRepository.class);
+        checkOutService = new CheckOutService(customerRepository, orderRepository, configRepository, billFactory, billRepository, seatingOrganizer, reservationRepository);
     }
     /*
     @Test

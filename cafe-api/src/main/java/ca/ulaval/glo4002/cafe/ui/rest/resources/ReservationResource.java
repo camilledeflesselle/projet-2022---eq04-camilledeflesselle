@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.cafe.ui.rest.resources;
 
-import ca.ulaval.glo4002.cafe.application.seating.SeatingService;
+import ca.ulaval.glo4002.cafe.application.seating.ReservationService;
 import ca.ulaval.glo4002.cafe.domain.reservation.Group;
 import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.GroupDTO;
@@ -17,17 +17,17 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 public class ReservationResource {
-    private final SeatingService seatingService;
+    private final ReservationService reservationService;
 
     @Inject
-    public ReservationResource(SeatingService seatingService) {
-        this.seatingService = seatingService;
+    public ReservationResource(ReservationService reservationService) {
+        this.reservationService = reservationService;
     }
 
     @GET
     public Response getReservations() {
         List<ReservationDTO> reservationDTOS = new ArrayList<>();
-        for (Reservation reservation : this.seatingService.getReservations()) {
+        for (Reservation reservation : this.reservationService.getReservations()) {
             reservationDTOS.add(new ReservationDTO(reservation));
         }
         return Response
@@ -39,7 +39,7 @@ public class ReservationResource {
     @POST
     public Response getGroupReservations(GroupDTO groupDTO) {
         Group group = new Group(groupDTO.getGroupName(), groupDTO.getGroupSize());
-        this.seatingService.addReservation(group);
+        this.reservationService.addReservation(group);
         return Response
                 .ok()
                 .build();

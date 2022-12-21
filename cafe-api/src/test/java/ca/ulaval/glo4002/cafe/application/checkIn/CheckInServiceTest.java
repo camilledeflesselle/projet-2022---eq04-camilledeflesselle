@@ -1,13 +1,15 @@
 package ca.ulaval.glo4002.cafe.application.checkIn;
 
-import ca.ulaval.glo4002.cafe.application.seating.SeatingService;
+import ca.ulaval.glo4002.cafe.application.seating.ReservationService;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.DuplicateCustomerException;
 import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
+import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
+import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,23 +18,27 @@ import static org.mockito.Mockito.*;
 
 class CheckInServiceTest {
     ICustomerRepository customerRepository;
-    SeatingService seatingService;
+    ReservationService reservationService;
     CheckInService checkInService;
     Customer customer;
     Seat seat;
     private OrdersFactory ordersFactory;
     private IOrderRepository ordersRepository;
+    private IReservationRepository reservationRepository;
+    private SeatingOrganizer seatingOrganizer;
 
     @BeforeEach
     void setUp() {
         customerRepository = mock(ICustomerRepository.class);
-        seatingService = mock(SeatingService.class);
+        reservationService = mock(ReservationService.class);
         seat = mock(Seat.class);
         customer = mock(Customer.class);
         ordersFactory = mock(OrdersFactory.class);
         ordersRepository = mock(IOrderRepository.class);
-        checkInService = new CheckInService(customerRepository, seatingService, ordersFactory, ordersRepository);
-        when(seatingService.getSeatForCustomer(customer)).thenReturn(seat);
+        seatingOrganizer = mock(SeatingOrganizer.class);
+        reservationRepository = mock(IReservationRepository.class);
+        checkInService = new CheckInService(customerRepository, seatingOrganizer, ordersFactory, ordersRepository, reservationRepository);
+        when(seatingOrganizer.getFirstFreeSeat()).thenReturn(seat);
     }
 
     @Test
