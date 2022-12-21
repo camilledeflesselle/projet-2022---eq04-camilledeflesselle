@@ -21,8 +21,8 @@ public class CheckoutResource {
     private final CheckOutService checkOutService;
 
     @Inject
-    public CheckoutResource(CustomerService customerService, BillService billService, SeatingService seatingService) {
-        this.checkOutService = new CheckOutService(customerService, seatingService, billService);
+    public CheckoutResource(CheckOutService checkOutService) {
+        this.checkOutService = checkOutService;
     }
 
     @POST

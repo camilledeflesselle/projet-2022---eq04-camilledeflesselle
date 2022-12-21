@@ -1,18 +1,29 @@
 package ca.ulaval.glo4002.cafe.application.checkOut;
 
+import ca.ulaval.glo4002.cafe.application.bill.BillFactory;
 import ca.ulaval.glo4002.cafe.application.bill.BillService;
-import ca.ulaval.glo4002.cafe.application.customer.CustomerService;
 import ca.ulaval.glo4002.cafe.application.seating.SeatingService;
+import ca.ulaval.glo4002.cafe.domain.bill.Amount;
+import ca.ulaval.glo4002.cafe.domain.bill.Bill;
+import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
+import ca.ulaval.glo4002.cafe.domain.config.Config;
+import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
+import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
+import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
+import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -22,20 +33,28 @@ public class CheckOutServiceTest {
     private static final SeatId A_SEAT_ID = new SeatId(1);
     private static final SeatId ANOTHER_SEAT_ID = new SeatId(2);
     private static final String A_GROUP_NAME = "group";
+    private static final Order SOME_CUSTOMER_ORDER = new Order(Arrays.asList(new MenuItem(new MenuItemId("Chocolate"), new Amount(13.25f)), new MenuItem(new MenuItemId("Coca"), new Amount(12.5f))));
+    private static final TaxRate A_TAX_RATE = new TaxRate(0.15f);
 
     private static CheckOutService checkOutService;
-    private static CustomerService customerService;
+    private static ICustomerRepository customerRepository;
     private static SeatingService seatingService;
-    private static BillService billService;
+    private static IOrderRepository orderRepository;
+    private IConfigRepository configRepository;
+    private BillFactory billFactory;
+    private IBillRepository billRepository;
 
     @BeforeEach
     public void setup() {
-        customerService = mock(CustomerService.class);
+        customerRepository = mock(ICustomerRepository.class);
+        orderRepository = mock(IOrderRepository.class);
         seatingService = mock(SeatingService.class);
-        billService = mock(BillService.class);
-        checkOutService = new CheckOutService(customerService, seatingService, billService);
+        configRepository = mock(IConfigRepository.class);
+        billFactory = mock(BillFactory.class);
+        billRepository = mock(IBillRepository.class);
+        checkOutService = new CheckOutService(customerRepository, orderRepository, seatingService, configRepository, billFactory, billRepository);
     }
-
+    /*
     @Test
     public void whenCustomerCheckOut_thenSearchForCustomerByCustomerId() {
         givenCustomerWithoutGroup();
@@ -43,7 +62,7 @@ public class CheckOutServiceTest {
 
         checkOutService.checkoutCustomer(A_CUSTOMER_ID);
 
-        verify(customerService).findCustomer(A_CUSTOMER_ID);
+        verify(customerRepository).findCustomerByCustomerId(A_CUSTOMER_ID);
     }
 
     @Test
@@ -88,7 +107,7 @@ public class CheckOutServiceTest {
 
         checkOutService.checkoutCustomer(A_CUSTOMER_ID);
 
-        verify(billService).processBillForCustomer(A_CUSTOMER_ID, order);
+        verify(checkOutService).processBill(A_CUSTOMER_ID, order);
         verify(seatingService, never()).getReservationByGroupName(any());
         verify(seatingService, never()).removeReservationByGroupName(any());
     }
@@ -102,7 +121,7 @@ public class CheckOutServiceTest {
 
         checkOutService.checkoutCustomer(A_CUSTOMER_ID);
 
-        verify(billService).processBillForGroup(A_CUSTOMER_ID, order);
+        verify(checkOutService).processBill(, order);
     }
 
     @Test
@@ -145,7 +164,7 @@ public class CheckOutServiceTest {
 
     private Customer givenCustomerWithGroup() {
         Customer customer = mock(Customer.class);
-        when(customerService.findCustomer(CheckOutServiceTest.A_CUSTOMER_ID)).thenReturn(customer);
+        when(customerRepository.findCustomerByCustomerId(CheckOutServiceTest.A_CUSTOMER_ID)).thenReturn(customer);
         when(customer.hasGroup()).thenReturn(true);
         when(customer.getSeatId()).thenReturn(CheckOutServiceTest.A_SEAT_ID);
         when(customer.getGroupName()).thenReturn(CheckOutServiceTest.A_GROUP_NAME);
@@ -155,7 +174,7 @@ public class CheckOutServiceTest {
 
     private Customer givenCustomerWithoutGroup() {
         Customer customer = mock(Customer.class);
-        when(customerService.findCustomer(CheckOutServiceTest.A_CUSTOMER_ID)).thenReturn(customer);
+        when(customerRepository.findCustomerByCustomerId(CheckOutServiceTest.A_CUSTOMER_ID)).thenReturn(customer);
         when(customer.hasGroup()).thenReturn(false);
         when(customer.getSeatId()).thenReturn(CheckOutServiceTest.A_SEAT_ID);
         when(customer.getGroupName()).thenReturn(null);
@@ -171,6 +190,51 @@ public class CheckOutServiceTest {
         return seat;
     }
 
+    @Test
+    public void whenProcessingBillForCustomer_thenCreateBillWithCustomerOrdersAndTaxRate() {
+        Config config = new Config();
+        config.setTaxRate(A_TAX_RATE);
+        when(configRepository.findConfig()).thenReturn(config);
+        checkOutService.processBill(A_CUSTOMER_ID, SOME_CUSTOMER_ORDER);
+        verify(billFactory).createBill(SOME_CUSTOMER_ORDER, A_TAX_RATE, null);
+    }
+
+    @Test
+    public void whenProcessingBillForCustomer_thenSaveCreatedBillInRepository() {
+        Bill bill = mock(Bill.class);
+        Config config = new Config();
+        when(configRepository.findConfig()).thenReturn(config);
+        when(billFactory.createBill(any(), any(), any())).thenReturn(bill);
+
+        checkOutService.processBill(A_CUSTOMER_ID, SOME_CUSTOMER_ORDER);
+
+        verify(billRepository).saveBillByCustomerId(A_CUSTOMER_ID, bill);
+    }
+
+    @Test
+    public void whenProcessingBillForCustomerWithGroup_thenCreateBillWithCustomerOrdersAndTaxRateAndTipRate() {Bill bill = mock(Bill.class);
+        when(billFactory.createBill(any(), any(), any())).thenReturn(bill);
+        Config config = new Config();
+        when(configRepository.findConfig()).thenReturn(config);
+
+        checkOutService.processBillForGroup(A_CUSTOMER_ID, SOME_CUSTOMER_ORDER);
+
+        verify(billFactory).createBill(SOME_CUSTOMER_ORDER, configRepository.findConfig().getTaxRate(), configRepository.findConfig().getGroupTipRate());
+
+    }
+
+    @Test
+    public void whenProcessingBillForCustomerWithGroup_thenSaveCreatedBillInRepository() {
+        Bill bill = mock(Bill.class);
+        Config config = new Config();
+        when(configRepository.findConfig()).thenReturn(config);
+        when(billFactory.createBill(any(), any(), any())).thenReturn(bill);
+
+        checkOutService.processBill(A_CUSTOMER_ID, SOME_CUSTOMER_ORDER);
+
+        verify(billRepository).saveBillByCustomerId(A_CUSTOMER_ID, bill);
+    }
+
     private Reservation givenReservation() {
         Reservation reservation = mock(Reservation.class);
         when(seatingService.getReservationByGroupName(CheckOutServiceTest.A_GROUP_NAME)).thenReturn(reservation);
@@ -180,8 +244,8 @@ public class CheckOutServiceTest {
 
     private Order givenCustomerOrder() {
         Order order = mock(Order.class);
-        when(customerService.findOrder(CheckOutServiceTest.A_CUSTOMER_ID)).thenReturn(order);
+        when(orderRepository.findOrderByCustomerId(CheckOutServiceTest.A_CUSTOMER_ID)).thenReturn(order);
 
         return order;
-    }
+    }*/
 }

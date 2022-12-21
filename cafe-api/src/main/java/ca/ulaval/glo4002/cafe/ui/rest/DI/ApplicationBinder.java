@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.cafe.ui.rest.DI;
 import ca.ulaval.glo4002.cafe.application.bill.BillFactory;
 import ca.ulaval.glo4002.cafe.application.bill.BillService;
 import ca.ulaval.glo4002.cafe.application.checkIn.CheckInService;
+import ca.ulaval.glo4002.cafe.application.checkOut.CheckOutService;
 import ca.ulaval.glo4002.cafe.application.close.CloseService;
 import ca.ulaval.glo4002.cafe.application.cooking.CookingService;
 import ca.ulaval.glo4002.cafe.application.cooking.RecipeFactory;
@@ -64,12 +65,13 @@ public class ApplicationBinder extends AbstractBinder {
         InventoryAssembler inventoryAssembler = new InventoryAssembler();
 
         LayoutService layoutService = new LayoutService(configRepositoryInMemory, cubesListFactory, cubeRepositoryInMemory, customerRepositoryInMemory, layoutDTOAssembler);
-        BillService billService = new BillService(billFactory, billRepositoryInMemory, configRepositoryInMemory);
+        BillService billService = new BillService(billRepositoryInMemory);
         InventoryService inventoryService = new InventoryService(ingredientRepositoryInMemory, inventoryAssembler);
         CookingService cookingService = new CookingService(recipeRepositoryInMemory, ingredientRepositoryInMemory);
         CustomerService customerService = new CustomerService(cookingService, customerRepositoryInMemory, ordersFactory, menuItemRepositoryInMemory, orderRepositoryInMemory);
         SeatingService seatingService = new SeatingService(configRepositoryInMemory, reservationStrategyFactory, reservationFactory, seatingOrganizerFactory, cubeRepositoryInMemory, reservationRepositoryInMemory);
         CheckInService checkInService = new CheckInService(customerRepositoryInMemory, seatingService, ordersFactory, orderRepositoryInMemory);
+        CheckOutService checkOutService = new CheckOutService(customerRepositoryInMemory, orderRepositoryInMemory, seatingService, configRepositoryInMemory, billFactory, billRepositoryInMemory);
         CloseService closeService = new CloseService(configRepositoryInMemory, cubeRepositoryInMemory, reservationRepositoryInMemory, customerRepositoryInMemory, orderRepositoryInMemory,
                 billRepositoryInMemory, menuItemRepositoryInMemory, recipeRepositoryInMemory, ingredientRepositoryInMemory, cubesListFactory);
         MenuService menuService = new MenuService(menuItemRepositoryInMemory, recipeRepositoryInMemory);
@@ -87,6 +89,7 @@ public class ApplicationBinder extends AbstractBinder {
         bind(inventoryService).in(Singleton.class);
         bind(cookingService).in(Singleton.class);
         bind(menuService).in(Singleton.class);
+        bind(checkOutService).in(Singleton.class);
 
         bind(configValidator).in(Singleton.class);
         bind(inventoryValidator).in(Singleton.class);
