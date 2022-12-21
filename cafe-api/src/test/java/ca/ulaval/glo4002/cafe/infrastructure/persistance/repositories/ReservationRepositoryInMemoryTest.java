@@ -53,11 +53,8 @@ public class ReservationRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenGroupWithNoReservation_whenSearchingReservationByGroupName_thenNoReservationIsFound() {
-        assertThrows(NoReservationsFoundException.class, () -> {
-                    reservationRepositoryInMemory.findReservationByGroupName(A_GROUP_NAME);
-                }
-        );
+    public void givenGroupWithNoReservation_whenSearchingReservationByGroupName_thenNullReservationIsFound() {
+        assertNull(reservationRepositoryInMemory.findReservationByGroupName(A_GROUP_NAME));
     }
 
     @Test

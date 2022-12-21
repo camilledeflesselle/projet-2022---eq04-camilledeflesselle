@@ -3,11 +3,7 @@ package ca.ulaval.glo4002.cafe.application.seating;
 import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.cube.ICubeRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
-import ca.ulaval.glo4002.cafe.domain.reservation.DuplicateGroupNameException;
-import ca.ulaval.glo4002.cafe.domain.reservation.Group;
-import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
-import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
-import ca.ulaval.glo4002.cafe.domain.reservation.ReservationFactory;
+import ca.ulaval.glo4002.cafe.domain.reservation.*;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategyFactory;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
@@ -37,7 +33,8 @@ public class SeatingService {
         if (!customer.hasGroup()) {
             return this.seatingOrganizer.getFirstFreeSeat();
         }
-        Reservation reservation = this.reservationRepository.findReservationByGroupName(customer.getGroupName());
+        Reservation reservation = this.getReservationByGroupName(customer.getGroupName());
+
         return this.seatingOrganizer.findSeatBySeatId(reservation.popFirstReservedSeatId());
     }
 
@@ -59,7 +56,11 @@ public class SeatingService {
     }
 
     public Reservation getReservationByGroupName(String groupName) {
-        return this.reservationRepository.findReservationByGroupName(groupName);
+        Reservation reservation = this.reservationRepository.findReservationByGroupName(groupName);
+        if (reservation == null) {
+            throw new NoReservationsFoundException();
+        }
+        return reservation;
     }
 
     public void reset() {

@@ -1,9 +1,12 @@
 package ca.ulaval.glo4002.cafe.application.checkIn;
 
-import ca.ulaval.glo4002.cafe.application.customer.CustomerService;
 import ca.ulaval.glo4002.cafe.application.seating.SeatingService;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.DuplicateCustomerException;
+import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
+import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
+import ca.ulaval.glo4002.cafe.domain.order.Order;
+import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,24 +15,30 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class CheckInServiceTest {
-    CustomerService customerService;
+    ICustomerRepository customerRepository;
     SeatingService seatingService;
     CheckInService checkInService;
     Customer customer;
     Seat seat;
+    private OrdersFactory ordersFactory;
+    private IOrderRepository ordersRepository;
 
     @BeforeEach
     void setUp() {
-        customerService = mock(CustomerService.class);
+        customerRepository = mock(ICustomerRepository.class);
         seatingService = mock(SeatingService.class);
         seat = mock(Seat.class);
         customer = mock(Customer.class);
-        checkInService = new CheckInService(customerService, seatingService);
+        ordersFactory = mock(OrdersFactory.class);
+        ordersRepository = mock(IOrderRepository.class);
+        checkInService = new CheckInService(customerRepository, seatingService, ordersFactory, ordersRepository);
         when(seatingService.getSeatForCustomer(customer)).thenReturn(seat);
     }
 
     @Test
     public void whenCheckInANewCustomer_thenAssignASeat() {
+        Customer newCustomer = mock(Customer.class);
+        when(customerRepository.findCustomerByCustomerId(newCustomer.getId())).thenReturn(null);
         checkInService.checkIn(customer);
 
         verify(seat).assign();
@@ -37,7 +46,7 @@ class CheckInServiceTest {
 
     @Test
     public void whenCheckInAnExistingCustomer_thenDuplicateCustomerException() {
-        when(customerService.hasAlreadyVisited(customer)).thenReturn(true);
+        when(customerRepository.findCustomerByCustomerId(customer.getId())).thenReturn(customer);
 
         assertThrows(DuplicateCustomerException.class, () -> checkInService.checkIn(customer)
         );
@@ -51,9 +60,21 @@ class CheckInServiceTest {
     }
 
     @Test
-    public void whenCheckInANewCustomer_thenSaveCustomer() {
+    public void whenCheckInANewCustomer_thenSaveCustomerInStorage() {
         checkInService.checkIn(customer);
 
-        verify(customerService).saveCustomer(customer);
+        verify(customerRepository).saveCustomer(customer);
+    }
+
+
+    @Test
+    public void whenInitOrder_thenOrderIsCreatedAndSaved() {
+        Order order = mock(Order.class);
+        when(ordersFactory.create(any())).thenReturn(order);
+
+        checkInService.initOrder(customer.getId());
+
+        verify(ordersFactory).create(any());
+        verify(ordersRepository).saveOrdersByCustomerId(customer.getId(), order);
     }
 }

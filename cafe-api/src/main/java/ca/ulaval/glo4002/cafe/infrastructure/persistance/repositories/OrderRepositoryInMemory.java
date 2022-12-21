@@ -19,9 +19,6 @@ public class OrderRepositoryInMemory implements IOrderRepository {
     }
 
     public Order findOrderByCustomerId(CustomerId customerId) {
-        if (!this.orders.containsKey(customerId)) {
-            throw new NotFoundException();
-        }
         return this.orders.get(customerId);
     }
 

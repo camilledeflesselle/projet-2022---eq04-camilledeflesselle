@@ -35,9 +35,6 @@ public class ReservationRepositoryInMemory implements IReservationRepository {
     }
 
     public Reservation findReservationByGroupName(String groupName) {
-        if (!this.doesReservationExistsForGroup(groupName)) {
-            throw new NoReservationsFoundException();
-        }
         return this.reservations.get(groupName);
     }
 

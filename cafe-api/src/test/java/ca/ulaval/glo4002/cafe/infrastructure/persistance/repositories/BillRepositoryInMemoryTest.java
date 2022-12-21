@@ -2,13 +2,11 @@ package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
 import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
-import ca.ulaval.glo4002.cafe.domain.bill.NoBillException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 class BillRepositoryInMemoryTest {
@@ -45,11 +43,8 @@ class BillRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenBillThatDoesntExistInRepository_whenSearchingForBillWithCustomerId_thenNoBillIsFound() {
-        assertThrows(
-                NoBillException.class,
-                () -> billRepository.findBillByCustomerId(A_CUSTOMER_ID)
-        );
+    public void givenBillThatDoesntExistInRepository_whenSearchingForBillWithCustomerId_thenNullBillIsFound() {
+        assertNull(billRepository.findBillByCustomerId(A_CUSTOMER_ID));
     }
 
     @Test

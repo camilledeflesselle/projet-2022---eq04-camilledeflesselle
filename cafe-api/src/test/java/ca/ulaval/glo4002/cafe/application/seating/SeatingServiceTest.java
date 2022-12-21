@@ -8,6 +8,7 @@ import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.reservation.DuplicateGroupNameException;
 import ca.ulaval.glo4002.cafe.domain.reservation.Group;
 import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
+import ca.ulaval.glo4002.cafe.domain.reservation.NoReservationsFoundException;
 import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
 import ca.ulaval.glo4002.cafe.domain.reservation.ReservationFactory;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationMethod;
@@ -22,7 +23,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -95,7 +95,7 @@ public class SeatingServiceTest {
     public void givenCustomerWithGroup_whenSearchingSeat_thenSearchReservationInRepositoryWithGroupName() {
         Customer customer = givenCustomerWithGroup();
         Reservation reservation = mock(Reservation.class);
-        when(reservationRepository.findReservationByGroupName(any())).thenReturn(reservation);
+        when(reservationRepository.findReservationByGroupName(A_GROUP_NAME)).thenReturn(reservation);
 
         seatingService.getSeatForCustomer(customer);
 
@@ -163,10 +163,13 @@ public class SeatingServiceTest {
     }
 
     @Test
-    public void whenRequestingReservationFromName_thenReservationIsSearchedInRepositoryFromName() {
-        seatingService.getReservationByGroupName(A_GROUP_NAME);
+    public void whenNoReservationFound_thenRaiseNoReservationsFoundException() {
+        when(reservationRepository.findReservationByGroupName(A_GROUP_NAME)).thenReturn(null);
+
+        assertThrows(NoReservationsFoundException.class, () -> seatingService.getReservationByGroupName(A_GROUP_NAME));
 
         verify(reservationRepository).findReservationByGroupName(A_GROUP_NAME);
+
     }
 
     @Test

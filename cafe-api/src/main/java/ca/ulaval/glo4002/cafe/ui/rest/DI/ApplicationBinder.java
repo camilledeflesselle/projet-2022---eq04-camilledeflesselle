@@ -4,7 +4,6 @@ import ca.ulaval.glo4002.cafe.application.bill.BillFactory;
 import ca.ulaval.glo4002.cafe.application.bill.BillService;
 import ca.ulaval.glo4002.cafe.application.checkIn.CheckInService;
 import ca.ulaval.glo4002.cafe.application.close.CloseService;
-import ca.ulaval.glo4002.cafe.application.config.ConfigService;
 import ca.ulaval.glo4002.cafe.application.cooking.CookingService;
 import ca.ulaval.glo4002.cafe.application.cooking.RecipeFactory;
 import ca.ulaval.glo4002.cafe.application.customer.CustomerService;
@@ -70,7 +69,7 @@ public class ApplicationBinder extends AbstractBinder {
         CookingService cookingService = new CookingService(recipeRepositoryInMemory, ingredientRepositoryInMemory);
         CustomerService customerService = new CustomerService(cookingService, customerRepositoryInMemory, ordersFactory, menuItemRepositoryInMemory, orderRepositoryInMemory);
         SeatingService seatingService = new SeatingService(configRepositoryInMemory, reservationStrategyFactory, reservationFactory, seatingOrganizerFactory, cubeRepositoryInMemory, reservationRepositoryInMemory);
-        CheckInService checkInService = new CheckInService(customerService, seatingService);
+        CheckInService checkInService = new CheckInService(customerRepositoryInMemory, seatingService, ordersFactory, orderRepositoryInMemory);
         CloseService closeService = new CloseService(configRepositoryInMemory, cubeRepositoryInMemory, reservationRepositoryInMemory, customerRepositoryInMemory, orderRepositoryInMemory,
                 billRepositoryInMemory, menuItemRepositoryInMemory, recipeRepositoryInMemory, ingredientRepositoryInMemory, cubesListFactory);
         MenuService menuService = new MenuService(menuItemRepositoryInMemory, recipeRepositoryInMemory);

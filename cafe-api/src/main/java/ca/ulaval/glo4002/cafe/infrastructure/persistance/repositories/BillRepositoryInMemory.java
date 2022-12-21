@@ -19,9 +19,6 @@ public class BillRepositoryInMemory implements IBillRepository {
     }
 
     public Bill findBillByCustomerId(CustomerId customerId) {
-        if (!this.bills.containsKey(customerId)) {
-            throw new NoBillException();
-        }
         return this.bills.get(customerId);
     }
 

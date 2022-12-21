@@ -18,9 +18,6 @@ public class CustomerRepositoryInMemory implements ICustomerRepository {
     }
 
     public Customer findCustomerByCustomerId(CustomerId customerId) {
-        if (!this.customers.containsKey(customerId)) {
-            throw new CustomerDoesNotExistsException();
-        }
         return this.customers.get(customerId);
     }
 

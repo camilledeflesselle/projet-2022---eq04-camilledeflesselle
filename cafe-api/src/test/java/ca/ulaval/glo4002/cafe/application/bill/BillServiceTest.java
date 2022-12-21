@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.cafe.application.bill;
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
 import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
+import ca.ulaval.glo4002.cafe.domain.bill.NoBillException;
 import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
 import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -84,9 +86,9 @@ class BillServiceTest {
     }
 
     @Test
-    public void whenGetBillByCustomerId_thenSearchInBillStorageByCustomerId() {
-        billService.getBillByCustomerId(A_CUSTOMER_ID);
-
+    public void givenNoBillCreatedForCustomer_whenGetBillByCustomerId_thenRaiseNoBillException() {
+        when(billRepository.findBillByCustomerId(A_CUSTOMER_ID)).thenReturn(null);
+        assertThrows(NoBillException.class, () -> billService.getBillByCustomerId(A_CUSTOMER_ID));
         verify(billRepository).findBillByCustomerId(A_CUSTOMER_ID);
     }
     /*

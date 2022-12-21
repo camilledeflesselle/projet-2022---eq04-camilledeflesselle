@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.cafe.application.bill;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
 import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
+import ca.ulaval.glo4002.cafe.domain.bill.NoBillException;
 import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
@@ -28,7 +29,11 @@ public class BillService {
     }
 
     public Bill getBillByCustomerId(CustomerId customerId) {
-        return billRepository.findBillByCustomerId(customerId);
+        Bill bill = billRepository.findBillByCustomerId(customerId);
+        if (bill == null) {
+            throw new NoBillException();
+        }
+        return bill;
     }
 
     public void reset() {

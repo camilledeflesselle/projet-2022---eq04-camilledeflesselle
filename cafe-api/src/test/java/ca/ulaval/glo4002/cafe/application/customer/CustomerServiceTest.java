@@ -16,8 +16,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -55,28 +54,12 @@ class CustomerServiceTest {
 
 
     @Test
-    public void whenSearchingCustomer_thenSearchRepositoryWithCustomerId() {
-        customerService.findCustomer(A_CUSTOMER_ID);
+    public void whenSearchingNotExistingCustomer_thenRaiseCustomerDoesNotExistsException() {
+        assertThrows(CustomerDoesNotExistsException.class, () -> customerService.findCustomer(A_CUSTOMER_ID));
 
         verify(customerRepositoryMock).findCustomerByCustomerId(A_CUSTOMER_ID);
     }
 
-    @Test
-    public void whenSavingCustomer_thenCustomerIsSavedInRepository() {
-        customerService.saveCustomer(customerMock);
-
-        verify(customerRepositoryMock).saveCustomer(customerMock);
-    }
-
-    @Test
-    public void whenInitOrder_thenOrderIsCreated() {
-        when(ordersFactoryMock.create(any())).thenReturn(oldOrderMock);
-
-        customerService.initOrder(A_CUSTOMER_ID);
-
-        verify(ordersFactoryMock).create(any());
-        verify(orderRepositoryMock).saveOrdersByCustomerId(A_CUSTOMER_ID, oldOrderMock);
-    }
 
     @Test
     public void whenUpdatingCustomerOrders_thenNewOrderIsCreatedFromMenuItems() {
@@ -129,21 +112,14 @@ class CustomerServiceTest {
         //verify(orderRepositoryMock).saveOrdersByCustomerId(A_CUSTOMER_ID, concatenatedOrderMock);
     }
 
+    /*
     @Test
-    public void whenCustomHasAlreadyVisited_thenReturnTrue() {
+    public void whenCustomHasAlreadyVisited_thenRaiseDuplicate() {
         when(customerRepositoryMock.findCustomerByCustomerId(A_CUSTOMER_ID)).thenReturn(customerMock);
 
         boolean hasAlreadyVisited = customerService.hasAlreadyVisited(customerMock);
 
         assertTrue(hasAlreadyVisited);
-    }
+    }*/
 
-    @Test
-    public void whenCustomHasNotVisited_thenReturnFalse() {
-        when(customerRepositoryMock.findCustomerByCustomerId(A_CUSTOMER_ID)).thenThrow(CustomerDoesNotExistsException.class);
-        when(customerMock.getId()).thenReturn(A_CUSTOMER_ID);
-        boolean hasAlreadyVisited = customerService.hasAlreadyVisited(customerMock);
-
-        assertFalse(hasAlreadyVisited);
-    }
 }
