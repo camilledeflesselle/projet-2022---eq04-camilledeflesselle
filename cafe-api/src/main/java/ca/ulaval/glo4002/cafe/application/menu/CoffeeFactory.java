@@ -22,9 +22,8 @@ public class CoffeeFactory {
             case AMERICANO -> new MenuItem(type.getId(), new Amount(2.25f));
             case DARK_ROAST -> new MenuItem(type.getId(), new Amount(2.1f));
             case CAPPUCCINO -> new MenuItem(type.getId(), new Amount(3.29f));
-            case ESPRESSO -> new MenuItem(type.getId(), new Amount(2.95f));
+            case ESPRESSO, LATTE -> new MenuItem(type.getId(), new Amount(2.95f));
             case FLAT_WHITE -> new MenuItem(type.getId(), new Amount(3.75f));
-            case LATTE -> new MenuItem(type.getId(), new Amount(2.95f));
             case MACCHIATO -> new MenuItem(type.getId(), new Amount(4.75f));
             case MOCHA -> new MenuItem(type.getId(), new Amount(4.15f));
         };

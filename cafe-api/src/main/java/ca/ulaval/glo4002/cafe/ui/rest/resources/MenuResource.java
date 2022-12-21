@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.cafe.ui.rest.resources;
 
 import ca.ulaval.glo4002.cafe.application.menu.MenuService;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.MenuItemDTO;
 import ca.ulaval.glo4002.cafe.ui.rest.validators.menu.MenuItemAssembler;
 import jakarta.inject.Inject;
@@ -27,10 +28,11 @@ public class MenuResource {
 
     @POST
     public Response addMenuItem(MenuItemDTO menuItemDTO) {
-        this.menuItemAssembler.validate(menuItemDTO);
-        this.menuService.addMenuItem(this.menuItemAssembler.menuItemDTOToMenuItem(menuItemDTO));
+        MenuItem newMenuItem = this.menuItemAssembler.menuItemDTOToMenuItem(menuItemDTO);
+
+        //this.menuService.addMenuItem(this.menuItemAssembler.menuItemDTOToMenuItem(menuItemDTO));
         return Response
-                .ok()
+                .status(200)
                 .build();
     }
 }

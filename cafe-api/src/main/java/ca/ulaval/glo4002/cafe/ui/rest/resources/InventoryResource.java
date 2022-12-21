@@ -13,7 +13,7 @@ import java.util.List;
 
 @Path("/inventory")
 @Consumes(MediaType.APPLICATION_JSON)
-@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+@Produces(MediaType.APPLICATION_JSON)
 public class InventoryResource {
     private final InventoryValidator inventoryValidator;
     private final InventoryService inventoryService;
