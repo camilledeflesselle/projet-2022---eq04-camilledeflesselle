@@ -14,7 +14,7 @@ import ca.ulaval.glo4002.cafe.application.layout.LayoutDTOAssembler;
 import ca.ulaval.glo4002.cafe.application.layout.LayoutService;
 import ca.ulaval.glo4002.cafe.application.menu.CoffeeFactory;
 import ca.ulaval.glo4002.cafe.application.menu.MenuService;
-import ca.ulaval.glo4002.cafe.application.seating.ReservationService;
+import ca.ulaval.glo4002.cafe.application.reservation.ReservationService;
 import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
 import ca.ulaval.glo4002.cafe.domain.reservation.ReservationFactory;

@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.cafe.application.checkIn;
 
-import ca.ulaval.glo4002.cafe.application.seating.ReservationService;
+import ca.ulaval.glo4002.cafe.application.reservation.ReservationService;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.DuplicateCustomerException;
 import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
@@ -38,7 +38,7 @@ class CheckInServiceTest {
         seatingOrganizer = mock(SeatingOrganizer.class);
         reservationRepository = mock(IReservationRepository.class);
         checkInService = new CheckInService(customerRepository, seatingOrganizer, ordersFactory, ordersRepository, reservationRepository);
-        when(seatingOrganizer.getFirstFreeSeat()).thenReturn(seat);
+        when(seatingOrganizer.findSeat(customer, reservationRepository)).thenReturn(seat);
     }
 
     @Test
@@ -49,6 +49,14 @@ class CheckInServiceTest {
 
         verify(seat).assign();
     }
+
+    @Test
+    public void givenReservationRepository_whenCheckInANewCustomer_thenSeatingOrganizerSearchASeat() {
+        checkInService.checkIn(customer);
+
+        verify(seatingOrganizer).findSeat(customer, reservationRepository);
+    }
+
 
     @Test
     public void whenCheckInAnExistingCustomer_thenDuplicateCustomerException() {
@@ -74,11 +82,11 @@ class CheckInServiceTest {
 
 
     @Test
-    public void whenInitOrder_thenOrderIsCreatedAndSaved() {
+    public void whenCheckInANewCustomer_thenCreateEmptyOrderAndSavedThisOrder() {
         Order order = mock(Order.class);
         when(ordersFactory.create(any())).thenReturn(order);
 
-        checkInService.initOrder(customer.getId());
+        checkInService.checkIn(customer);
 
         verify(ordersFactory).create(any());
         verify(ordersRepository).saveOrdersByCustomerId(customer.getId(), order);

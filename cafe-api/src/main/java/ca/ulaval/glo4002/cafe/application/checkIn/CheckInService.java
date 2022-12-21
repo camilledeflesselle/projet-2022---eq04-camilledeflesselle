@@ -31,33 +31,16 @@ public class CheckInService {
         if (!(this.customerRepository.findCustomerByCustomerId(customer.getId()) == null)) {
             throw new DuplicateCustomerException();
         }
-        Seat seat = this.getSeatForCustomer(customer);
+        Seat seat = this.seatingOrganizer.findSeat(customer, this.reservationRepository);
         seat.assign();
         customer.setSeatId(seat.getId());
-        this.initOrder(customer.getId());
         this.customerRepository.saveCustomer(customer);
+        this.initOrder(customer.getId());
     }
 
-    public void initOrder(CustomerId customerId) {
+    private void initOrder(CustomerId customerId) {
         Order order = this.ordersFactory.create(new ArrayList<>());
         this.ordersRepository.saveOrdersByCustomerId(customerId, order);
-    }
-
-    public Seat getSeatForCustomer(Customer customer) {
-        if (!customer.hasGroup()) {
-            return this.seatingOrganizer.getFirstFreeSeat();
-        }
-        Reservation reservation = this.getReservationByGroupName(customer.getGroupName());
-
-        return this.seatingOrganizer.findSeatBySeatId(reservation.popFirstReservedSeatId());
-    }
-
-    public Reservation getReservationByGroupName(String groupName) {
-        Reservation reservation = this.reservationRepository.findReservationByGroupName(groupName);
-        if (reservation == null) {
-            throw new NoReservationsFoundException();
-        }
-        return reservation;
     }
 
 }

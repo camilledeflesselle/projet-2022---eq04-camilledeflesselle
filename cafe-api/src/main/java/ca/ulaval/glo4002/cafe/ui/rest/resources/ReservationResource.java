@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.cafe.ui.rest.resources;
 
-import ca.ulaval.glo4002.cafe.application.seating.ReservationService;
+import ca.ulaval.glo4002.cafe.application.reservation.ReservationService;
 import ca.ulaval.glo4002.cafe.domain.reservation.Group;
 import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.GroupDTO;

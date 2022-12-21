@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.cafe.application.checkOut;
 
 import ca.ulaval.glo4002.cafe.application.bill.BillFactory;
-import ca.ulaval.glo4002.cafe.application.seating.ReservationService;
+import ca.ulaval.glo4002.cafe.application.reservation.ReservationService;
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
 import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
