@@ -38,7 +38,6 @@ public class SeatingServiceTest {
     private static SeatingOrganizer seatingOrganizer;
     private static ReservationFactory reservationFactory;
     private static List<Cube> cubes;
-    private IConfigRepository configRepository;
 
     @BeforeEach
     public void setup() {
@@ -50,7 +49,7 @@ public class SeatingServiceTest {
         seatingOrganizer = mock(SeatingOrganizer.class);
         reservationFactory = mock(ReservationFactory.class);
         cubes = new ArrayList<>(List.of(mock(Cube.class)));
-        configRepository = mock(IConfigRepository.class);
+        IConfigRepository configRepository = mock(IConfigRepository.class);
         Config config = mock(Config.class);
         when(config.getReservationMethod()).thenReturn(GroupReservationMethod.DEFAULT);
         when(configRepository.findConfig()).thenReturn(config);
@@ -58,11 +57,6 @@ public class SeatingServiceTest {
         when(reservationStrategyFactory.createReservationStrategy(GroupReservationMethod.DEFAULT)).thenReturn(groupReservationStrategy);
         when(seatingOrganizerFactory.createSeatingOrganizer(any())).thenReturn(seatingOrganizer);
         seatingService = new SeatingService(configRepository, reservationStrategyFactory, reservationFactory, seatingOrganizerFactory, cubeRepository, reservationRepository);
-    }
-
-    @Test
-    public void whenInitialized_thenGroupReservationStrategyIsCreatedFromDefaultReservationMethod() {
-        verify(reservationStrategyFactory).createReservationStrategy(GroupReservationMethod.DEFAULT);
     }
 
     @Test
