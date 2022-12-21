@@ -74,7 +74,7 @@ public class ApplicationBinder extends AbstractBinder {
         CheckInService checkInService = new CheckInService(customerService, seatingService);
         CloseService closeService = new CloseService(configRepositoryInMemory, cubeRepositoryInMemory, reservationRepositoryInMemory, customerRepositoryInMemory, orderRepositoryInMemory,
                 billRepositoryInMemory, menuItemRepositoryInMemory, recipeRepositoryInMemory, ingredientRepositoryInMemory, cubesListFactory);
-        MenuService menuService = new MenuService(menuItemRepositoryInMemory);
+        MenuService menuService = new MenuService(menuItemRepositoryInMemory, recipeRepositoryInMemory);
 
         ConfigValidator configValidator = new ConfigValidator(taxesRepositoryInMemory);
         InventoryValidator inventoryValidator = new InventoryValidator(ingredientRepositoryInMemory);

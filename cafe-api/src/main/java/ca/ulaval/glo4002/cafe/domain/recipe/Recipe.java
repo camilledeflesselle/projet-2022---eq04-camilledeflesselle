@@ -30,4 +30,8 @@ public class Recipe {
     public boolean contains(IngredientId name, int quantity) {
         return this.ingredients.stream().anyMatch(ingredient -> ingredient.getId().equals(name) && ingredient.getQuantity() == quantity);
     }
+
+    public boolean isCustom() {
+        return this.id.isCustom();
+    }
 }

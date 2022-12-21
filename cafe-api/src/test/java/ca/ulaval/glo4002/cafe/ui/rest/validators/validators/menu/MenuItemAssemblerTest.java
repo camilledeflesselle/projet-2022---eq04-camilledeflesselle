@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.cafe.ui.rest.validators.validators.menu;
 import ca.ulaval.glo4002.cafe.application.menu.CoffeeFactory;
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.MenuItemRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.MenuItemDTO;
@@ -26,14 +27,12 @@ class MenuItemAssemblerTest {
     private static final float SOME_PRICE = 1.5f;
     private static final String A_NAME_ALREADY_IN_MENU = "Cappuccino";
     private static final String SOME_NAME_NOT_IN_MENU = "Pumpkin Latte";
-
     private MenuItemAssembler menuItemAssembler;
-    private MenuItemRepositoryInMemory menuItemRepository;
 
     @BeforeEach
     void setUpMenuItemAssembler() {
         CoffeeFactory coffeeFactory = new CoffeeFactory();
-        menuItemRepository = new MenuItemRepositoryInMemory(coffeeFactory);
+        MenuItemRepositoryInMemory menuItemRepository = new MenuItemRepositoryInMemory(coffeeFactory);
         menuItemAssembler = new MenuItemAssembler(menuItemRepository);
     }
 
@@ -104,9 +103,25 @@ class MenuItemAssemblerTest {
 
         Recipe recipe = menuItemAssembler.menuItemDTOToRecipe(menuItemDTO);
 
-        SOME_CORRECT_INGREDIENTS.forEach((name, quantity) -> {
-            assertTrue(recipe.contains(new IngredientId(name), quantity));
-        });
+        SOME_CORRECT_INGREDIENTS.forEach((name, quantity) -> assertTrue(recipe.contains(new IngredientId(name), quantity)));
+    }
+
+    @Test
+    public void whenAssembleMenuItemDTO_thenMenuItemACustomMenuItem() {
+        MenuItemDTO menuItemDTO = new MenuItemDTO(SOME_NAME_NOT_IN_MENU, new RecipeDTO(SOME_CORRECT_INGREDIENTS), SOME_PRICE);
+
+        MenuItem menuItem = menuItemAssembler.menuItemDTOToMenuItem(menuItemDTO);
+
+        assertTrue(menuItem.isCustom());
+    }
+
+    @Test
+    public void whenAssembleMenuItemDTO_thenRecipeIsACustomRecipe() {
+        MenuItemDTO menuItemDTO = new MenuItemDTO(SOME_NAME_NOT_IN_MENU, new RecipeDTO(SOME_CORRECT_INGREDIENTS), SOME_PRICE);
+
+        Recipe recipe = menuItemAssembler.menuItemDTOToRecipe(menuItemDTO);
+
+        assertTrue(recipe.isCustom());
     }
 
 }

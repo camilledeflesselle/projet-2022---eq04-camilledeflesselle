@@ -8,7 +8,6 @@ import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.MenuItemDTO;
 import jakarta.ws.rs.BadRequestException;
-
 import java.util.List;
 
 public class MenuItemAssembler {
@@ -24,13 +23,13 @@ public class MenuItemAssembler {
     public MenuItem menuItemDTOToMenuItem(MenuItemDTO menuItemDTO) {
         this.validateName(menuItemDTO.getName());
         this.validateCost(menuItemDTO.getCost());
-        MenuItemId menuItemId = new MenuItemId(menuItemDTO.getName());
+        MenuItemId menuItemId = new MenuItemId(menuItemDTO.getName(), true);
         Amount cost = new Amount(menuItemDTO.getCost());
         return new MenuItem(menuItemId, cost);
     }
 
     public Recipe menuItemDTOToRecipe(MenuItemDTO menuItemDTO) {
-        MenuItemId menuItemId = new MenuItemId(menuItemDTO.getName());
+        MenuItemId menuItemId = new MenuItemId(menuItemDTO.getName(), true);
         List<Ingredient> ingredients = this.recipeValidator.recipeDTOToListIngredients(menuItemDTO.getIngredients());
         return new Recipe(menuItemId, ingredients);
     }
