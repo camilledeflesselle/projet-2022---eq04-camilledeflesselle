@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.cafe.application.seating;
 
+import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.cube.ICubeRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.reservation.DuplicateGroupNameException;
@@ -7,7 +8,6 @@ import ca.ulaval.glo4002.cafe.domain.reservation.Group;
 import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
 import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
 import ca.ulaval.glo4002.cafe.domain.reservation.ReservationFactory;
-import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationMethod;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.IGroupReservationStrategy;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategyFactory;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
@@ -23,21 +23,18 @@ public class SeatingService {
     private final ICubeRepository cubeRepository;
     private final IReservationRepository reservationRepository;
     private final ReservationFactory reservationFactory;
+    private final IConfigRepository configRepository;
     private IGroupReservationStrategy groupReservationStrategy;
     private SeatingOrganizer seatingOrganizer;
 
-    public SeatingService(ReservationStrategyFactory reservationStrategyFactory, ReservationFactory reservationFactory, SeatingOrganizerFactory seatingOrganizerFactory, ICubeRepository cubeRepository, IReservationRepository reservationRepository) {
+    public SeatingService(IConfigRepository configRepository, ReservationStrategyFactory reservationStrategyFactory, ReservationFactory reservationFactory, SeatingOrganizerFactory seatingOrganizerFactory, ICubeRepository cubeRepository, IReservationRepository reservationRepository) {
         this.reservationStrategyFactory = reservationStrategyFactory;
         this.reservationFactory = reservationFactory;
         this.seatingOrganizerFactory = seatingOrganizerFactory;
         this.cubeRepository = cubeRepository;
         this.reservationRepository = reservationRepository;
-        this.groupReservationStrategy = this.reservationStrategyFactory.createReservationStrategy(GroupReservationMethod.DEFAULT);
-        this.seatingOrganizer = this.seatingOrganizerFactory.createSeatingOrganizer(cubeRepository.findAll());
-    }
-
-    public void updateConfig(GroupReservationMethod groupReservationMethod) {
-        this.groupReservationStrategy = this.reservationStrategyFactory.createReservationStrategy(groupReservationMethod);
+        this.configRepository = configRepository;
+        this.groupReservationStrategy = this.reservationStrategyFactory.createReservationStrategy(configRepository.findConfig().getReservationMethod());
         this.seatingOrganizer = this.seatingOrganizerFactory.createSeatingOrganizer(cubeRepository.findAll());
     }
 
