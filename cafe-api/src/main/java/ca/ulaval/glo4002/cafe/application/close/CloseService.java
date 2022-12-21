@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.cafe.application.close;
 
 import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
+import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.cube.Cube;
 import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
@@ -41,6 +42,11 @@ public class CloseService {
         this.menuItemRepository = menuItemRepository;
         this.recipeRepository = recipeRepository;
         this.inventoryRepository = inventoryRepository;
+    }
+
+    public void updateConfig(Config config) {
+        this.configRepository.saveConfig(config);
+        this.closeCafe();
     }
 
     public void closeCafe() {

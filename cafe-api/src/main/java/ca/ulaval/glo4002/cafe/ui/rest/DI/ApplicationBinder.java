@@ -65,12 +65,11 @@ public class ApplicationBinder extends AbstractBinder {
         InventoryAssembler inventoryAssembler = new InventoryAssembler();
 
         LayoutService layoutService = new LayoutService(configRepositoryInMemory, cubesListFactory, cubeRepositoryInMemory, customerRepositoryInMemory, layoutDTOAssembler);
-        ConfigService configService = new ConfigService(configRepositoryInMemory);
         BillService billService = new BillService(billFactory, billRepositoryInMemory, configRepositoryInMemory);
         InventoryService inventoryService = new InventoryService(ingredientRepositoryInMemory, inventoryAssembler);
         CookingService cookingService = new CookingService(recipeRepositoryInMemory, ingredientRepositoryInMemory);
         CustomerService customerService = new CustomerService(cookingService, customerRepositoryInMemory, ordersFactory, menuItemRepositoryInMemory, orderRepositoryInMemory);
-        SeatingService seatingService = new SeatingService(reservationStrategyFactory, reservationFactory, seatingOrganizerFactory, cubeRepositoryInMemory, reservationRepositoryInMemory);
+        SeatingService seatingService = new SeatingService(configRepositoryInMemory, reservationStrategyFactory, reservationFactory, seatingOrganizerFactory, cubeRepositoryInMemory, reservationRepositoryInMemory);
         CheckInService checkInService = new CheckInService(customerService, seatingService);
         CloseService closeService = new CloseService(configRepositoryInMemory, cubeRepositoryInMemory, reservationRepositoryInMemory, customerRepositoryInMemory, orderRepositoryInMemory,
                 billRepositoryInMemory, menuItemRepositoryInMemory, recipeRepositoryInMemory, ingredientRepositoryInMemory, cubesListFactory);
@@ -80,7 +79,6 @@ public class ApplicationBinder extends AbstractBinder {
         InventoryValidator inventoryValidator = new InventoryValidator(ingredientRepositoryInMemory);
         MenuItemAssembler menuItemAssembler = new MenuItemAssembler(menuItemRepositoryInMemory);
 
-        bind(configService).in(Singleton.class);
         bind(customerService).in(Singleton.class);
         bind(seatingService).in(Singleton.class);
         bind(billService).in(Singleton.class);

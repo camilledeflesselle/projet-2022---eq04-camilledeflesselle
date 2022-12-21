@@ -10,7 +10,6 @@ import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,8 @@ public class CustomerService {
     private final IMenuItemRepository menuItemRepository;
     private final IOrderRepository ordersRepository;
 
-    public CustomerService(CookingService cookingService, ICustomerRepository customerRepository, OrdersFactory ordersFactory, IMenuItemRepository menuItemRepository, IOrderRepository ordersRepository) {
+    public CustomerService(CookingService cookingService, ICustomerRepository customerRepository,
+                           OrdersFactory ordersFactory, IMenuItemRepository menuItemRepository, IOrderRepository ordersRepository) {
         this.cookingService = cookingService;
         this.customerRepository = customerRepository;
         this.ordersFactory = ordersFactory;
@@ -49,14 +49,10 @@ public class CustomerService {
     public void updateOrdersOfCustomer(CustomerId customerId, List<String> menuItemsStrList) {
         List<MenuItem> menuItems = this.ordersFactory.buildMenuItemListFromStr(menuItemsStrList, this.menuItemRepository);
         Order newOrder = this.ordersFactory.create(menuItems);
+        this.cookingService.cookOrder(newOrder);
         Order order = this.ordersRepository.findOrderByCustomerId(customerId);
         Order concatenateOrder = order.appendMenuItemsFrom(newOrder);
         this.ordersRepository.saveOrdersByCustomerId(customerId, concatenateOrder);
-        this.cookingService.cookOrder(concatenateOrder);
-    }
-
-    public void reset() {
-        this.customerRepository.deleteAll();
     }
 
     public boolean hasAlreadyVisited(Customer customer) {

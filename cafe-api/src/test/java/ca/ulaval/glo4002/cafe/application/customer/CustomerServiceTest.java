@@ -107,13 +107,13 @@ class CustomerServiceTest {
     @Test
     public void whenUpdatingCustomerOrders_thenNewOrderIsCooked() {
         when(ordersFactoryMock.buildMenuItemListFromStr(SOME_MENU_ITEM_NAMES, menuItemRepositoryMock)).thenReturn(menuItemListMock);
-        when(ordersFactoryMock.create(menuItemListMock)).thenReturn(oldOrderMock);
+        when(ordersFactoryMock.create(menuItemListMock)).thenReturn(newOrderMock);
         when(orderRepositoryMock.findOrderByCustomerId(A_CUSTOMER_ID)).thenReturn(oldOrderMock);
         when(oldOrderMock.appendMenuItemsFrom(newOrderMock)).thenReturn(concatenatedOrderMock);
 
         customerService.updateOrdersOfCustomer(A_CUSTOMER_ID, SOME_MENU_ITEM_NAMES);
 
-        //verify(cookingServiceMock).cookOrder(concatenatedOrderMock);
+        verify(cookingServiceMock).cookOrder(newOrderMock);
     }
 
 
@@ -127,14 +127,6 @@ class CustomerServiceTest {
         customerService.updateOrdersOfCustomer(A_CUSTOMER_ID, SOME_MENU_ITEM_NAMES);
 
         //verify(orderRepositoryMock).saveOrdersByCustomerId(A_CUSTOMER_ID, concatenatedOrderMock);
-    }
-
-
-    @Test
-    public void whenReset_thenCustomersAreDeletedFromRepositories() {
-        customerService.reset();
-
-        verify(customerRepositoryMock).deleteAll();
     }
 
     @Test
