@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.cafe.application.checkIn;
 
-import ca.ulaval.glo4002.cafe.application.reservation.ReservationService;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.DuplicateCustomerException;
@@ -17,20 +16,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class CheckInServiceTest {
-    CustomerRepository customerRepository;
-    ReservationService reservationService;
-    CheckInService checkInService;
-    Customer customer;
-    Seat seat;
+    private CustomerRepository customerRepository;
+    private Customer customer;
+    private Seat seat;
     private OrdersFactory ordersFactory;
     private OrderRepository ordersRepository;
     private ReservationRepository reservationRepository;
     private SeatingOrganizer seatingOrganizer;
 
+    private CheckInService checkInService;
+
     @BeforeEach
     void setUp() {
         customerRepository = mock(CustomerRepository.class);
-        reservationService = mock(ReservationService.class);
         seat = mock(Seat.class);
         customer = mock(Customer.class);
         ordersFactory = mock(OrdersFactory.class);
@@ -79,7 +77,6 @@ class CheckInServiceTest {
 
         verify(customerRepository).saveCustomer(customer);
     }
-
 
     @Test
     public void whenCheckInANewCustomer_thenCreateEmptyOrderAndSavedThisOrder() {

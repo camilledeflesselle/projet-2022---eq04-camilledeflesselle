@@ -17,6 +17,8 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
 public class CloseServiceTest {
+
+    private static final Config A_CONFIG = new Config();
     private ReservationRepository reservationRepository;
     private CustomerRepository customerRepository;
     private OrderRepository orderRepository;
@@ -27,7 +29,6 @@ public class CloseServiceTest {
     private InventoryRepository ingredientRepository;
     private CubesListFactory cubesListFactory;
     private CloseService closeService;
-    private final Config A_CONFIG = new Config();
 
     @BeforeEach
     public void setUp() {

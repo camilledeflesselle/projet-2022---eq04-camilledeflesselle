@@ -29,7 +29,6 @@ class BillServiceTest {
         verify(billRepository).findBillByCustomerId(A_CUSTOMER_ID);
     }
 
-
     @Test
     public void givenNoBillCreatedForCustomer_whenGetBillByCustomerId_thenRaiseNoBillException() {
         when(billRepository.findBillByCustomerId(A_CUSTOMER_ID)).thenReturn(null);

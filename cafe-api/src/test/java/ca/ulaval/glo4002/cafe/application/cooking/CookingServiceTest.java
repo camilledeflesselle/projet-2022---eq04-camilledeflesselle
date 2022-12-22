@@ -14,9 +14,9 @@ import static org.mockito.Mockito.*;
 class CookingServiceTest {
     private RecipeRepository recipeRepository;
     private InventoryRepository inventoryRepository;
-    private CookingService cookingService;
     private Cooker cooker;
     private Inventory inventory;
+    private CookingService cookingService;
 
     @BeforeEach
     public void setUp() {
