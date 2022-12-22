@@ -23,7 +23,6 @@ class CheckInServiceTest {
     private OrderRepository ordersRepository;
     private ReservationRepository reservationRepository;
     private SeatingOrganizer seatingOrganizer;
-
     private CheckInService checkInService;
 
     @BeforeEach

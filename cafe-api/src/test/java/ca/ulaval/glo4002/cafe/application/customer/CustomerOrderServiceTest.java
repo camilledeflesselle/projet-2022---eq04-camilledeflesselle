@@ -1,10 +1,7 @@
 package ca.ulaval.glo4002.cafe.application.customer;
 
 import ca.ulaval.glo4002.cafe.application.cooking.CookingService;
-import ca.ulaval.glo4002.cafe.domain.customer.Customer;
-import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistException;
-import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
-import ca.ulaval.glo4002.cafe.domain.customer.CustomerRepository;
+import ca.ulaval.glo4002.cafe.domain.customer.*;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
@@ -19,14 +16,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-class CustomerServiceTest {
+class CustomerOrderServiceTest {
     private static final CustomerId A_CUSTOMER_ID = new CustomerId("id");
     private static final List<String> SOME_MENU_ITEM_NAMES = new ArrayList<>(List.of("item1"));
-    private static Customer customerMock;
     private static Order oldOrderMock;
     private static Order newOrderMock;
     private static List<MenuItem> menuItemListMock;
-    private static CustomerService customerService;
+    private static CustomerOrderService customerOrderService;
     private static CookingService cookingServiceMock;
     private static CustomerRepository customerRepositoryMock;
     private static OrderRepository orderRepositoryMock;
@@ -39,20 +35,19 @@ class CustomerServiceTest {
         cookingServiceMock = mock(CookingService.class);
         customerRepositoryMock = mock(CustomerRepository.class);
         ordersFactoryMock = mock(OrdersFactory.class);
-        customerMock = mock(Customer.class);
         oldOrderMock = mock(Order.class);
         newOrderMock = mock(Order.class);
         concatenatedOrderMock = mock(Order.class);
         menuItemListMock = new ArrayList<>(List.of(mock(MenuItem.class)));
         menuItemRepositoryMock = mock(MenuItemRepository.class);
         orderRepositoryMock = mock(OrderRepository.class);
-        customerService = new CustomerService(cookingServiceMock, customerRepositoryMock, ordersFactoryMock, menuItemRepositoryMock, orderRepositoryMock);
+        customerOrderService = new CustomerOrderService(cookingServiceMock, customerRepositoryMock, ordersFactoryMock, menuItemRepositoryMock, orderRepositoryMock);
     }
 
 
     @Test
     public void whenSearchingNotExistingCustomer_thenRaiseCustomerDoesNotExistsException() {
-        assertThrows(CustomerDoesNotExistException.class, () -> customerService.findCustomer(A_CUSTOMER_ID));
+        assertThrows(CustomerDoesNotExistException.class, () -> customerOrderService.findCustomer(A_CUSTOMER_ID));
 
         verify(customerRepositoryMock).findCustomerByCustomerId(A_CUSTOMER_ID);
     }
@@ -64,7 +59,7 @@ class CustomerServiceTest {
         when(ordersFactoryMock.create(menuItemListMock)).thenReturn(oldOrderMock);
         when(orderRepositoryMock.findOrderByCustomerId(A_CUSTOMER_ID)).thenReturn(oldOrderMock);
 
-        customerService.updateOrdersOfCustomer(A_CUSTOMER_ID, SOME_MENU_ITEM_NAMES);
+        customerOrderService.updateOrdersOfCustomer(A_CUSTOMER_ID, SOME_MENU_ITEM_NAMES);
 
         verify(ordersFactoryMock).buildMenuItemListFromStr(SOME_MENU_ITEM_NAMES, menuItemRepositoryMock);
         verify(ordersFactoryMock).create(menuItemListMock);
@@ -73,13 +68,13 @@ class CustomerServiceTest {
     @Test
     public void whenUpdatingCustomerOrders_thenSearchOrderOfCustomerInStorage() {
         when(ordersFactoryMock.buildMenuItemListFromStr(SOME_MENU_ITEM_NAMES, menuItemRepositoryMock)).thenReturn(menuItemListMock);
-        when(ordersFactoryMock.create(menuItemListMock)).thenReturn(oldOrderMock);
+        when(ordersFactoryMock.create(menuItemListMock)).thenReturn(newOrderMock);
         when(orderRepositoryMock.findOrderByCustomerId(A_CUSTOMER_ID)).thenReturn(oldOrderMock);
 
-        customerService.updateOrdersOfCustomer(A_CUSTOMER_ID, SOME_MENU_ITEM_NAMES);
+        customerOrderService.updateOrdersOfCustomer(A_CUSTOMER_ID, SOME_MENU_ITEM_NAMES);
 
-        //verify(orderRepositoryMock).findOrderByCustomerId(A_CUSTOMER_ID);
-        //verify(oldOrderMock).appendMenuItemsFrom(newOrderMock);
+        verify(orderRepositoryMock).findOrderByCustomerId(A_CUSTOMER_ID);
+        verify(oldOrderMock).appendMenuItemsFrom(newOrderMock);
     }
 
 
@@ -91,7 +86,7 @@ class CustomerServiceTest {
         when(orderRepositoryMock.findOrderByCustomerId(A_CUSTOMER_ID)).thenReturn(oldOrderMock);
         when(oldOrderMock.appendMenuItemsFrom(newOrderMock)).thenReturn(concatenatedOrderMock);
 
-        customerService.updateOrdersOfCustomer(A_CUSTOMER_ID, SOME_MENU_ITEM_NAMES);
+        customerOrderService.updateOrdersOfCustomer(A_CUSTOMER_ID, SOME_MENU_ITEM_NAMES);
 
         verify(cookingServiceMock).cookOrder(newOrderMock);
     }
@@ -100,23 +95,13 @@ class CustomerServiceTest {
     @Test
     public void whenUpdatingCustomerOrders_thenUpdatingCustomerOrderIsSaved() {
         when(ordersFactoryMock.buildMenuItemListFromStr(SOME_MENU_ITEM_NAMES, menuItemRepositoryMock)).thenReturn(menuItemListMock);
-        when(ordersFactoryMock.create(menuItemListMock)).thenReturn(oldOrderMock);
+        when(ordersFactoryMock.create(menuItemListMock)).thenReturn(newOrderMock);
         when(orderRepositoryMock.findOrderByCustomerId(A_CUSTOMER_ID)).thenReturn(oldOrderMock);
         when(oldOrderMock.appendMenuItemsFrom(newOrderMock)).thenReturn(concatenatedOrderMock);
 
-        customerService.updateOrdersOfCustomer(A_CUSTOMER_ID, SOME_MENU_ITEM_NAMES);
+        customerOrderService.updateOrdersOfCustomer(A_CUSTOMER_ID, SOME_MENU_ITEM_NAMES);
 
-        //verify(orderRepositoryMock).saveOrdersByCustomerId(A_CUSTOMER_ID, concatenatedOrderMock);
+        verify(orderRepositoryMock).saveOrdersByCustomerId(A_CUSTOMER_ID, concatenatedOrderMock);
     }
-
-    /*
-    @Test
-    public void whenCustomHasAlreadyVisited_thenRaiseDuplicate() {
-        when(customerRepositoryMock.findCustomerByCustomerId(A_CUSTOMER_ID)).thenReturn(customerMock);
-
-        boolean hasAlreadyVisited = customerService.hasAlreadyVisited(customerMock);
-
-        assertTrue(hasAlreadyVisited);
-    }*/
 
 }

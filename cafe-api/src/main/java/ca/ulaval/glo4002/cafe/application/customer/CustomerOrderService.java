@@ -10,19 +10,18 @@ import ca.ulaval.glo4002.cafe.domain.menu.MenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.domain.order.OrderRepository;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
-import jakarta.ws.rs.NotFoundException;
 
 import java.util.List;
 
-public class CustomerService {
+public class CustomerOrderService {
     private final CookingService cookingService;
     private final CustomerRepository customerRepository;
     private final OrdersFactory ordersFactory;
     private final MenuItemRepository menuItemRepository;
     private final OrderRepository ordersRepository;
 
-    public CustomerService(CookingService cookingService, CustomerRepository customerRepository,
-                           OrdersFactory ordersFactory, MenuItemRepository menuItemRepository, OrderRepository ordersRepository) {
+    public CustomerOrderService(CookingService cookingService, CustomerRepository customerRepository,
+                                OrdersFactory ordersFactory, MenuItemRepository menuItemRepository, OrderRepository ordersRepository) {
         this.cookingService = cookingService;
         this.customerRepository = customerRepository;
         this.ordersFactory = ordersFactory;
@@ -39,11 +38,7 @@ public class CustomerService {
     }
 
     public Order findOrder(CustomerId customerId) {
-        Order order = this.ordersRepository.findOrderByCustomerId(customerId);
-        if (order == null) {
-            throw new NotFoundException();
-        }
-        return order;
+        return this.ordersRepository.findOrderByCustomerId(customerId);
     }
 
     public void updateOrdersOfCustomer(CustomerId customerId, List<String> menuItemsStrList) {
