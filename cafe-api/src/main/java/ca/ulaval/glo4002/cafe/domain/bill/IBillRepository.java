@@ -7,7 +7,5 @@ public interface IBillRepository {
 
     Bill findBillByCustomerId(CustomerId customerId);
 
-    int getAmount();
-
     void deleteAll();
 }

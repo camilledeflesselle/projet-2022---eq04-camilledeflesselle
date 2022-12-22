@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.cafe.domain.config;
 
 import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
-import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationMethod;
+import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationStrategy;
 import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
 
 import java.util.List;
@@ -12,9 +12,9 @@ public class Config {
     private int cubeSize;
     private TaxRate taxRate;
     private TipRate groupTipRate;
-    private GroupReservationMethod reservationMethod;
+    private GroupReservationStrategy reservationMethod;
 
-    public Config(String name, List<String> cubeNames, int cubeSize, TaxRate taxRate, TipRate groupTipRate, GroupReservationMethod reservationMethod) {
+    public Config(String name, List<String> cubeNames, int cubeSize, TaxRate taxRate, TipRate groupTipRate, GroupReservationStrategy reservationMethod) {
         this.name = name;
         this.cubeSize = cubeSize;
         this.taxRate = taxRate;
@@ -34,7 +34,7 @@ public class Config {
         return cubeSize;
     }
 
-    public GroupReservationMethod getReservationMethod() {
+    public GroupReservationStrategy getReservationMethod() {
         return reservationMethod;
     }
 
@@ -50,7 +50,7 @@ public class Config {
         return this.cubeNames;
     }
 
-    public void setGroupReservationMethod(GroupReservationMethod method) {
+    public void setGroupReservationMethod(GroupReservationStrategy method) {
         this.reservationMethod = method;
     }
 

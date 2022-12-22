@@ -17,7 +17,7 @@ public class InventoryAssembler {
         this.inventoryRepository = inventoryRepository;
     }
 
-    public List<Ingredient> inventoryDTOToListIngredients(InventoryDTO inventoryDTO) {
+    public List<Ingredient> assembleFromDTO(InventoryDTO inventoryDTO) {
         List<Ingredient> ingredients = new ArrayList<>();
         Map<String, Integer> inventory = inventoryDTO.getInventory();
 
@@ -32,12 +32,11 @@ public class InventoryAssembler {
             if (inventory.get(ingredientName) < 0) {
                 throw new BadRequestException("Ingredient quantity cannot be negative");
             }
-            if (!this.inventoryRepository.getInventory().contains(ingredientName)) {
-                throw new BadRequestException("Ingredient name is not valid");
+            if (this.inventoryRepository.getInventory().contains(ingredientName)) {
+                IngredientId id = new IngredientId(ingredientName);
+                Ingredient ingredient = new Ingredient(id, inventory.get(ingredientName));
+                ingredients.add(ingredient);
             }
-            IngredientId id = new IngredientId(ingredientName);
-            Ingredient ingredient = new Ingredient(id, inventory.get(ingredientName));
-            ingredients.add(ingredient);
         }
         return ingredients;
     }

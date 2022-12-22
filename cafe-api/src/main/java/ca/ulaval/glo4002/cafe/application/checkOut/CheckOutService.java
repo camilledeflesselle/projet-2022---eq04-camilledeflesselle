@@ -5,7 +5,7 @@ import ca.ulaval.glo4002.cafe.domain.bill.Bill;
 import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
 import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
-import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistsException;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
@@ -35,7 +35,7 @@ public class CheckOutService {
     public void checkoutCustomer(CustomerId customerId) {
         Customer customer = this.customerRepository.findCustomerByCustomerId(customerId);
         if (customer == null) {
-            throw new CustomerDoesNotExistsException();
+            throw new CustomerDoesNotExistException();
         }
 
         this.createBill(customer);

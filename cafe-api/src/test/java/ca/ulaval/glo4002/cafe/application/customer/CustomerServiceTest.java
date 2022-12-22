@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.cafe.application.customer;
 
 import ca.ulaval.glo4002.cafe.application.cooking.CookingService;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
-import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistsException;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
@@ -52,7 +52,7 @@ class CustomerServiceTest {
 
     @Test
     public void whenSearchingNotExistingCustomer_thenRaiseCustomerDoesNotExistsException() {
-        assertThrows(CustomerDoesNotExistsException.class, () -> customerService.findCustomer(A_CUSTOMER_ID));
+        assertThrows(CustomerDoesNotExistException.class, () -> customerService.findCustomer(A_CUSTOMER_ID));
 
         verify(customerRepositoryMock).findCustomerByCustomerId(A_CUSTOMER_ID);
     }

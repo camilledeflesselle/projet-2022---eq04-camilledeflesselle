@@ -28,7 +28,7 @@ public class CheckoutResource {
         this.checkOutService.checkoutCustomer(customerId);
         return Response
                 .status(201)
-                .header("Location", "/customers/" + customerId.getSerializedValue() + "/bill")
+                .header("Location", "/customers/" + customerId.getId() + "/bill")
                 .build();
     }
 }

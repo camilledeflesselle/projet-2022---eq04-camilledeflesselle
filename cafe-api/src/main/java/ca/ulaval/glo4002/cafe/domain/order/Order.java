@@ -22,7 +22,7 @@ public class Order {
         return menuItems;
     }
 
-    public List<String> getListOfOrderedItemsStr() {
+    public List<String> getListOfMenuItemNames() {
         return menuItems.stream().map(MenuItem::getName).toList();
     }
 

@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.cafe.application.customer;
 
 import ca.ulaval.glo4002.cafe.application.cooking.CookingService;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
-import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistsException;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
@@ -33,7 +33,7 @@ public class CustomerService {
     public Customer findCustomer(CustomerId customerId) {
         Customer customer = this.customerRepository.findCustomerByCustomerId(customerId);
         if (customer == null) {
-            throw new CustomerDoesNotExistsException();
+            throw new CustomerDoesNotExistException();
         }
         return customer;
     }

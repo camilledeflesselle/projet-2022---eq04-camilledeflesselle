@@ -9,7 +9,7 @@ import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import java.util.Arrays;
 
 public class InventoryRepositoryInMemory implements IInventoryRepository {
-    Inventory inventory;
+    private Inventory inventory;
 
     public InventoryRepositoryInMemory() {
         this.initializeInventory();

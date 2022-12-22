@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.cafe.application.reservation;
 import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.reservation.*;
-import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationMethod;
+import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationStrategy;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.IGroupReservationStrategy;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategyFactory;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
@@ -37,9 +37,9 @@ public class ReservationServiceTest {
         reservationFactory = mock(ReservationFactory.class);
         IConfigRepository configRepository = mock(IConfigRepository.class);
         Config config = mock(Config.class);
-        when(config.getReservationMethod()).thenReturn(GroupReservationMethod.DEFAULT);
+        when(config.getReservationMethod()).thenReturn(GroupReservationStrategy.DEFAULT);
         when(configRepository.findConfig()).thenReturn(config);
-        when(reservationStrategyFactory.createReservationStrategy(GroupReservationMethod.DEFAULT)).thenReturn(groupReservationStrategy);
+        when(reservationStrategyFactory.createReservationStrategy(GroupReservationStrategy.DEFAULT)).thenReturn(groupReservationStrategy);
         reservationService = new ReservationService(configRepository, reservationStrategyFactory, reservationFactory, reservationRepository, seatingOrganizer);
     }
 

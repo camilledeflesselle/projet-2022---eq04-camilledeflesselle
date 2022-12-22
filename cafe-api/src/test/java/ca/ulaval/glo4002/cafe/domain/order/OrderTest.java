@@ -11,7 +11,6 @@ import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +48,7 @@ public class OrderTest {
         List<MenuItem> menuItems = new ArrayList<>(List.of(anItem, anotherItem));
         order = new Order(menuItems);
 
-        List<String> returnedList = order.getListOfOrderedItemsStr();
+        List<String> returnedList = order.getListOfMenuItemNames();
         List<String> expectedList = new ArrayList<>(List.of(AN_ITEM_NAME, ANOTHER_ITEM_NAME));
 
         assertEquals(expectedList, returnedList);

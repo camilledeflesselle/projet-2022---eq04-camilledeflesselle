@@ -35,7 +35,7 @@ public class InventoryResource {
 
     @PUT
     public Response putInventory(InventoryDTO inventoryDTO) {
-        List<Ingredient> inventory = inventoryAssembler.inventoryDTOToListIngredients(inventoryDTO);
+        List<Ingredient> inventory = inventoryAssembler.assembleFromDTO(inventoryDTO);
         this.inventoryService.addIngredientsInInventory(inventory);
         return Response
                 .ok()

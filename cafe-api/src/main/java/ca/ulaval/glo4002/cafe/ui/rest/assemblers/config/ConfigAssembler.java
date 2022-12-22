@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.cafe.ui.rest.assemblers.config;
 import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.reservation.InvalidGroupReservationMethodException;
-import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationMethod;
+import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationStrategy;
 import ca.ulaval.glo4002.cafe.domain.tax.Area;
 import ca.ulaval.glo4002.cafe.domain.tax.ITaxesRepository;
 import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
@@ -70,7 +70,7 @@ public class ConfigAssembler {
 
     public boolean validateGroupReservationMethod(String groupReservationMethod) {
         return Arrays.stream(
-                GroupReservationMethod.values()).anyMatch(method -> {
+                GroupReservationStrategy.values()).anyMatch(method -> {
                     boolean reservationIsValid = method.label.equals(groupReservationMethod);
                     if (reservationIsValid) {
                         this.config.setGroupReservationMethod(method);

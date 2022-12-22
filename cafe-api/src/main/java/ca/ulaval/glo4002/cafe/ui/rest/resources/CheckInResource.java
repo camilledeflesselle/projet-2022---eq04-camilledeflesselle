@@ -29,7 +29,7 @@ public class CheckInResource {
         this.checkInService.checkIn(customer);
         return Response
                 .status(201)
-                .header("Location", "/customers/" + customer.getId().getSerializedValue())
+                .header("Location", "/customers/" + customer.getId().getId())
                 .build();
     }
 

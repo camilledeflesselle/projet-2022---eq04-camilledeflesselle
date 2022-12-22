@@ -40,7 +40,7 @@ class InventoryAssemblerTest {
 
 
         assertThrows(BadRequestException.class,
-            () -> inventoryAssembler.inventoryDTOToListIngredients(inventoryDTO));
+            () -> inventoryAssembler.assembleFromDTO(inventoryDTO));
     }
 
     @Test
@@ -53,7 +53,7 @@ class InventoryAssemblerTest {
         //when(inventoryRepository.getIngredientsNames()).thenReturn(ingredientsNames);
 
         assertThrows(BadRequestException.class,
-            () -> inventoryAssembler.inventoryDTOToListIngredients(inventoryDTO));
+            () -> inventoryAssembler.assembleFromDTO(inventoryDTO));
     }
 
     @Test
@@ -66,7 +66,7 @@ class InventoryAssemblerTest {
         //when(inventoryRepository.getIngredientsNames()).thenReturn(ingredientsNames);
 
         assertThrows(BadRequestException.class,
-            () -> inventoryAssembler.inventoryDTOToListIngredients(inventoryDTO));
+            () -> inventoryAssembler.assembleFromDTO(inventoryDTO));
     }
 
     @Test
@@ -79,7 +79,7 @@ class InventoryAssemblerTest {
         //when(inventoryRepository.getIngredientsNames()).thenReturn(ingredientsNames);
 
         assertThrows(BadRequestException.class,
-            () -> inventoryAssembler.inventoryDTOToListIngredients(inventoryDTO));
+            () -> inventoryAssembler.assembleFromDTO(inventoryDTO));
     }
 
     @Test
@@ -92,7 +92,7 @@ class InventoryAssemblerTest {
         when(inventoryRepository.getInventory()).thenReturn(new Inventory());
 
         assertThrows(BadRequestException.class,
-            () -> inventoryAssembler.inventoryDTOToListIngredients(inventoryDTO));
+            () -> inventoryAssembler.assembleFromDTO(inventoryDTO));
     }
 
     @Test

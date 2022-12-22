@@ -15,21 +15,21 @@ class ReservationStrategyFactoryTest {
 
     @Test
     public void whenPassingFullCubesReservationMethod_thenCreateFullCubesStrategy() {
-        IGroupReservationStrategy fullCubesStrategy = reservationStrategyFactory.createReservationStrategy(GroupReservationMethod.FULL_CUBES);
+        IGroupReservationStrategy fullCubesStrategy = reservationStrategyFactory.createReservationStrategy(GroupReservationStrategy.FULL_CUBES);
 
         assertEquals(FullCubesStrategy.class, fullCubesStrategy.getClass());
     }
 
     @Test
     public void whenPassingNoLonersReservationMethod_thenCreateNoLonersStrategy() {
-        IGroupReservationStrategy noLonersStrategy = reservationStrategyFactory.createReservationStrategy(GroupReservationMethod.NO_LONERS);
+        IGroupReservationStrategy noLonersStrategy = reservationStrategyFactory.createReservationStrategy(GroupReservationStrategy.NO_LONERS);
 
         assertEquals(NoLonersStrategy.class, noLonersStrategy.getClass());
     }
 
     @Test
     public void whenPassingDefaultReservationMethod_thenCreateOrderedStrategy() {
-        IGroupReservationStrategy orderedStrategy = reservationStrategyFactory.createReservationStrategy(GroupReservationMethod.DEFAULT);
+        IGroupReservationStrategy orderedStrategy = reservationStrategyFactory.createReservationStrategy(GroupReservationStrategy.DEFAULT);
 
         assertEquals(OrderedStrategy.class, orderedStrategy.getClass());
     }

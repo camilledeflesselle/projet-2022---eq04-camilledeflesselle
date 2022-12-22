@@ -7,7 +7,7 @@ import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
-import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistsException;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
@@ -58,7 +58,7 @@ public class CheckOutServiceTest {
     @Test
     public void whenCheckingOutNotExistingCustomer_thenRaiseException() {
         when(customerRepository.findCustomerByCustomerId(A_CUSTOMER_ID)).thenReturn(null);
-        assertThrows(CustomerDoesNotExistsException.class, () -> checkOutService.checkoutCustomer(A_CUSTOMER_ID));
+        assertThrows(CustomerDoesNotExistException.class, () -> checkOutService.checkoutCustomer(A_CUSTOMER_ID));
     }
 
 
