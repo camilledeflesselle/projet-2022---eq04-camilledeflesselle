@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.cafe.application.checkOut;
 
-import ca.ulaval.glo4002.cafe.application.bill.BillFactory;
+import ca.ulaval.glo4002.cafe.domain.bill.BillFactory;
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
 import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
 import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
@@ -29,6 +29,7 @@ public class CheckOutServiceTest {
     private static final CustomerId A_CUSTOMER_ID = new CustomerId("id");
     private static final SeatId A_SEAT_ID = new SeatId(1);
     private static final TipRate A_GROUP_TIP_RATE = new TipRate(0.15f);
+    private static final boolean CUSTOMER_HAS_GROUP = true;
 
     private static CheckOutService checkOutService;
     private static ICustomerRepository customerRepository;
@@ -86,11 +87,11 @@ public class CheckOutServiceTest {
         givenCustomerWithoutGroup();
         Order order = givenCustomerOrder();
         Bill bill = mock(Bill.class);
-        when(billFactory.createBill(order, A_TAX_RATE, null)).thenReturn(bill);
+        when(billFactory.createBill(order, A_TAX_RATE, A_GROUP_TIP_RATE, !CUSTOMER_HAS_GROUP)).thenReturn(bill);
 
         checkOutService.checkoutCustomer(A_CUSTOMER_ID);
 
-        verify(billFactory).createBill(order, A_TAX_RATE, null);
+        verify(billFactory).createBill(order, A_TAX_RATE, A_GROUP_TIP_RATE, !CUSTOMER_HAS_GROUP);
         verify(billRepository).saveBillByCustomerId(A_CUSTOMER_ID, bill);
     }
 

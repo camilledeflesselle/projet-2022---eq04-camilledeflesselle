@@ -1,18 +1,13 @@
-package ca.ulaval.glo4002.cafe.application.bill;
+package ca.ulaval.glo4002.cafe.domain.bill;
 
-import ca.ulaval.glo4002.cafe.domain.bill.Amount;
-import ca.ulaval.glo4002.cafe.domain.bill.Bill;
-import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
 
 public class BillFactory {
     public TipRate DEFAULT_TIP_RATE = new TipRate(0f);
 
-    public Bill createBill(Order customersOrder, TaxRate taxRate, TipRate groupTipRate) {
-        if (groupTipRate == null) {
-            groupTipRate = DEFAULT_TIP_RATE;
-        }
+    public Bill createBill(Order customersOrder, TaxRate taxRate, TipRate tipRate, boolean customerHasGroup) {
+        TipRate groupTipRate = customerHasGroup ? tipRate : DEFAULT_TIP_RATE;
         Amount subtotal = new Amount(0f);
         subtotal = this.getSubtotal(customersOrder, subtotal);
         Amount taxes = subtotal.applyRate(taxRate);
@@ -21,6 +16,6 @@ public class BillFactory {
     }
 
     private Amount getSubtotal(Order order, Amount subtotal) {
-        return order.calculateTotal(subtotal);
+        return order.calculateTotal();
     }
 }

@@ -34,12 +34,13 @@ public class Order {
     public void make(IRecipeRepository recipeRepository, Inventory inventoryRepository) {
         menuItems.forEach(menuItem -> {
             Recipe recipe = recipeRepository.findById(menuItem.getId());
-            menuItem.cook(recipe, inventoryRepository);
+            recipe.cookWith(inventoryRepository);
         });
     }
 
     public Map<IngredientId, Integer> getAllIngredientsQuantities(IRecipeRepository recipeRepository) {
         Map<IngredientId, Integer> ingredients = new HashMap<>();
+
         menuItems.forEach(menuItem -> {
             Recipe recipe = recipeRepository.findById(menuItem.getId());
             recipe.getIngredients().forEach(ingredient -> {
@@ -53,7 +54,7 @@ public class Order {
         return ingredients;
     }
 
-    public Amount calculateTotal(Amount subtotal) {
-        return menuItems.stream().map(MenuItem::getPrice).reduce(subtotal, Amount::add);
+    public Amount calculateTotal() {
+        return menuItems.stream().map(MenuItem::getPrice).reduce(Amount::add).orElse(new Amount(0));
     }
 }

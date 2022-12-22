@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.cafe.ui.rest.validators.validators.menu;
+package ca.ulaval.glo4002.cafe.ui.rest.assemblers.validators.menu;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
@@ -8,7 +8,7 @@ import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.menu.Coffe
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.menu.MenuItemRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.MenuItemDTO;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.RecipeDTO;
-import ca.ulaval.glo4002.cafe.ui.rest.validators.menu.MenuItemAssembler;
+import ca.ulaval.glo4002.cafe.ui.rest.assemblers.menu.MenuItemAssembler;
 import jakarta.ws.rs.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

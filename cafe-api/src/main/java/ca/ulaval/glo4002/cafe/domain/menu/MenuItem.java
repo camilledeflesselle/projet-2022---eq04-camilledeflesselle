@@ -21,10 +21,6 @@ public class MenuItem {
         return this.amount;
     }
 
-    public void cook(Recipe recipe, Inventory inventory) {
-        recipe.cookWith(inventory);
-    }
-
     public String getName() {
         return this.id.getName();
     }

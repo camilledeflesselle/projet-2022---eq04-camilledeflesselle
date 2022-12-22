@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.cafe.ui.rest.validators.inventory;
+package ca.ulaval.glo4002.cafe.ui.rest.assemblers.inventory;
 
 import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class InventoryValidator {
+public class InventoryAssembler {
     private final IInventoryRepository inventoryRepository;
 
-    public InventoryValidator(IInventoryRepository inventoryRepository) {
+    public InventoryAssembler(IInventoryRepository inventoryRepository) {
         this.inventoryRepository = inventoryRepository;
     }
 

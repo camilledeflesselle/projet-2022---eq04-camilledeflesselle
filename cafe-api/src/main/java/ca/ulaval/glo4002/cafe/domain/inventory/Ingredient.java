@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.cafe.domain.inventory;
 
+import ca.ulaval.glo4002.cafe.domain.cooking.InsufficentIngredientsException;
+
 public class Ingredient {
     private final IngredientId id;
     private int quantity;

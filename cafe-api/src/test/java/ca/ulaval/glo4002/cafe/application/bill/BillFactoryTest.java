@@ -2,6 +2,7 @@ package ca.ulaval.glo4002.cafe.application.bill;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
+import ca.ulaval.glo4002.cafe.domain.bill.BillFactory;
 import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
@@ -18,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class BillFactoryTest {
     private static final Amount NULL_AMOUNT = new Amount(0);
     private static final Amount POSITIVE_AMOUNT = new Amount(7.7f);
+    private static final boolean CUSTOMER_HAS_GROUP = true;
 
     private final TaxRate A_TAX_RATE = new TaxRate(0.1);
     private final TipRate A_GROUP_TIP_RATE = new TipRate(0.3);
@@ -33,19 +35,19 @@ class BillFactoryTest {
     }
 
     @Test
-    public void whenCreateBill_thenReturnsBillObject(){
-        assertEquals(Bill.class, billFactory.createBill(SOME_CUSTOMER_ORDERS, A_TAX_RATE, null).getClass());
+    public void whenCreateBillForCustomerWithoutGroup_thenReturnsBillObject(){
+        assertEquals(Bill.class, billFactory.createBill(SOME_CUSTOMER_ORDERS, A_TAX_RATE, A_GROUP_TIP_RATE, !CUSTOMER_HAS_GROUP).getClass());
     }
 
     @Test
     public void whenCreateBillWithoutGroup_thenBillTipIsNull(){
-        bill = billFactory.createBill(SOME_CUSTOMER_ORDERS, A_TAX_RATE, null);
+        bill = billFactory.createBill(SOME_CUSTOMER_ORDERS, A_TAX_RATE, A_GROUP_TIP_RATE, !CUSTOMER_HAS_GROUP);
         assertEquals(NULL_AMOUNT, bill.getTip());
     }
 
     @Test
     public void whenCreateBillWithoutMenuItems_thenBillSubtotalIsNull(){
-        bill = billFactory.createBill(SOME_CUSTOMER_ORDERS, A_TAX_RATE, null);
+        bill = billFactory.createBill(SOME_CUSTOMER_ORDERS, A_TAX_RATE, A_GROUP_TIP_RATE, CUSTOMER_HAS_GROUP);
         assertEquals(NULL_AMOUNT, bill.getSubtotal());
     }
 
@@ -55,7 +57,7 @@ class BillFactoryTest {
         SOME_MENU_ITEMS.add(ONE_ITEM);
         Order customersOrder = new Order(SOME_MENU_ITEMS);
 
-        bill = billFactory.createBill(customersOrder, A_TAX_RATE, null);
+        bill = billFactory.createBill(customersOrder, A_TAX_RATE, A_GROUP_TIP_RATE, CUSTOMER_HAS_GROUP);
 
         assertEquals(POSITIVE_AMOUNT, bill.getSubtotal());
     }
@@ -68,7 +70,7 @@ class BillFactoryTest {
         SOME_MENU_ITEMS.add(SECOND_ITEM);
         Order customersOrder = new Order(SOME_MENU_ITEMS);
 
-        bill = billFactory.createBill(customersOrder, A_TAX_RATE, null);
+        bill = billFactory.createBill(customersOrder, A_TAX_RATE, A_GROUP_TIP_RATE, CUSTOMER_HAS_GROUP);
 
         assertEquals(POSITIVE_AMOUNT.add(POSITIVE_AMOUNT), bill.getSubtotal());
     }
@@ -79,7 +81,7 @@ class BillFactoryTest {
         SOME_MENU_ITEMS.add(ONE_ITEM);
         Order customersOrder = new Order(SOME_MENU_ITEMS);
 
-        bill = billFactory.createBill(customersOrder, A_TAX_RATE, null);
+        bill = billFactory.createBill(customersOrder, A_TAX_RATE, A_GROUP_TIP_RATE, CUSTOMER_HAS_GROUP);
 
         Amount expectedTaxes = bill.getSubtotal().applyRate(A_TAX_RATE);
         assertEquals(expectedTaxes, bill.getTaxes());
@@ -87,7 +89,7 @@ class BillFactoryTest {
 
     @Test
     public void whenCreateBillForAGroup_thenReturnsBillObject(){
-        assertEquals(Bill.class, billFactory.createBill(SOME_CUSTOMER_ORDERS, A_TAX_RATE, A_GROUP_TIP_RATE).getClass());
+        assertEquals(Bill.class, billFactory.createBill(SOME_CUSTOMER_ORDERS, A_TAX_RATE, A_GROUP_TIP_RATE, CUSTOMER_HAS_GROUP).getClass());
     }
 
     @Test
@@ -96,7 +98,7 @@ class BillFactoryTest {
         SOME_MENU_ITEMS.add(ONE_ITEM);
         Order customersOrder = new Order(SOME_MENU_ITEMS);
 
-        bill = billFactory.createBill(customersOrder, A_TAX_RATE, A_GROUP_TIP_RATE);
+        bill = billFactory.createBill(customersOrder, A_TAX_RATE, A_GROUP_TIP_RATE, CUSTOMER_HAS_GROUP);
 
         Amount expectedTip = bill.getSubtotal().applyRate(A_GROUP_TIP_RATE);
         assertEquals(expectedTip, bill.getTip());

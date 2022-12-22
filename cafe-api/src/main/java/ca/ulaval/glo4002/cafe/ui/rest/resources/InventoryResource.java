@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.cafe.ui.rest.resources;
 import ca.ulaval.glo4002.cafe.application.inventory.InventoryService;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.InventoryDTO;
-import ca.ulaval.glo4002.cafe.ui.rest.validators.inventory.InventoryValidator;
+import ca.ulaval.glo4002.cafe.ui.rest.assemblers.inventory.InventoryAssembler;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -15,13 +15,13 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class InventoryResource {
-    private final InventoryValidator inventoryValidator;
+    private final InventoryAssembler inventoryAssembler;
     private final InventoryService inventoryService;
 
     @Inject
-    public InventoryResource(InventoryService inventoryService, InventoryValidator inventoryValidator) {
+    public InventoryResource(InventoryService inventoryService, InventoryAssembler inventoryAssembler) {
         this.inventoryService = inventoryService;
-        this.inventoryValidator = inventoryValidator;
+        this.inventoryAssembler = inventoryAssembler;
     }
 
     @GET
@@ -35,7 +35,7 @@ public class InventoryResource {
 
     @PUT
     public Response putInventory(InventoryDTO inventoryDTO) {
-        List<Ingredient> inventory = inventoryValidator.inventoryDTOToListIngredients(inventoryDTO);
+        List<Ingredient> inventory = inventoryAssembler.inventoryDTOToListIngredients(inventoryDTO);
         this.inventoryService.addIngredientsInInventory(inventory);
         return Response
                 .ok()

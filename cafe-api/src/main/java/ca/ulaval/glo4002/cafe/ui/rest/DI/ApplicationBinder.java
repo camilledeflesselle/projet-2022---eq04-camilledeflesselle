@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.cafe.ui.rest.DI;
 
-import ca.ulaval.glo4002.cafe.application.bill.BillFactory;
+import ca.ulaval.glo4002.cafe.domain.bill.BillFactory;
 import ca.ulaval.glo4002.cafe.application.bill.BillService;
 import ca.ulaval.glo4002.cafe.application.checkIn.CheckInService;
 import ca.ulaval.glo4002.cafe.application.checkOut.CheckOutService;
@@ -8,12 +8,12 @@ import ca.ulaval.glo4002.cafe.application.close.CloseService;
 import ca.ulaval.glo4002.cafe.application.cooking.CookingService;
 import ca.ulaval.glo4002.cafe.application.cooking.RecipeFactory;
 import ca.ulaval.glo4002.cafe.application.customer.CustomerService;
-import ca.ulaval.glo4002.cafe.application.inventory.InventoryAssembler;
 import ca.ulaval.glo4002.cafe.application.inventory.InventoryService;
 import ca.ulaval.glo4002.cafe.application.layout.LayoutDTOAssembler;
 import ca.ulaval.glo4002.cafe.application.layout.LayoutService;
 import ca.ulaval.glo4002.cafe.application.menu.MenuService;
 import ca.ulaval.glo4002.cafe.application.reservation.ReservationService;
+import ca.ulaval.glo4002.cafe.domain.cooking.Cooker;
 import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
 import ca.ulaval.glo4002.cafe.domain.reservation.ReservationFactory;
@@ -24,9 +24,9 @@ import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.*;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.menu.CoffeeFactory;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.menu.MenuItemRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.TaxesRepositoryInMemory;
-import ca.ulaval.glo4002.cafe.ui.rest.validators.config.ConfigValidator;
-import ca.ulaval.glo4002.cafe.ui.rest.validators.inventory.InventoryValidator;
-import ca.ulaval.glo4002.cafe.ui.rest.validators.menu.MenuItemAssembler;
+import ca.ulaval.glo4002.cafe.ui.rest.assemblers.config.ConfigAssembler;
+import ca.ulaval.glo4002.cafe.ui.rest.assemblers.inventory.InventoryAssembler;
+import ca.ulaval.glo4002.cafe.ui.rest.assemblers.menu.MenuItemAssembler;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.ext.Provider;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
@@ -57,12 +57,12 @@ public class ApplicationBinder extends AbstractBinder {
         RecipeRepositoryInMemory recipeRepositoryInMemory = new RecipeRepositoryInMemory(recipeFactory);
         OrderRepositoryInMemory orderRepositoryInMemory = new OrderRepositoryInMemory();
         LayoutDTOAssembler layoutDTOAssembler = new LayoutDTOAssembler();
-        InventoryAssembler inventoryAssembler = new InventoryAssembler();
+        ca.ulaval.glo4002.cafe.application.inventory.InventoryAssembler inventoryAssembler = new ca.ulaval.glo4002.cafe.application.inventory.InventoryAssembler();
 
         LayoutService layoutService = new LayoutService(configRepositoryInMemory, cubesListFactory, cubeRepositoryInMemory, customerRepositoryInMemory, layoutDTOAssembler);
         BillService billService = new BillService(billRepositoryInMemory);
         InventoryService inventoryService = new InventoryService(ingredientRepositoryInMemory, inventoryAssembler);
-        CookingService cookingService = new CookingService(recipeRepositoryInMemory, ingredientRepositoryInMemory);
+        CookingService cookingService = new CookingService(recipeRepositoryInMemory, ingredientRepositoryInMemory, new Cooker());
         CustomerService customerService = new CustomerService(cookingService, customerRepositoryInMemory, ordersFactory, menuItemRepositoryInMemory, orderRepositoryInMemory);
         ReservationService reservationService = new ReservationService(configRepositoryInMemory, reservationStrategyFactory, reservationFactory, reservationRepositoryInMemory, seatingOrganizer);
         CheckInService checkInService = new CheckInService(customerRepositoryInMemory, seatingOrganizer, ordersFactory, orderRepositoryInMemory, reservationRepositoryInMemory);
@@ -71,8 +71,8 @@ public class ApplicationBinder extends AbstractBinder {
                 billRepositoryInMemory, menuItemRepositoryInMemory, recipeRepositoryInMemory, ingredientRepositoryInMemory, cubesListFactory);
         MenuService menuService = new MenuService(menuItemRepositoryInMemory, recipeRepositoryInMemory);
 
-        ConfigValidator configValidator = new ConfigValidator(taxesRepositoryInMemory);
-        InventoryValidator inventoryValidator = new InventoryValidator(ingredientRepositoryInMemory);
+        ConfigAssembler configValidator = new ConfigAssembler(taxesRepositoryInMemory);
+        InventoryAssembler inventoryValidator = new InventoryAssembler(ingredientRepositoryInMemory);
         MenuItemAssembler menuItemAssembler = new MenuItemAssembler(menuItemRepositoryInMemory);
 
         bind(customerService).in(Singleton.class);

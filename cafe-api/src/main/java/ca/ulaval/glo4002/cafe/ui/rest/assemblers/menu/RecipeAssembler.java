@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.cafe.ui.rest.validators.menu;
+package ca.ulaval.glo4002.cafe.ui.rest.assemblers.menu;
 
 import ca.ulaval.glo4002.cafe.application.inventory.IngredientType;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
@@ -11,12 +11,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class RecipeValidator {
+public class RecipeAssembler {
 
-    public RecipeValidator() {
+    public RecipeAssembler() {
     }
 
-    public List<Ingredient> recipeDTOToListIngredients(RecipeDTO recipeDTO) {
+    public List<Ingredient> assembleRecipeDTOToRecipe(RecipeDTO recipeDTO) {
         List<Ingredient> ingredientsRecipe = new ArrayList<>();
         Map<String, Integer> ingredients = recipeDTO.getIngredients();
 

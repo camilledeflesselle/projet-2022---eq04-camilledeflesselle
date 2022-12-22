@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.cafe.ui.rest.validators.validators.config;
+package ca.ulaval.glo4002.cafe.ui.rest.assemblers.validators.config;
 
 import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.reservation.InvalidGroupReservationMethodException;
@@ -7,9 +7,9 @@ import ca.ulaval.glo4002.cafe.domain.tax.ITaxesRepository;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.Country;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.TaxesRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.ConfigDTO;
-import ca.ulaval.glo4002.cafe.ui.rest.validators.config.ConfigValidator;
-import ca.ulaval.glo4002.cafe.ui.rest.validators.config.InvalidCountryException;
-import ca.ulaval.glo4002.cafe.ui.rest.validators.config.InvalidGroupTipRateException;
+import ca.ulaval.glo4002.cafe.ui.rest.assemblers.config.ConfigAssembler;
+import ca.ulaval.glo4002.cafe.ui.rest.assemblers.config.InvalidCountryException;
+import ca.ulaval.glo4002.cafe.ui.rest.assemblers.config.InvalidGroupTipRateException;
 import jakarta.ws.rs.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ConfigValidatorTest {
+class ConfigAssemblerTest {
     private static final String AN_ORGANIZATION_NAME = "Organisation name";
     private static final String AN_EMPTY_ORGANIZATION_NAME = "";
     private static final String A_NON_EXISTING_GROUP_RESERVATION_METHOD = "Invalid group reservation method";
@@ -29,12 +29,12 @@ class ConfigValidatorTest {
     private static final String AN_EMPTY_STATE = "";
     private static final BigDecimal A_TIP_RATE = new BigDecimal(Float.toString(0.015f));
 
-    private ConfigValidator configValidator;
+    private ConfigAssembler configValidator;
 
     @BeforeEach
     public void setupConfigValidator() {
         ITaxesRepository taxesRepository = new TaxesRepositoryInMemory();
-        this.configValidator = new ConfigValidator(taxesRepository);
+        this.configValidator = new ConfigAssembler(taxesRepository);
     }
 
     @Test
@@ -59,7 +59,7 @@ class ConfigValidatorTest {
         );
 
         assertThrows(InvalidGroupReservationMethodException.class,
-                () -> this.configValidator.toConfig(configDTO));
+                () -> this.configValidator.assembleConfig(configDTO));
     }
 
     @Test
@@ -68,7 +68,7 @@ class ConfigValidatorTest {
                 GroupReservationMethod.DEFAULT.label, AN_ORGANIZATION_NAME, A_NEGATIVE_CUBE_SIZE, A_COUNTRY, A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
         );
         assertThrows(BadRequestException.class,
-                () -> this.configValidator.toConfig(configDTO));
+                () -> this.configValidator.assembleConfig(configDTO));
     }
 
     @Test
@@ -77,7 +77,7 @@ class ConfigValidatorTest {
                 GroupReservationMethod.DEFAULT.label, AN_EMPTY_ORGANIZATION_NAME, A_CUBE_SIZE, A_COUNTRY, A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
         );
         assertThrows(BadRequestException.class,
-                () -> this.configValidator.toConfig(configDTO));
+                () -> this.configValidator.assembleConfig(configDTO));
     }
 
     @Test
@@ -87,7 +87,7 @@ class ConfigValidatorTest {
                 "INVALID_COUNTRY", A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
         );
         assertThrows(InvalidCountryException.class,
-                () -> this.configValidator.toConfig(configDTO));
+                () -> this.configValidator.assembleConfig(configDTO));
     }
 
     @Test
@@ -128,7 +128,7 @@ class ConfigValidatorTest {
         );
 
         assertThrows(InvalidGroupTipRateException.class,
-                () -> this.configValidator.toConfig(configDTO));
+                () -> this.configValidator.assembleConfig(configDTO));
     }
 
     @Test
@@ -140,7 +140,7 @@ class ConfigValidatorTest {
         );
 
         assertThrows(InvalidGroupTipRateException.class,
-                () -> this.configValidator.toConfig(configDTO));
+                () -> this.configValidator.assembleConfig(configDTO));
     }
 
     @Test
@@ -150,7 +150,7 @@ class ConfigValidatorTest {
                 "None", "", "", A_TIP_RATE
         );
 
-        Config config = this.configValidator.toConfig(configDTO);
+        Config config = this.configValidator.assembleConfig(configDTO);
 
         assertNotNull(config);
     }
@@ -162,7 +162,7 @@ class ConfigValidatorTest {
                 "None", "", "", A_TIP_RATE
         );
 
-        Config config = this.configValidator.toConfig(configDTO);
+        Config config = this.configValidator.assembleConfig(configDTO);
 
         assertNotNull(config);
 
@@ -176,7 +176,7 @@ class ConfigValidatorTest {
                 Country.NONE.getCountryCode().getName(), "", "", A_TIP_RATE
         );
 
-        Config config = this.configValidator.toConfig(configDTO);
+        Config config = this.configValidator.assembleConfig(configDTO);
 
         assertEquals(0, config.getTaxRate().getRate().doubleValue());
     }
@@ -188,7 +188,7 @@ class ConfigValidatorTest {
                 "None", "", "", A_TIP_RATE
         );
 
-        Config config = this.configValidator.toConfig(configDTO);
+        Config config = this.configValidator.assembleConfig(configDTO);
 
         assertNotNull(config.getCubesNames());
     }
@@ -200,7 +200,7 @@ class ConfigValidatorTest {
                 "None", "", "", A_TIP_RATE
         );
 
-        Config config = this.configValidator.toConfig(configDTO);
+        Config config = this.configValidator.assembleConfig(configDTO);
 
         assertEquals(GroupReservationMethod.DEFAULT, config.getReservationMethod());
     }
@@ -212,7 +212,7 @@ class ConfigValidatorTest {
                 "None", "", "", A_TIP_RATE
         );
 
-        Config config = this.configValidator.toConfig(configDTO);
+        Config config = this.configValidator.assembleConfig(configDTO);
 
         assertEquals(A_TIP_RATE.doubleValue(), config.getGroupTipRate().getRate().doubleValue());
     }

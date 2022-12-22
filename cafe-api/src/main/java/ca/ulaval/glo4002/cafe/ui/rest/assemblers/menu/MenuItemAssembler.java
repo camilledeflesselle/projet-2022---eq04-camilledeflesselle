@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.cafe.ui.rest.validators.menu;
+package ca.ulaval.glo4002.cafe.ui.rest.assemblers.menu;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
@@ -13,11 +13,11 @@ import java.util.List;
 
 public class MenuItemAssembler {
     private final IMenuItemRepository menu;
-    private final RecipeValidator recipeValidator;
+    private final RecipeAssembler recipeAssembler;
 
     public MenuItemAssembler(IMenuItemRepository menuItemRepository) {
         this.menu = menuItemRepository;
-        this.recipeValidator = new RecipeValidator();
+        this.recipeAssembler = new RecipeAssembler();
     }
 
     public MenuItem menuItemDTOToMenuItem(MenuItemDTO menuItemDTO) {
@@ -30,7 +30,7 @@ public class MenuItemAssembler {
 
     public Recipe menuItemDTOToRecipe(MenuItemDTO menuItemDTO) {
         MenuItemId menuItemId = new MenuItemId(menuItemDTO.getName(), true);
-        List<Ingredient> ingredients = this.recipeValidator.recipeDTOToListIngredients(menuItemDTO.getIngredients());
+        List<Ingredient> ingredients = this.recipeAssembler.assembleRecipeDTOToRecipe(menuItemDTO.getIngredients());
         return new Recipe(menuItemId, ingredients);
     }
 

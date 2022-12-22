@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.cafe.ui.rest.validators.config;
+package ca.ulaval.glo4002.cafe.ui.rest.assemblers.config;
 
 import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.config.Config;
@@ -16,11 +16,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ConfigValidator {
+public class ConfigAssembler {
     private final ITaxesRepository taxesRepository;
     private final Config config;
 
-    public ConfigValidator(ITaxesRepository taxesRepository) {
+    public ConfigAssembler(ITaxesRepository taxesRepository) {
         this.taxesRepository = taxesRepository;
         this.config = new Config();
     }
@@ -29,7 +29,7 @@ public class ConfigValidator {
         if (configDTO == null) {
             throw new BadRequestException();
         }
-        if (isOneConfigAttributeNull(configDTO)) {
+        if (checkIfOneOfNeededAttributeIsNull(configDTO)) {
             throw new BadRequestException();
         }
         if (!validateGroupReservationMethod(configDTO.getGroupReservationMethod())) {
@@ -49,7 +49,7 @@ public class ConfigValidator {
         }
     }
 
-    public Config toConfig(ConfigDTO configDTO) {
+    public Config assembleConfig(ConfigDTO configDTO) {
         this.validateConfig(configDTO);
         this.config.setCubeSize(configDTO.getCubeSize());
         this.config.setOrganizationName(configDTO.getOrganizationName());
@@ -59,7 +59,7 @@ public class ConfigValidator {
         return this.config;
     }
 
-    public boolean isOneConfigAttributeNull(ConfigDTO configDTO) {
+    public boolean checkIfOneOfNeededAttributeIsNull(ConfigDTO configDTO) {
         return configDTO.getGroupReservationMethod() == null
                 || configDTO.getOrganizationName() == null
                 || configDTO.getCubeSize() == 0
@@ -111,7 +111,6 @@ public class ConfigValidator {
         this.config.setTaxRate(taxRate);
         return true;
     }
-    
 
     public boolean isGroupTipRateValid(BigDecimal groupTipRate) {
         return groupTipRate.compareTo(BigDecimal.ZERO) >= 0

@@ -6,28 +6,20 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AmountTest {
-    private static final Float AN_UNROUNDED_VALUE = 1.001f;
-    private static final Float A_ROUNDED_VALUE = 1.01f;
-    private static final Float A_VALUE = 1f;
-    private static final Float ANOTHER_VALUE = 2f;
 
     @Test
     public void whenRoundingAmountToHundredth_thenAmountValueIsRoundedToUpperHundredth() {
-        Amount amount = new Amount(AN_UNROUNDED_VALUE);
-
-        Amount roundedAmount = new Amount(amount.roundToHundredth());
-        Amount expectedAmount = new Amount(A_ROUNDED_VALUE);
-
-        assertEquals(expectedAmount, roundedAmount);
+        Amount amount = new Amount(1.001f);
+        assertEquals(1.01f, amount.roundToHundredth());
     }
 
     @Test
     public void whenAddingAmountToAnotherAmount_thenReturnAmountWithSumOfBothValues() {
-        Amount anAmount = new Amount(A_VALUE);
-        Amount anotherAmount = new Amount(ANOTHER_VALUE);
+        Amount anAmount = new Amount(1f);
+        Amount anotherAmount = new Amount(2f);
 
         Amount summedAmount = anAmount.add(anotherAmount);
-        Amount expectedAmount = new Amount(A_VALUE + ANOTHER_VALUE);
+        Amount expectedAmount = new Amount(3f);
 
         assertEquals(expectedAmount, summedAmount);
     }

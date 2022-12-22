@@ -1,9 +1,8 @@
 package ca.ulaval.glo4002.cafe.application.checkOut;
 
-import ca.ulaval.glo4002.cafe.application.bill.BillFactory;
+import ca.ulaval.glo4002.cafe.domain.bill.BillFactory;
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
 import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
-import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistsException;
@@ -50,13 +49,7 @@ public class CheckOutService {
     }
 
     private void processBill(Customer customer, Order order) {
-        TipRate groupTipRate;
-        if (customer.hasGroup()) {
-            groupTipRate = this.configRepository.findConfig().getGroupTipRate();
-        } else {
-            groupTipRate = null;
-        }
-        Bill bill = this.billFactory.createBill(order, this.configRepository.findConfig().getTaxRate(), groupTipRate);
+        Bill bill = this.billFactory.createBill(order, this.configRepository.findConfig().getTaxRate(), this.configRepository.findConfig().getGroupTipRate(), customer.hasGroup());
         this.billRepository.saveBillByCustomerId(customer.getId(), bill);
     }
 }
