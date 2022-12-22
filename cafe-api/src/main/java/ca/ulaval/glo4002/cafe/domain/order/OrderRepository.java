@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.cafe.domain.order;
 
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 
-public interface IOrderRepository {
+public interface OrderRepository {
     Order findOrderByCustomerId(CustomerId customerId);
 
     void deleteAll();

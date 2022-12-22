@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Full cubes strategy, will reserve the full cubes if all seats are available in it.
  */
-public class FullCubesStrategy implements IGroupReservationStrategy {
+public class FullCubesStrategy implements ReservationStrategy {
     @Override
     public List<Seat> getReservationSeats(List<Cube> cubes, int nbToReserve) {
 

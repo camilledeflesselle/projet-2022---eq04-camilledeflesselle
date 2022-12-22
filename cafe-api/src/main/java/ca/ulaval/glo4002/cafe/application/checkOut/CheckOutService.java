@@ -2,27 +2,27 @@ package ca.ulaval.glo4002.cafe.application.checkOut;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
 import ca.ulaval.glo4002.cafe.domain.bill.BillFactory;
-import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
-import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
+import ca.ulaval.glo4002.cafe.domain.bill.BillRepository;
+import ca.ulaval.glo4002.cafe.domain.config.ConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
-import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
-import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
-import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
+import ca.ulaval.glo4002.cafe.domain.order.OrderRepository;
+import ca.ulaval.glo4002.cafe.domain.reservation.ReservationRepository;
 import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
 
 public class CheckOutService {
-    private final ICustomerRepository customerRepository;
-    private final IOrderRepository orderRepository;
-    private final IConfigRepository configRepository;
+    private final CustomerRepository customerRepository;
+    private final OrderRepository orderRepository;
+    private final ConfigRepository configRepository;
     private final BillFactory billFactory;
-    private final IBillRepository billRepository;
+    private final BillRepository billRepository;
     private final SeatingOrganizer seatingOrganizer;
-    private final IReservationRepository reservationRepository;
+    private final ReservationRepository reservationRepository;
 
-    public CheckOutService(ICustomerRepository customerRepository, IOrderRepository orderRepository, IConfigRepository configRepository, BillFactory billFactory, IBillRepository billRepository, SeatingOrganizer seatingOrganizer, IReservationRepository reservationRepository) {
+    public CheckOutService(CustomerRepository customerRepository, OrderRepository orderRepository, ConfigRepository configRepository, BillFactory billFactory, BillRepository billRepository, SeatingOrganizer seatingOrganizer, ReservationRepository reservationRepository) {
         this.customerRepository = customerRepository;
         this.orderRepository = orderRepository;
         this.configRepository = configRepository;

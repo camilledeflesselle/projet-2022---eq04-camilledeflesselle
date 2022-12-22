@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.cafe.ui.rest.assemblers.inventory;
 
-import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
+import ca.ulaval.glo4002.cafe.domain.inventory.InventoryRepository;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.InventoryDTO;
 import jakarta.ws.rs.BadRequestException;
 
@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 public class InventoryAssembler {
-    private final IInventoryRepository inventoryRepository;
+    private final InventoryRepository inventoryRepository;
 
-    public InventoryAssembler(IInventoryRepository inventoryRepository) {
+    public InventoryAssembler(InventoryRepository inventoryRepository) {
         this.inventoryRepository = inventoryRepository;
     }
 

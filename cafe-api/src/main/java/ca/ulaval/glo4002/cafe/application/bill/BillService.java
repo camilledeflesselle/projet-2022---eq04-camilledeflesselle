@@ -1,14 +1,14 @@
 package ca.ulaval.glo4002.cafe.application.bill;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
-import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
+import ca.ulaval.glo4002.cafe.domain.bill.BillRepository;
 import ca.ulaval.glo4002.cafe.domain.bill.NoBillException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 
 public class BillService {
-    private final IBillRepository billRepository;
+    private final BillRepository billRepository;
 
-    public BillService(IBillRepository billRepository) {
+    public BillService(BillRepository billRepository) {
         this.billRepository = billRepository;
     }
 

@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.cafe.ui.rest.assemblers.validators.inventory;
 
-import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
+import ca.ulaval.glo4002.cafe.domain.inventory.InventoryRepository;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.InventoryRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.InventoryDTO;
 import ca.ulaval.glo4002.cafe.ui.rest.assemblers.inventory.InventoryAssembler;
@@ -14,7 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class InventoryAssemblerTest {
     private InventoryAssembler inventoryAssembler;
@@ -23,7 +24,7 @@ class InventoryAssemblerTest {
 
     @BeforeEach
     public void before() {
-        IInventoryRepository inventoryRepository = new InventoryRepositoryInMemory();
+        InventoryRepository inventoryRepository = new InventoryRepositoryInMemory();
         this.inventoryAssembler = new InventoryAssembler(inventoryRepository);
     }
 

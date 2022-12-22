@@ -1,10 +1,10 @@
 package ca.ulaval.glo4002.cafe.application.reservation;
 
 import ca.ulaval.glo4002.cafe.domain.config.Config;
-import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
+import ca.ulaval.glo4002.cafe.domain.config.ConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.reservation.*;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationStrategy;
-import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.IGroupReservationStrategy;
+import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategy;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategyFactory;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
 import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
@@ -22,19 +22,19 @@ public class ReservationServiceTest {
     private static final int A_GROUP_SIZE = 2;
 
     private static ReservationService reservationService;
-    private static IReservationRepository reservationRepository;
-    private static IGroupReservationStrategy groupReservationStrategy;
+    private static ReservationRepository reservationRepository;
+    private static ReservationStrategy groupReservationStrategy;
     private static SeatingOrganizer seatingOrganizer;
     private static ReservationFactory reservationFactory;
 
     @BeforeEach
     public void setup() {
         ReservationStrategyFactory reservationStrategyFactory = mock(ReservationStrategyFactory.class);
-        reservationRepository = mock(IReservationRepository.class);
-        groupReservationStrategy = mock(IGroupReservationStrategy.class);
+        reservationRepository = mock(ReservationRepository.class);
+        groupReservationStrategy = mock(ReservationStrategy.class);
         seatingOrganizer = mock(SeatingOrganizer.class);
         reservationFactory = mock(ReservationFactory.class);
-        IConfigRepository configRepository = mock(IConfigRepository.class);
+        ConfigRepository configRepository = mock(ConfigRepository.class);
         Config config = mock(Config.class);
         when(config.getReservationMethod()).thenReturn(GroupReservationStrategy.Default);
         when(configRepository.findConfig()).thenReturn(config);

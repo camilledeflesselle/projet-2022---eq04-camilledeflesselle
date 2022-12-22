@@ -1,5 +1,5 @@
 package ca.ulaval.glo4002.cafe.domain.tax;
 
-public interface ITaxesRepository {
+public interface TaxRepository {
     TaxRate findTaxRate(Area country, Area area);
 }

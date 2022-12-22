@@ -5,6 +5,6 @@ import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 
 import java.util.List;
 
-public interface IGroupReservationStrategy {
+public interface ReservationStrategy {
     List<Seat> getReservationSeats(List<Cube> cubes, int nbToReserve);
 }

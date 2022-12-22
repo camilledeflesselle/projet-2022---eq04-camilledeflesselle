@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.cafe.domain.customer;
 
 import java.util.List;
 
-public interface ICustomerRepository {
+public interface CustomerRepository {
     Customer findCustomerByCustomerId(CustomerId customerId);
 
     void saveCustomer(Customer customer);

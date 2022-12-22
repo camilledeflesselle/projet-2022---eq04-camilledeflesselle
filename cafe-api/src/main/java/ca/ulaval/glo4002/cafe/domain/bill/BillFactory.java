@@ -8,14 +8,13 @@ public class BillFactory {
 
     public Bill createBill(Order customersOrder, TaxRate taxRate, TipRate tipRate, boolean customerHasGroup) {
         TipRate groupTipRate = customerHasGroup ? tipRate : DEFAULT_TIP_RATE;
-        Amount subtotal = new Amount(0f);
-        subtotal = this.getSubtotal(customersOrder, subtotal);
+        Amount subtotal = this.getSubtotal(customersOrder);
         Amount taxes = subtotal.applyRate(taxRate);
         Amount tip = subtotal.applyRate(groupTipRate);
         return new Bill(customersOrder, subtotal, taxes, tip);
     }
 
-    private Amount getSubtotal(Order order, Amount subtotal) {
+    private Amount getSubtotal(Order order) {
         return order.calculateTotal();
     }
 }

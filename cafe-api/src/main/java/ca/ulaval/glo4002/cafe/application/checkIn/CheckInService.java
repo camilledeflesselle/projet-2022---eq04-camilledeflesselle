@@ -2,25 +2,25 @@ package ca.ulaval.glo4002.cafe.application.checkIn;
 
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.DuplicateCustomerException;
-import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
-import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
+import ca.ulaval.glo4002.cafe.domain.order.OrderRepository;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
-import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
+import ca.ulaval.glo4002.cafe.domain.reservation.ReservationRepository;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
 
 import java.util.ArrayList;
 
 public class CheckInService {
-    private final ICustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
     private final SeatingOrganizer seatingOrganizer;
     private OrdersFactory ordersFactory;
-    private IOrderRepository ordersRepository;
-    private IReservationRepository reservationRepository;
+    private OrderRepository ordersRepository;
+    private ReservationRepository reservationRepository;
 
-    public CheckInService(ICustomerRepository customerRepository, SeatingOrganizer seatingOrganizer, OrdersFactory ordersFactory, IOrderRepository ordersRepository, IReservationRepository reservationRepository) {
+    public CheckInService(CustomerRepository customerRepository, SeatingOrganizer seatingOrganizer, OrdersFactory ordersFactory, OrderRepository ordersRepository, ReservationRepository reservationRepository) {
         this.customerRepository = customerRepository;
         this.seatingOrganizer = seatingOrganizer;
         this.ordersFactory = ordersFactory;

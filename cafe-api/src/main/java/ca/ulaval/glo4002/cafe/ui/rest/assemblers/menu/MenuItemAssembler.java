@@ -2,9 +2,9 @@ package ca.ulaval.glo4002.cafe.ui.rest.assemblers.menu;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
-import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.MenuItemDTO;
 import jakarta.ws.rs.BadRequestException;
@@ -12,10 +12,10 @@ import jakarta.ws.rs.BadRequestException;
 import java.util.List;
 
 public class MenuItemAssembler {
-    private final IMenuItemRepository menu;
+    private final MenuItemRepository menu;
     private final RecipeAssembler recipeAssembler;
 
-    public MenuItemAssembler(IMenuItemRepository menuItemRepository) {
+    public MenuItemAssembler(MenuItemRepository menuItemRepository) {
         this.menu = menuItemRepository;
         this.recipeAssembler = new RecipeAssembler();
     }

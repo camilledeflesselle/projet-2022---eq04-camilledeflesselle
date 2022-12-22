@@ -2,9 +2,9 @@ package ca.ulaval.glo4002.cafe.domain.seating;
 
 import ca.ulaval.glo4002.cafe.domain.cube.Cube;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
-import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
 import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
-import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.IGroupReservationStrategy;
+import ca.ulaval.glo4002.cafe.domain.reservation.ReservationRepository;
+import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategy;
 import ca.ulaval.glo4002.cafe.domain.seat.NoSeatAvailableException;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
@@ -20,16 +20,15 @@ public class SeatingOrganizer {
         this.cubes = cubes;
     }
 
-    public Seat findSeat(Customer customer, IReservationRepository reservationRepository) {
+    public Seat findSeat(Customer customer, ReservationRepository reservationRepository) {
         if (!customer.hasGroup()) {
             return this.getFirstFreeSeat();
         }
         Reservation reservation = reservationRepository.findReservationByGroupName(customer.getGroupName());
-
         return this.findSeatBySeatId(reservation.popFirstReservedSeatId());
     }
 
-    public List<SeatId> reserveSeats(int nbSeatToReserve, String groupName, IGroupReservationStrategy groupReservationStrategy) {
+    public List<SeatId> reserveSeats(int nbSeatToReserve, String groupName, ReservationStrategy groupReservationStrategy) {
         if (nbSeatToReserve > this.getFreeSeats().size()) throw new NoSeatAvailableException();
 
         List<Seat> seatsToReserve = groupReservationStrategy.getReservationSeats(this.cubes, nbSeatToReserve);
@@ -42,7 +41,7 @@ public class SeatingOrganizer {
         return reservedSeatsId;
     }
 
-    public void removeCustomerFromSeating(Customer customer, IReservationRepository reservationRepository) {
+    public void removeCustomerFromSeating(Customer customer, ReservationRepository reservationRepository) {
         this.unassignSeatToCustomer(customer, reservationRepository);
 
         if (customer.hasGroup()) {
@@ -72,7 +71,7 @@ public class SeatingOrganizer {
         return freeSeats;
     }
 
-    private void unassignSeatToCustomer(Customer customer, IReservationRepository reservationRepository) {
+    private void unassignSeatToCustomer(Customer customer, ReservationRepository reservationRepository) {
         if (customer.hasGroup()) {
             Reservation reservation = reservationRepository.findReservationByGroupName(customer.getGroupName());
             reservation.checkoutCustomer(customer);
@@ -82,7 +81,7 @@ public class SeatingOrganizer {
         customer.unsetSeatId();
     }
 
-    private void removeReservationIfEmpty(String groupName, IReservationRepository reservationRepository) {
+    private void removeReservationIfEmpty(String groupName, ReservationRepository reservationRepository) {
         Reservation reservation = reservationRepository.findReservationByGroupName(groupName);
         if (!reservation.isEmpty()) return;
 

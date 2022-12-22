@@ -1,12 +1,12 @@
 package ca.ulaval.glo4002.cafe.application.config;
 
 import ca.ulaval.glo4002.cafe.domain.config.Config;
-import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
+import ca.ulaval.glo4002.cafe.domain.config.ConfigRepository;
 
 public class ConfigService {
-    private final IConfigRepository configRepository;
+    private final ConfigRepository configRepository;
 
-    public ConfigService(IConfigRepository configRepository) {
+    public ConfigService(ConfigRepository configRepository) {
         this.configRepository = configRepository;
     }
 

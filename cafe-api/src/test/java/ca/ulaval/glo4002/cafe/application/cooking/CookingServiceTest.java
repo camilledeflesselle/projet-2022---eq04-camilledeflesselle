@@ -1,10 +1,10 @@
 package ca.ulaval.glo4002.cafe.application.cooking;
 
 import ca.ulaval.glo4002.cafe.domain.cooking.Cooker;
-import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
+import ca.ulaval.glo4002.cafe.domain.inventory.InventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
-import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
+import ca.ulaval.glo4002.cafe.domain.recipe.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,16 +12,16 @@ import static org.mockito.Mockito.*;
 
 
 class CookingServiceTest {
-    private IRecipeRepository recipeRepository;
-    private IInventoryRepository inventoryRepository;
+    private RecipeRepository recipeRepository;
+    private InventoryRepository inventoryRepository;
     private CookingService cookingService;
     private Cooker cooker;
     private Inventory inventory;
 
     @BeforeEach
     public void setUp() {
-        recipeRepository = mock(IRecipeRepository.class);
-        inventoryRepository = mock(IInventoryRepository.class);
+        recipeRepository = mock(RecipeRepository.class);
+        inventoryRepository = mock(InventoryRepository.class);
         inventory = mock(Inventory.class);
         when(inventoryRepository.getInventory()).thenReturn(inventory);
         cooker = mock(Cooker.class);

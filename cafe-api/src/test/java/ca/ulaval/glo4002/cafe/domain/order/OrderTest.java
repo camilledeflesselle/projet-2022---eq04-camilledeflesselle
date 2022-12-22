@@ -6,8 +6,8 @@ import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
-import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
+import ca.ulaval.glo4002.cafe.domain.recipe.RecipeRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class OrderTest {
     public void givenAnEmptyOrder_whenMakeOrder_thenRecipeRepositoryIsNotCalled() {
         order = new Order(A_EMPTY_MENU_ITEM_LIST);
         Inventory inventory = mock(Inventory.class);
-        IRecipeRepository recipeRepository = mock(IRecipeRepository.class);
+        RecipeRepository recipeRepository = mock(RecipeRepository.class);
 
         order.make(recipeRepository, inventory);
 
@@ -69,7 +69,7 @@ public class OrderTest {
     @Test
     public void givenMenuItemsInOrder_whenMakeOrder_thenRecipeOfEveryMenuItemCookWithInventory() {
         Inventory inventory = mock(Inventory.class);
-        IRecipeRepository recipeRepository = mock(IRecipeRepository.class);
+        RecipeRepository recipeRepository = mock(RecipeRepository.class);
         Recipe recipe = mock(Recipe.class);
         MenuItem anItem = mock(MenuItem.class);
         MenuItem anotherItem = mock(MenuItem.class);
@@ -111,7 +111,7 @@ public class OrderTest {
 
     @Test
     public void whenGetAllIngredientsQuantities_thenReturnsSumOfAllMenuItemsIngredientsQuantities() {
-        IRecipeRepository recipeRepository = mock(IRecipeRepository.class);
+        RecipeRepository recipeRepository = mock(RecipeRepository.class);
         given2RecipesInRepositoryWithSameIngredientAndDifferentQuantities(recipeRepository, 1, 3, AN_INGREDIENT_ID);
         order = givenOrderWith2MenuItems();
 
@@ -128,7 +128,7 @@ public class OrderTest {
         return new Order(List.of(anItem, anotherItem));
     }
 
-    private void given2RecipesInRepositoryWithSameIngredientAndDifferentQuantities(IRecipeRepository recipeRepository, int quantity1, int quantity2, IngredientId ingredientId) {
+    private void given2RecipesInRepositoryWithSameIngredientAndDifferentQuantities(RecipeRepository recipeRepository, int quantity1, int quantity2, IngredientId ingredientId) {
         Recipe recipe1 = new Recipe(A_MENU_ITEM_ID,List.of(new Ingredient(ingredientId, quantity1)));
         Recipe recipe2 = new Recipe(ANOTHER_MENU_ITEM_ID,List.of(new Ingredient(ingredientId, quantity2)));
         when(recipeRepository.findById(A_MENU_ITEM_ID)).thenReturn(recipe1);

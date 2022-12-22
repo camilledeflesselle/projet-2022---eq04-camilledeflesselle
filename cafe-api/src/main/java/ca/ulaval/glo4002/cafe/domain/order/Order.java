@@ -4,8 +4,8 @@ import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
-import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
+import ca.ulaval.glo4002.cafe.domain.recipe.RecipeRepository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,14 +31,14 @@ public class Order {
         return this;
     }
 
-    public void make(IRecipeRepository recipeRepository, Inventory inventoryRepository) {
+    public void make(RecipeRepository recipeRepository, Inventory inventoryRepository) {
         menuItems.forEach(menuItem -> {
             Recipe recipe = recipeRepository.findById(menuItem.getId());
             recipe.cookWith(inventoryRepository);
         });
     }
 
-    public Map<IngredientId, Integer> getAllIngredientsQuantities(IRecipeRepository recipeRepository) {
+    public Map<IngredientId, Integer> getAllIngredientsQuantities(RecipeRepository recipeRepository) {
         Map<IngredientId, Integer> ingredients = new HashMap<>();
 
         menuItems.forEach(menuItem -> {

@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.cafe.domain.cube;
 
 import java.util.List;
 
-public interface ICubeRepository {
+public interface CubeRepository {
     int getAmount();
 
     void saveCube(Cube cube);

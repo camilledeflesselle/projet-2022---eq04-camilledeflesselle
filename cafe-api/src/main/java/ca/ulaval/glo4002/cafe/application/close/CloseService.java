@@ -1,37 +1,37 @@
 package ca.ulaval.glo4002.cafe.application.close;
 
-import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
+import ca.ulaval.glo4002.cafe.domain.bill.BillRepository;
 import ca.ulaval.glo4002.cafe.domain.config.Config;
-import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
+import ca.ulaval.glo4002.cafe.domain.config.ConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.cube.Cube;
+import ca.ulaval.glo4002.cafe.domain.cube.CubeRepository;
 import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
-import ca.ulaval.glo4002.cafe.domain.cube.ICubeRepository;
-import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
-import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
-import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
-import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
-import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
-import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerRepository;
+import ca.ulaval.glo4002.cafe.domain.inventory.InventoryRepository;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItemRepository;
+import ca.ulaval.glo4002.cafe.domain.order.OrderRepository;
+import ca.ulaval.glo4002.cafe.domain.recipe.RecipeRepository;
+import ca.ulaval.glo4002.cafe.domain.reservation.ReservationRepository;
 
 import java.util.List;
 
 public class CloseService {
 
-    private final IReservationRepository reservationRepository;
-    private final ICustomerRepository customerRepository;
-    private final IOrderRepository orderRepository;
-    private final IBillRepository billRepository;
-    private final ICubeRepository cubeRepository;
-    private final IMenuItemRepository menuItemRepository;
-    private final IRecipeRepository recipeRepository;
-    private final IInventoryRepository inventoryRepository;
+    private final ReservationRepository reservationRepository;
+    private final CustomerRepository customerRepository;
+    private final OrderRepository orderRepository;
+    private final BillRepository billRepository;
+    private final CubeRepository cubeRepository;
+    private final MenuItemRepository menuItemRepository;
+    private final RecipeRepository recipeRepository;
+    private final InventoryRepository inventoryRepository;
     private final CubesListFactory cubesListFactory;
-    private final IConfigRepository configRepository;
+    private final ConfigRepository configRepository;
 
-    public CloseService(IConfigRepository configRepository, ICubeRepository cubeRepository, IReservationRepository reservationRepository,
-                        ICustomerRepository customerRepository, IOrderRepository orderRepository,
-                        IBillRepository billRepository, IMenuItemRepository menuItemRepository,
-                        IRecipeRepository recipeRepository, IInventoryRepository inventoryRepository,
+    public CloseService(ConfigRepository configRepository, CubeRepository cubeRepository, ReservationRepository reservationRepository,
+                        CustomerRepository customerRepository, OrderRepository orderRepository,
+                        BillRepository billRepository, MenuItemRepository menuItemRepository,
+                        RecipeRepository recipeRepository, InventoryRepository inventoryRepository,
                         CubesListFactory cubesListFactory) {
         this.configRepository = configRepository;
         this.reservationRepository = reservationRepository;

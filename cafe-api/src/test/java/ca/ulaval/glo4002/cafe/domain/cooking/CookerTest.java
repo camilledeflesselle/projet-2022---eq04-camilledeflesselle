@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.cafe.domain.cooking;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
-import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
+import ca.ulaval.glo4002.cafe.domain.recipe.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 class CookerTest {
     private static final Map<IngredientId, Integer> NEEDED_QUANTITIES = Map.of(new IngredientId("An ingredient"), 1);
     private static final Integer NULL_INVENTORY_QUANTITY = 0;
-    private IRecipeRepository recipeRepository;
+    private RecipeRepository recipeRepository;
     private Inventory inventory;
     private Order order;
     private Cooker cooker;
@@ -23,7 +23,7 @@ class CookerTest {
     @BeforeEach
     public void setUp() {
         cooker = new Cooker();
-        recipeRepository = mock(IRecipeRepository.class);
+        recipeRepository = mock(RecipeRepository.class);
         order = mock(Order.class);
         inventory = mock(Inventory.class);
     }

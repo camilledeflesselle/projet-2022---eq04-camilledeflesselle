@@ -4,11 +4,11 @@ import ca.ulaval.glo4002.cafe.application.cooking.CookingService;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
-import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
-import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
-import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
+import ca.ulaval.glo4002.cafe.domain.order.OrderRepository;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,24 +28,24 @@ class CustomerServiceTest {
     private static List<MenuItem> menuItemListMock;
     private static CustomerService customerService;
     private static CookingService cookingServiceMock;
-    private static ICustomerRepository customerRepositoryMock;
-    private static IOrderRepository orderRepositoryMock;
+    private static CustomerRepository customerRepositoryMock;
+    private static OrderRepository orderRepositoryMock;
     private static OrdersFactory ordersFactoryMock;
-    private IMenuItemRepository menuItemRepositoryMock;
+    private MenuItemRepository menuItemRepositoryMock;
     private Order concatenatedOrderMock;
 
     @BeforeEach
     void setUp() {
         cookingServiceMock = mock(CookingService.class);
-        customerRepositoryMock = mock(ICustomerRepository.class);
+        customerRepositoryMock = mock(CustomerRepository.class);
         ordersFactoryMock = mock(OrdersFactory.class);
         customerMock = mock(Customer.class);
         oldOrderMock = mock(Order.class);
         newOrderMock = mock(Order.class);
         concatenatedOrderMock = mock(Order.class);
         menuItemListMock = new ArrayList<>(List.of(mock(MenuItem.class)));
-        menuItemRepositoryMock = mock(IMenuItemRepository.class);
-        orderRepositoryMock = mock(IOrderRepository.class);
+        menuItemRepositoryMock = mock(MenuItemRepository.class);
+        orderRepositoryMock = mock(OrderRepository.class);
         customerService = new CustomerService(cookingServiceMock, customerRepositoryMock, ordersFactoryMock, menuItemRepositoryMock, orderRepositoryMock);
     }
 

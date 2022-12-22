@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * No loners strategy, the goal is to avoid loners.
  */
-public class NoLonersStrategy implements IGroupReservationStrategy {
+public class NoLonersStrategy implements ReservationStrategy {
     private int nbRemainToReserve;
     private List<Seat> seatToReserve;
     private List<Seat> freeSeatsInCube;

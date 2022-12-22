@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.cafe.application.bill;
 
-import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
+import ca.ulaval.glo4002.cafe.domain.bill.BillRepository;
 import ca.ulaval.glo4002.cafe.domain.bill.NoBillException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,12 +11,12 @@ import static org.mockito.Mockito.*;
 
 class BillServiceTest {
     private static final CustomerId A_CUSTOMER_ID = new CustomerId("1");
-    private IBillRepository billRepository;
+    private BillRepository billRepository;
     private BillService billService;
 
     @BeforeEach
     public void before() {
-        billRepository = mock(IBillRepository.class);
+        billRepository = mock(BillRepository.class);
         billService = new BillService(billRepository);
     }
 

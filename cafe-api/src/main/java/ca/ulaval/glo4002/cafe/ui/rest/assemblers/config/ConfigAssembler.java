@@ -5,8 +5,8 @@ import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.reservation.InvalidGroupReservationMethodException;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationStrategy;
 import ca.ulaval.glo4002.cafe.domain.tax.Area;
-import ca.ulaval.glo4002.cafe.domain.tax.ITaxesRepository;
 import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
+import ca.ulaval.glo4002.cafe.domain.tax.TaxRepository;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.Country;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.ConfigDTO;
 import jakarta.ws.rs.BadRequestException;
@@ -17,10 +17,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ConfigAssembler {
-    private final ITaxesRepository taxesRepository;
+    private final TaxRepository taxesRepository;
     private final Config config;
 
-    public ConfigAssembler(ITaxesRepository taxesRepository) {
+    public ConfigAssembler(TaxRepository taxesRepository) {
         this.taxesRepository = taxesRepository;
         this.config = new Config();
     }

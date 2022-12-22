@@ -1,12 +1,12 @@
 package ca.ulaval.glo4002.cafe.application.layout;
 
 import ca.ulaval.glo4002.cafe.domain.config.Config;
-import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
+import ca.ulaval.glo4002.cafe.domain.config.ConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.cube.Cube;
+import ca.ulaval.glo4002.cafe.domain.cube.CubeRepository;
 import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
-import ca.ulaval.glo4002.cafe.domain.cube.ICubeRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
-import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,24 +21,24 @@ public class LayoutServiceTest {
     private static final int A_CUBE_SIZE = 4;
 
     private static CubesListFactory cubesListFactoryMock;
-    private static ICubeRepository cubeRepositoryMock;
-    private static ICustomerRepository customerRepositoryMock;
+    private static CubeRepository cubeRepositoryMock;
+    private static CustomerRepository customerRepositoryMock;
     private static List<Cube> cubesListMock;
     private static LayoutDTOAssembler layoutAssemblerMock;
     private static List<Customer> customerListMock;
-    private IConfigRepository configRepositoryMock;
+    private ConfigRepository configRepositoryMock;
 
     @BeforeEach
     public void setup() {
-        configRepositoryMock = mock(IConfigRepository.class);
+        configRepositoryMock = mock(ConfigRepository.class);
         Config config = new Config();
         config.setCubeSize(A_CUBE_SIZE);
         config.setOrganizationName(A_CAFE_NAME);
         config.setCubesNames(SOME_CUBES_NAME);
         when(configRepositoryMock.findConfig()).thenReturn(config);
         cubesListFactoryMock = mock(CubesListFactory.class);
-        cubeRepositoryMock = mock(ICubeRepository.class);
-        customerRepositoryMock = mock(ICustomerRepository.class);
+        cubeRepositoryMock = mock(CubeRepository.class);
+        customerRepositoryMock = mock(CustomerRepository.class);
         layoutAssemblerMock = mock(LayoutDTOAssembler.class);
         cubesListMock = new ArrayList<>(List.of(mock(Cube.class)));
         customerListMock = new ArrayList<>(List.of(mock(Customer.class)));

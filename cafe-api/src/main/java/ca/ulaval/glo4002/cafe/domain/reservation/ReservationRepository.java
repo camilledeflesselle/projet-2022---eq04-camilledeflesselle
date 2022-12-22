@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.cafe.domain.reservation;
 
 import java.util.List;
 
-public interface IReservationRepository {
+public interface ReservationRepository {
     boolean doesReservationExistsForGroup(String groupName);
 
     void saveReservation(Reservation reservation);

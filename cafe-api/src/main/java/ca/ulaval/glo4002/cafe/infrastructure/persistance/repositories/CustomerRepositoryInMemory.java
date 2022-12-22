@@ -2,14 +2,14 @@ package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
-import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CustomerRepositoryInMemory implements ICustomerRepository {
+public class CustomerRepositoryInMemory implements CustomerRepository {
     private final Map<CustomerId, Customer> customers;
 
     public CustomerRepositoryInMemory() {

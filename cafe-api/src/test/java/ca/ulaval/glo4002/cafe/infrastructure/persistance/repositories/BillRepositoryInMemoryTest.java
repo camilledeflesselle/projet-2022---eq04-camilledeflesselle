@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
-import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
+import ca.ulaval.glo4002.cafe.domain.bill.BillRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ class BillRepositoryInMemoryTest {
     private static final CustomerId A_CUSTOMER_ID = new CustomerId("id1");
     private static final CustomerId ANOTHER_CUSTOMER_ID = new CustomerId("id2");
     private static Bill billMock;
-    private static IBillRepository billRepository;
+    private static BillRepository billRepository;
 
     @BeforeEach
     public void setup() {

@@ -4,11 +4,11 @@ import ca.ulaval.glo4002.cafe.application.cooking.CookingService;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
-import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
-import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
-import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
+import ca.ulaval.glo4002.cafe.domain.order.OrderRepository;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
 import jakarta.ws.rs.NotFoundException;
 
@@ -16,13 +16,13 @@ import java.util.List;
 
 public class CustomerService {
     private final CookingService cookingService;
-    private final ICustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
     private final OrdersFactory ordersFactory;
-    private final IMenuItemRepository menuItemRepository;
-    private final IOrderRepository ordersRepository;
+    private final MenuItemRepository menuItemRepository;
+    private final OrderRepository ordersRepository;
 
-    public CustomerService(CookingService cookingService, ICustomerRepository customerRepository,
-                           OrdersFactory ordersFactory, IMenuItemRepository menuItemRepository, IOrderRepository ordersRepository) {
+    public CustomerService(CookingService cookingService, CustomerRepository customerRepository,
+                           OrdersFactory ordersFactory, MenuItemRepository menuItemRepository, OrderRepository ordersRepository) {
         this.cookingService = cookingService;
         this.customerRepository = customerRepository;
         this.ordersFactory = ordersFactory;

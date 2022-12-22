@@ -2,17 +2,17 @@ package ca.ulaval.glo4002.cafe.application.checkOut;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
 import ca.ulaval.glo4002.cafe.domain.bill.BillFactory;
-import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
+import ca.ulaval.glo4002.cafe.domain.bill.BillRepository;
 import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.config.Config;
-import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
+import ca.ulaval.glo4002.cafe.domain.config.ConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
-import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
-import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
-import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
+import ca.ulaval.glo4002.cafe.domain.order.OrderRepository;
+import ca.ulaval.glo4002.cafe.domain.reservation.ReservationRepository;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
 import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
@@ -32,22 +32,22 @@ public class CheckOutServiceTest {
     private static final boolean CUSTOMER_HAS_GROUP = true;
 
     private static CheckOutService checkOutService;
-    private static ICustomerRepository customerRepository;
-    private static IOrderRepository orderRepository;
+    private static CustomerRepository customerRepository;
+    private static OrderRepository orderRepository;
     private BillFactory billFactory;
-    private IBillRepository billRepository;
+    private BillRepository billRepository;
     private SeatingOrganizer seatingOrganizer;
-    private IReservationRepository reservationRepository;
+    private ReservationRepository reservationRepository;
 
     @BeforeEach
     public void setup() {
-        customerRepository = mock(ICustomerRepository.class);
-        orderRepository = mock(IOrderRepository.class);
-        IConfigRepository configRepository = mock(IConfigRepository.class);
+        customerRepository = mock(CustomerRepository.class);
+        orderRepository = mock(OrderRepository.class);
+        ConfigRepository configRepository = mock(ConfigRepository.class);
         billFactory = mock(BillFactory.class);
-        billRepository = mock(IBillRepository.class);
+        billRepository = mock(BillRepository.class);
         seatingOrganizer = mock(SeatingOrganizer.class);
-        reservationRepository = mock(IReservationRepository.class);
+        reservationRepository = mock(ReservationRepository.class);
         Config config = mock(Config.class);
         when(configRepository.findConfig()).thenReturn(config);
         when(config.getTaxRate()).thenReturn(A_TAX_RATE);

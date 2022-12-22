@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.cafe.ui.rest.assemblers.validators.config;
 import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.reservation.InvalidGroupReservationMethodException;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationStrategy;
-import ca.ulaval.glo4002.cafe.domain.tax.ITaxesRepository;
+import ca.ulaval.glo4002.cafe.domain.tax.TaxRepository;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.Country;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.TaxesRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.ConfigDTO;
@@ -33,7 +33,7 @@ class ConfigAssemblerTest {
 
     @BeforeEach
     public void setupConfigValidator() {
-        ITaxesRepository taxesRepository = new TaxesRepositoryInMemory();
+        TaxRepository taxesRepository = new TaxesRepositoryInMemory();
         this.configValidator = new ConfigAssembler(taxesRepository);
     }
 

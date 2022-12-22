@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.cafe.application.reservation;
 
-import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
+import ca.ulaval.glo4002.cafe.domain.config.ConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.reservation.*;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategyFactory;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
@@ -10,12 +10,12 @@ import java.util.List;
 
 public class ReservationService {
     private final ReservationStrategyFactory reservationStrategyFactory;
-    private final IReservationRepository reservationRepository;
+    private final ReservationRepository reservationRepository;
     private final ReservationFactory reservationFactory;
-    private final IConfigRepository configRepository;
+    private final ConfigRepository configRepository;
     private final SeatingOrganizer seatingOrganizer;
 
-    public ReservationService(IConfigRepository configRepository, ReservationStrategyFactory reservationStrategyFactory, ReservationFactory reservationFactory, IReservationRepository reservationRepository, SeatingOrganizer seatingOrganizer) {
+    public ReservationService(ConfigRepository configRepository, ReservationStrategyFactory reservationStrategyFactory, ReservationFactory reservationFactory, ReservationRepository reservationRepository, SeatingOrganizer seatingOrganizer) {
         this.reservationStrategyFactory = reservationStrategyFactory;
         this.reservationFactory = reservationFactory;
         this.reservationRepository = reservationRepository;
