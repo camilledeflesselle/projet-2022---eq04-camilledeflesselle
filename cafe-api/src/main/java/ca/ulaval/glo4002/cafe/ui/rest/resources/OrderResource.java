@@ -26,7 +26,7 @@ public class OrderResource {
     @Path("/{CUSTOMER_ID}/orders")
     public Response getOrder(@PathParam("CUSTOMER_ID") CustomerId customerId) {
         Customer customer = this.customerService.findCustomer(customerId);
-        List<String> orders = this.customerService.findOrder(customer.getId()).getListOfOrderedItemsStr();
+        List<String> orders = this.customerService.findOrder(customer.getId()).getListOfMenuItemNames();
         OrderDTO orderDTO = new OrderDTO(orders);
         return Response
                 .ok()

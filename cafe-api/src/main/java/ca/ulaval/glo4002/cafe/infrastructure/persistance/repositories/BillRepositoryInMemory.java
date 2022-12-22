@@ -1,13 +1,12 @@
 package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
-import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
-import ca.ulaval.glo4002.cafe.domain.bill.NoBillException;
+import ca.ulaval.glo4002.cafe.domain.bill.BillRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 
 import java.util.HashMap;
 
-public class BillRepositoryInMemory implements IBillRepository {
+public class BillRepositoryInMemory implements BillRepository {
     private final HashMap<CustomerId, Bill> bills;
 
     public BillRepositoryInMemory() {
@@ -19,13 +18,10 @@ public class BillRepositoryInMemory implements IBillRepository {
     }
 
     public Bill findBillByCustomerId(CustomerId customerId) {
-        if (!this.bills.containsKey(customerId)) {
-            throw new NoBillException();
-        }
         return this.bills.get(customerId);
     }
 
-    public int getAmount() {
+    public int getNumberOfBills() {
         return bills.size();
     }
 

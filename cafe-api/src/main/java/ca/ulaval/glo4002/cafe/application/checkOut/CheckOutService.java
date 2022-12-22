@@ -1,66 +1,55 @@
 package ca.ulaval.glo4002.cafe.application.checkOut;
 
-import ca.ulaval.glo4002.cafe.application.bill.BillService;
-import ca.ulaval.glo4002.cafe.application.customer.CustomerService;
-import ca.ulaval.glo4002.cafe.application.seating.SeatingService;
+import ca.ulaval.glo4002.cafe.domain.bill.Bill;
+import ca.ulaval.glo4002.cafe.domain.bill.BillFactory;
+import ca.ulaval.glo4002.cafe.domain.bill.BillRepository;
+import ca.ulaval.glo4002.cafe.domain.config.ConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
-import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
-import ca.ulaval.glo4002.cafe.domain.seat.Seat;
-import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
+import ca.ulaval.glo4002.cafe.domain.order.OrderRepository;
+import ca.ulaval.glo4002.cafe.domain.reservation.ReservationRepository;
+import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
 
 public class CheckOutService {
-    private final CustomerService customerService;
-    private final SeatingService seatingService;
-    private final BillService billService;
+    private final CustomerRepository customerRepository;
+    private final OrderRepository orderRepository;
+    private final ConfigRepository configRepository;
+    private final BillFactory billFactory;
+    private final BillRepository billRepository;
+    private final SeatingOrganizer seatingOrganizer;
+    private final ReservationRepository reservationRepository;
 
-    public CheckOutService(CustomerService customerService, SeatingService seatingService, BillService billService) {
-        this.customerService = customerService;
-        this.billService = billService;
-        this.seatingService = seatingService;
+    public CheckOutService(CustomerRepository customerRepository, OrderRepository orderRepository, ConfigRepository configRepository, BillFactory billFactory, BillRepository billRepository, SeatingOrganizer seatingOrganizer, ReservationRepository reservationRepository) {
+        this.customerRepository = customerRepository;
+        this.orderRepository = orderRepository;
+        this.configRepository = configRepository;
+        this.billFactory = billFactory;
+        this.billRepository = billRepository;
+        this.seatingOrganizer = seatingOrganizer;
+        this.reservationRepository = reservationRepository;
     }
 
     public void checkoutCustomer(CustomerId customerId) {
-        Customer customer = this.customerService.findCustomer(customerId);
-        this.unassignSeatToCustomer(customer);
-
-        if (customer.hasGroup()) {
-            this.createBillForGroup(customerId);
-            this.removeReservationIfEmpty(customer.getGroupName());
-        } else {
-            this.createBill(customerId);
-        }
-    }
-
-    private void unassignSeatToCustomer(Customer customer) {
-        if (customer.hasGroup()) {
-            Reservation reservation = this.seatingService.getReservationByGroupName(customer.getGroupName());
-            reservation.checkoutCustomer(customer);
-        }
-        Seat seat = this.seatingService.getSeatById(customer.getSeatId());
-        seat.unassign();
-        customer.unsetSeatId();
-    }
-
-    private void removeReservationIfEmpty(String groupName) {
-        Reservation reservation = this.seatingService.getReservationByGroupName(groupName);
-        if (!reservation.isEmpty()) return;
-
-        for (SeatId seatId : reservation.getLockedSeatsId()) {
-            this.seatingService.getSeatById(seatId).unassign();
+        Customer customer = this.customerRepository.findCustomerByCustomerId(customerId);
+        if (customer == null) {
+            throw new CustomerDoesNotExistException();
         }
 
-        this.seatingService.removeReservationByGroupName(groupName);
+        this.createBill(customer);
+
+        this.seatingOrganizer.removeCustomerFromSeating(customer, this.reservationRepository);
     }
 
-    public void createBill(CustomerId customerId) {
-        Order order = this.customerService.findOrder(customerId);
-        this.billService.processBillForCustomer(customerId, order);
+    private void createBill(Customer customer) {
+        Order order = this.orderRepository.findOrderByCustomerId(customer.getId());
+        this.processBill(customer, order);
     }
 
-    public void createBillForGroup(CustomerId customerId) {
-        Order order = this.customerService.findOrder(customerId);
-        this.billService.processBillForGroup(customerId, order);
+    private void processBill(Customer customer, Order order) {
+        Bill bill = this.billFactory.createBill(order, this.configRepository.findConfig().getTaxRate(), this.configRepository.findConfig().getGroupTipRate(), customer.hasGroup());
+        this.billRepository.saveBillByCustomerId(customer.getId(), bill);
     }
 }

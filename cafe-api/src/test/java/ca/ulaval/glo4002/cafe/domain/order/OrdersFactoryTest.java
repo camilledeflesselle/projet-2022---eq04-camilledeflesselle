@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.cafe.domain.order;
 
-import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
-import ca.ulaval.glo4002.cafe.ui.rest.validators.config.InvalidMenuOrderException;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItemRepository;
+import ca.ulaval.glo4002.cafe.ui.rest.assemblers.config.InvalidMenuOrderException;
 import jakarta.ws.rs.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,20 +12,18 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class OrdersFactoryTest {
 
-    private IMenuItemRepository menuItemRepository;
+    private MenuItemRepository menuItemRepository;
     private static final String AN_ITEM_NAME = "Café";
     private static final String ANOTHER_ITEM_NAME = "Big10";
     private OrdersFactory ordersFactory;
 
     @BeforeEach
     public void setup() {
-        menuItemRepository = mock(IMenuItemRepository.class);
+        menuItemRepository = mock(MenuItemRepository.class);
         ordersFactory = new OrdersFactory();
     }
     @Test

@@ -3,13 +3,14 @@ package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 import ca.ulaval.glo4002.cafe.application.cooking.RecipeFactory;
 import ca.ulaval.glo4002.cafe.application.menu.CoffeeType;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
-import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
+import ca.ulaval.glo4002.cafe.domain.recipe.RecipeRepository;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RecipeRepositoryInMemory implements IRecipeRepository {
+public class RecipeRepositoryInMemory implements RecipeRepository {
     private final List<Recipe> recipes;
     private final RecipeFactory recipeFactory;
 

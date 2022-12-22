@@ -4,8 +4,8 @@ import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
-import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
+import ca.ulaval.glo4002.cafe.domain.recipe.RecipeRepository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +22,7 @@ public class Order {
         return menuItems;
     }
 
-    public List<String> getListOfOrderedItemsStr() {
+    public List<String> getListOfMenuItemNames() {
         return menuItems.stream().map(MenuItem::getName).toList();
     }
 
@@ -31,15 +31,16 @@ public class Order {
         return this;
     }
 
-    public void make(IRecipeRepository recipeRepository, Inventory inventoryRepository) {
+    public void make(RecipeRepository recipeRepository, Inventory inventoryRepository) {
         menuItems.forEach(menuItem -> {
             Recipe recipe = recipeRepository.findById(menuItem.getId());
-            menuItem.cook(recipe, inventoryRepository);
+            recipe.cookWith(inventoryRepository);
         });
     }
 
-    public Map<IngredientId, Integer> getAllIngredientsQuantities(IRecipeRepository recipeRepository) {
+    public Map<IngredientId, Integer> getAllIngredientsQuantities(RecipeRepository recipeRepository) {
         Map<IngredientId, Integer> ingredients = new HashMap<>();
+
         menuItems.forEach(menuItem -> {
             Recipe recipe = recipeRepository.findById(menuItem.getId());
             recipe.getIngredients().forEach(ingredient -> {
@@ -53,7 +54,7 @@ public class Order {
         return ingredients;
     }
 
-    public Amount calculateTotal(Amount subtotal) {
-        return menuItems.stream().map(MenuItem::getPrice).reduce(subtotal, Amount::add);
+    public Amount calculateTotal() {
+        return menuItems.stream().map(MenuItem::getPrice).reduce(Amount::add).orElse(new Amount(0));
     }
 }

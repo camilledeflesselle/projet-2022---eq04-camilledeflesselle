@@ -4,10 +4,10 @@ import ca.ulaval.glo4002.cafe.application.inventory.IngredientType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class InventoryTest {
-    private static final IngredientId AN_EXISTING_INGREDIENT_ID = new IngredientId(IngredientType.CHOCOLATE.getLabel());
+    private static final IngredientId AN_EXISTING_INGREDIENT_ID = new IngredientId(IngredientType.Chocolate.getLabel());
     private static final Ingredient AN_EXISTING_INGREDIENT = new Ingredient(AN_EXISTING_INGREDIENT_ID, 0);
 
     private Inventory inventory;

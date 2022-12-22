@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
-import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistsException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class CustomerRepositoryInMemoryTest {
     private static final String A_CUSTOMER_NAME = "Keanu Reeves";
@@ -48,9 +47,8 @@ public class CustomerRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenCustomerThatDoesntExistInRepository_whenSearchingForCustomer_thenNoCustomerIsFound() {
-        assertThrows(CustomerDoesNotExistsException.class, () -> customerRepositoryInMemory.findCustomerByCustomerId(A_CUSTOMER_ID)
-        );
+    public void givenCustomerThatDoesntExistInRepository_whenSearchingForCustomer_thenNullCustomerIsFound() {
+        assertNull(customerRepositoryInMemory.findCustomerByCustomerId(A_CUSTOMER_ID));
     }
 
     @Test
@@ -72,8 +70,8 @@ public class CustomerRepositoryInMemoryTest {
         customerRepositoryInMemory.deleteCustomerByCustomerId(A_CUSTOMER.getId());
 
         assertEquals(1, customerRepositoryInMemory.getAmount());
-        assertThrows(CustomerDoesNotExistsException.class, () -> customerRepositoryInMemory.findCustomerByCustomerId(A_CUSTOMER_ID)
-        );
+        assertNull(customerRepositoryInMemory.findCustomerByCustomerId(A_CUSTOMER_ID));
+
     }
 
     @Test

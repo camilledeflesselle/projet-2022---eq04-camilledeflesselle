@@ -1,18 +1,19 @@
 package ca.ulaval.glo4002.cafe.application.inventory;
 
-import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
+import ca.ulaval.glo4002.cafe.domain.inventory.InventoryRepository;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.InventoryDTO;
 import jakarta.inject.Inject;
+
 import java.util.List;
 
 public class InventoryService {
-    private final IInventoryRepository inventoryRepository;
+    private final InventoryRepository inventoryRepository;
     private final InventoryAssembler inventoryAssembler;
 
     @Inject
-    public InventoryService(IInventoryRepository inventoryRepository, InventoryAssembler inventoryAssembler) {
+    public InventoryService(InventoryRepository inventoryRepository, InventoryAssembler inventoryAssembler) {
         this.inventoryRepository = inventoryRepository;
         this.inventoryAssembler = inventoryAssembler;
     }

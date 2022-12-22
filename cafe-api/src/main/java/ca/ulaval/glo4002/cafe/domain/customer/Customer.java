@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.cafe.domain.customer;
 
-import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
 
 public class Customer {

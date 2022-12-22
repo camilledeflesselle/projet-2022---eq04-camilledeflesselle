@@ -1,9 +1,14 @@
 package ca.ulaval.glo4002.cafe.application.menu;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
+import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.menu.CoffeeFactory;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class CoffeeFactoryTest {
 
@@ -13,9 +18,11 @@ class CoffeeFactoryTest {
         assertFalse(coffeeFactory.createCoffeesInLes4fees().isEmpty());
     }
 
+
     @Test
     public void whenCreateAmericanoCoffee_thenCoffeesIsCreatedWithCorrectPrice() {
         CoffeeFactory coffeeFactory = new CoffeeFactory();
-        assertEquals(new Amount(2.25f), coffeeFactory.create(CoffeeType.AMERICANO).getPrice());
+        List<MenuItem> coffees = coffeeFactory.createCoffeesInLes4fees();
+        assertEquals(new Amount(2.25f), coffees.get(0).getPrice());
     }
 }

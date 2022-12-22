@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.cafe.ui.rest.mappers;
 
-import ca.ulaval.glo4002.cafe.ui.rest.validators.config.InvalidCountryException;
+import ca.ulaval.glo4002.cafe.ui.rest.assemblers.config.InvalidCountryException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;

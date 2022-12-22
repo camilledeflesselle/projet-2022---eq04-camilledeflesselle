@@ -19,7 +19,7 @@ public class BillDTO {
     public BillDTO() {}
 
     public BillDTO(Bill bill) {
-        this.orders = bill.getOrder().getListOfOrderedItemsStr();
+        this.orders = bill.getOrder().getListOfMenuItemNames();
         this.subtotal = bill.getSubtotal().roundToHundredth();
         this.taxes = bill.getTaxes().roundToHundredth();
         this.tip = bill.getTip().roundToHundredth();

@@ -21,11 +21,7 @@ public class CustomerId {
         return Objects.hash(this.id);
     }
 
-    /*
-    CAUTION! This method should ONLY be used to de-serialize the SeatId object
-    e.g. during JSON serialization step or persistence step
-     */
-    public String getSerializedValue() {
+    public String getId() {
         return this.id;
     }
 }

@@ -1,15 +1,6 @@
 package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
-import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
-import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.Map;
-
-import static java.util.Map.entry;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class RecipeRepositoryInMemoryTest {
     private RecipeRepositoryInMemory recipeRepositoryInMemory;

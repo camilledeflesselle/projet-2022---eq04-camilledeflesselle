@@ -1,15 +1,14 @@
 package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
-import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
-import ca.ulaval.glo4002.cafe.domain.reservation.NoReservationsFoundException;
 import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
+import ca.ulaval.glo4002.cafe.domain.reservation.ReservationRepository;
+import ca.ulaval.glo4002.cafe.domain.seating.NoReservationsFoundException;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class ReservationRepositoryInMemory implements IReservationRepository {
+public class ReservationRepositoryInMemory implements ReservationRepository {
     private final HashMap<String, Reservation> reservations;
 
     public ReservationRepositoryInMemory() {
@@ -24,20 +23,11 @@ public class ReservationRepositoryInMemory implements IReservationRepository {
         this.reservations.put(reservation.getGroupName(), reservation);
     }
 
-    public List<Reservation> findReservations() {
-        List<Reservation> sortedReservations = new ArrayList<>();
-        List<String> sortedKeys = new ArrayList<>(this.reservations.keySet());
-        Collections.sort(sortedKeys);
-        for (String name : sortedKeys) {
-            sortedReservations.add(this.reservations.get(name));
-        }
-        return sortedReservations;
+    public List<Reservation> getReservations() {
+        return new ArrayList<>(this.reservations.values());
     }
 
     public Reservation findReservationByGroupName(String groupName) {
-        if (!this.doesReservationExistsForGroup(groupName)) {
-            throw new NoReservationsFoundException();
-        }
         return this.reservations.get(groupName);
     }
 

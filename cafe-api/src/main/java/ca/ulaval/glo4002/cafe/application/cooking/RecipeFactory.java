@@ -13,20 +13,20 @@ public class RecipeFactory {
         Recipe recipe;
         List<Ingredient> ingredients;
 
-        IngredientId milk = new IngredientId(IngredientType.MILK.getLabel());
-        IngredientId water = new IngredientId(IngredientType.WATER.getLabel());
-        IngredientId espresso = new IngredientId(IngredientType.ESPRESSO.getLabel());
-        IngredientId chocolate = new IngredientId(IngredientType.CHOCOLATE.getLabel());
+        IngredientId milk = new IngredientId(IngredientType.Milk.getLabel());
+        IngredientId water = new IngredientId(IngredientType.Water.getLabel());
+        IngredientId espresso = new IngredientId(IngredientType.Espresso.getLabel());
+        IngredientId chocolate = new IngredientId(IngredientType.Chocolate.getLabel());
 
         switch (coffeeType) {
-            case AMERICANO -> {
+            case Americano -> {
                 ingredients = List.of(
                         new Ingredient(espresso, 50),
                         new Ingredient(water, 50)
                 );
                 recipe = new Recipe(coffeeType.getId(), ingredients);
             }
-            case DARK_ROAST -> {
+            case DarkRoast -> {
                 ingredients = List.of(
                         new Ingredient(espresso, 40),
                         new Ingredient(water, 40),
@@ -35,7 +35,7 @@ public class RecipeFactory {
                 );
                 recipe = new Recipe(coffeeType.getId(), ingredients);
             }
-            case CAPPUCCINO -> {
+            case Cappuccino -> {
                 ingredients = List.of(
                         new Ingredient(espresso, 50),
                         new Ingredient(water, 40),
@@ -43,27 +43,27 @@ public class RecipeFactory {
                 );
                 recipe = new Recipe(coffeeType.getId(), ingredients);
             }
-            case ESPRESSO -> {
+            case Espresso -> {
                 ingredients = List.of(
                         new Ingredient(espresso, 60)
                 );
                 recipe = new Recipe(coffeeType.getId(), ingredients);
             }
-            case FLAT_WHITE, LATTE -> {
+            case FlatWhite, Latte -> {
                 ingredients = List.of(
                         new Ingredient(espresso, 50),
                         new Ingredient(milk, 50)
                 );
                 recipe = new Recipe(coffeeType.getId(), ingredients);
             }
-            case MACCHIATO -> {
+            case Macchiato -> {
                 ingredients = List.of(
                         new Ingredient(espresso, 80),
                         new Ingredient(milk, 20)
                 );
                 recipe = new Recipe(coffeeType.getId(), ingredients);
             }
-            case MOCHA -> {
+            case Mocha -> {
                 ingredients = List.of(
                         new Ingredient(espresso, 50),
                         new Ingredient(milk, 40),

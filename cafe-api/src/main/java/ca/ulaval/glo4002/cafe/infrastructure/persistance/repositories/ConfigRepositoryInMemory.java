@@ -2,14 +2,14 @@ package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.config.Config;
-import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
-import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationMethod;
+import ca.ulaval.glo4002.cafe.domain.config.ConfigRepository;
+import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationStrategy;
 import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfigRepositoryInMemory implements IConfigRepository {
+public class ConfigRepositoryInMemory implements ConfigRepository {
 
     private Config config;
 
@@ -19,7 +19,7 @@ public class ConfigRepositoryInMemory implements IConfigRepository {
         int cubeSize = 4;
         TaxRate taxRate = new TaxRate(0f);
         TipRate defaultGroupTipRate = new TipRate(0.15f);
-        this.config = new Config(name, cubeNames, cubeSize, taxRate, defaultGroupTipRate, GroupReservationMethod.DEFAULT);
+        this.config = new Config(name, cubeNames, cubeSize, taxRate, defaultGroupTipRate, GroupReservationStrategy.Default);
     }
 
     @Override

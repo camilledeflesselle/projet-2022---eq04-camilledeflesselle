@@ -1,9 +1,6 @@
 package ca.ulaval.glo4002.cafe.ui.rest.resources;
 
-import ca.ulaval.glo4002.cafe.application.bill.BillService;
 import ca.ulaval.glo4002.cafe.application.checkOut.CheckOutService;
-import ca.ulaval.glo4002.cafe.application.customer.CustomerService;
-import ca.ulaval.glo4002.cafe.application.seating.SeatingService;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.CheckoutDTO;
 import jakarta.inject.Inject;
@@ -21,8 +18,8 @@ public class CheckoutResource {
     private final CheckOutService checkOutService;
 
     @Inject
-    public CheckoutResource(CustomerService customerService, BillService billService, SeatingService seatingService) {
-        this.checkOutService = new CheckOutService(customerService, seatingService, billService);
+    public CheckoutResource(CheckOutService checkOutService) {
+        this.checkOutService = checkOutService;
     }
 
     @POST
@@ -31,7 +28,7 @@ public class CheckoutResource {
         this.checkOutService.checkoutCustomer(customerId);
         return Response
                 .status(201)
-                .header("Location", "/customers/" + customerId.getSerializedValue() + "/bill")
+                .header("Location", "/customers/" + customerId.getId() + "/bill")
                 .build();
     }
 }

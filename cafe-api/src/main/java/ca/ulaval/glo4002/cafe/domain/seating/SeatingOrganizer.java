@@ -1,7 +1,10 @@
 package ca.ulaval.glo4002.cafe.domain.seating;
 
 import ca.ulaval.glo4002.cafe.domain.cube.Cube;
-import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.IGroupReservationStrategy;
+import ca.ulaval.glo4002.cafe.domain.customer.Customer;
+import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
+import ca.ulaval.glo4002.cafe.domain.reservation.ReservationRepository;
+import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategy;
 import ca.ulaval.glo4002.cafe.domain.seat.NoSeatAvailableException;
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
@@ -17,25 +20,18 @@ public class SeatingOrganizer {
         this.cubes = cubes;
     }
 
-    public List<Cube> getCubes() {
-        return this.cubes;
-    }
-
-    public Seat getFirstFreeSeat() {
-        for (Cube cube : this.cubes) {
-            if (cube.hasFreeSeat()) return cube.getFirstFreeSeat();
+    public Seat findSeat(Customer customer, ReservationRepository reservationRepository) {
+        if (!customer.hasGroup()) {
+            return this.getFirstFreeSeat();
         }
-        throw new NoSeatAvailableException();
+        Reservation reservation = reservationRepository.findReservationByGroupName(customer.getGroupName());
+        if (reservation == null) {
+            throw new NoReservationsFoundException();
+        }
+        return this.findSeatBySeatId(reservation.popFirstReservedSeatId());
     }
 
-    public List<Seat> getFreeSeats() {
-        List<Seat> freeSeats = new ArrayList<>();
-        for (Cube cube : this.cubes)
-            freeSeats.addAll(cube.getFreeSeats());
-        return freeSeats;
-    }
-
-    public List<SeatId> reserveSeats(int nbSeatToReserve, String groupName, IGroupReservationStrategy groupReservationStrategy) {
+    public List<SeatId> reserveSeats(int nbSeatToReserve, String groupName, ReservationStrategy groupReservationStrategy) {
         if (nbSeatToReserve > this.getFreeSeats().size()) throw new NoSeatAvailableException();
 
         List<Seat> seatsToReserve = groupReservationStrategy.getReservationSeats(this.cubes, nbSeatToReserve);
@@ -48,14 +44,55 @@ public class SeatingOrganizer {
         return reservedSeatsId;
     }
 
-    public Seat findSeatBySeatId(SeatId seatId) {
+    public void removeCustomerFromSeating(Customer customer, ReservationRepository reservationRepository) {
+        this.unassignSeatToCustomer(customer, reservationRepository);
+
+        if (customer.hasGroup()) {
+            this.removeReservationIfEmpty(customer.getGroupName(), reservationRepository);
+        }
+    }
+
+    private Seat findSeatBySeatId(SeatId seatId) {
         for (Cube cube : this.cubes) {
-            for (Seat seat : cube.getSeats()) {
-                if (seatId.equals(seat.getId())) {
-                    return seat;
-                }
-            }
+            Seat seat = cube.findSeatById(seatId);
+            if (seat != null) return seat;
         }
         throw new NotFoundException();
     }
+
+    private Seat getFirstFreeSeat() {
+        for (Cube cube : this.cubes) {
+            if (cube.hasFreeSeat()) return cube.getFirstFreeSeat();
+        }
+        throw new NoSeatAvailableException();
+    }
+
+    private List<Seat> getFreeSeats() {
+        List<Seat> freeSeats = new ArrayList<>();
+        for (Cube cube : this.cubes)
+            freeSeats.addAll(cube.getFreeSeats());
+        return freeSeats;
+    }
+
+    private void unassignSeatToCustomer(Customer customer, ReservationRepository reservationRepository) {
+        if (customer.hasGroup()) {
+            Reservation reservation = reservationRepository.findReservationByGroupName(customer.getGroupName());
+            reservation.checkoutCustomer(customer);
+        }
+        Seat seat = this.findSeatBySeatId(customer.getSeatId());
+        seat.unassign();
+        customer.unsetSeatId();
+    }
+
+    private void removeReservationIfEmpty(String groupName, ReservationRepository reservationRepository) {
+        Reservation reservation = reservationRepository.findReservationByGroupName(groupName);
+        if (!reservation.isEmpty()) return;
+
+        for (SeatId seatId : reservation.getLockedSeatsId()) {
+            this.findSeatBySeatId(seatId).unassign();
+        }
+
+        reservationRepository.removeReservationByGroupName(groupName);
+    }
+
 }

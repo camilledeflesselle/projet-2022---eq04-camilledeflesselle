@@ -1,92 +1,30 @@
 package ca.ulaval.glo4002.cafe.application.bill;
 
-import ca.ulaval.glo4002.cafe.domain.bill.Amount;
-import ca.ulaval.glo4002.cafe.domain.bill.Bill;
-import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
-import ca.ulaval.glo4002.cafe.domain.config.Config;
-import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
-import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
+import ca.ulaval.glo4002.cafe.domain.bill.BillRepository;
+import ca.ulaval.glo4002.cafe.domain.bill.NoBillException;
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
-import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
-import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
-import ca.ulaval.glo4002.cafe.domain.order.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 class BillServiceTest {
     private static final CustomerId A_CUSTOMER_ID = new CustomerId("1");
-    private static final Order SOME_CUSTOMER_ORDER = new Order(Arrays.asList(new MenuItem(new MenuItemId("Chocolate"), new Amount(13.25f)), new MenuItem(new MenuItemId("Coca"), new Amount(12.5f))));
-    private static final TaxRate A_TAX_RATE = new TaxRate(0.15f);
-
-    private BillFactory billFactory;
-    private IBillRepository billRepository;
+    private BillRepository billRepository;
     private BillService billService;
-    private IConfigRepository configRepository;
 
     @BeforeEach
     public void before() {
-        billFactory = mock(BillFactory.class);
-        billRepository = mock(IBillRepository.class);
-        configRepository = mock(IConfigRepository.class);
-        billService = new BillService(billFactory, billRepository, configRepository);
+        billRepository = mock(BillRepository.class);
+        billService = new BillService(billRepository);
     }
 
-    @Test
-    public void whenProcessingBillForCustomer_thenCreateBillWithCustomerOrdersAndTaxRate() {
-        Config config = new Config();
-        config.setTaxRate(A_TAX_RATE);
-        when(configRepository.findConfig()).thenReturn(config);
-        billService.processBillForCustomer(A_CUSTOMER_ID, SOME_CUSTOMER_ORDER);
-        verify(billFactory).createBill(SOME_CUSTOMER_ORDER, A_TAX_RATE, null);
-    }
 
     @Test
-    public void whenProcessingBillForCustomer_thenSaveCreatedBillInRepository() {
-        Bill bill = mock(Bill.class);
-        Config config = new Config();
-        when(configRepository.findConfig()).thenReturn(config);
-        when(billFactory.createBill(any(), any(), any())).thenReturn(bill);
-
-        billService.processBillForCustomer(A_CUSTOMER_ID, SOME_CUSTOMER_ORDER);
-
-        verify(billRepository).saveBillByCustomerId(A_CUSTOMER_ID, bill);
-    }
-
-    @Test
-    public void whenProcessingBillForCustomerWithGroup_thenCreateBillWithCustomerOrdersAndTaxRateAndTipRate() {Bill bill = mock(Bill.class);
-        when(billFactory.createBill(any(), any(), any())).thenReturn(bill);
-        Config config = new Config();
-        when(configRepository.findConfig()).thenReturn(config);
-
-        billService.processBillForGroup(A_CUSTOMER_ID, SOME_CUSTOMER_ORDER);
-
-        verify(billFactory).createBill(SOME_CUSTOMER_ORDER, configRepository.findConfig().getTaxRate(), configRepository.findConfig().getGroupTipRate());
-
-    }
-
-    @Test
-    public void whenProcessingBillForCustomerWithGroup_thenSaveCreatedBillInRepository() {
-        Bill bill = mock(Bill.class);
-        Config config = new Config();
-        when(configRepository.findConfig()).thenReturn(config);
-        when(billFactory.createBill(any(), any(), any())).thenReturn(bill);
-
-        billService.processBillForGroup(A_CUSTOMER_ID, SOME_CUSTOMER_ORDER);
-
-        verify(billRepository).saveBillByCustomerId(A_CUSTOMER_ID, bill);
-    }
-
-    @Test
-    public void whenGetBillByCustomerId_thenSearchInBillStorageByCustomerId() {
-        billService.getBillByCustomerId(A_CUSTOMER_ID);
-
+    public void givenNoBillCreatedForCustomer_whenGetBillByCustomerId_thenRaiseNoBillException() {
+        when(billRepository.findBillByCustomerId(A_CUSTOMER_ID)).thenReturn(null);
+        assertThrows(NoBillException.class, () -> billService.getBillByCustomerId(A_CUSTOMER_ID));
         verify(billRepository).findBillByCustomerId(A_CUSTOMER_ID);
     }
     /*

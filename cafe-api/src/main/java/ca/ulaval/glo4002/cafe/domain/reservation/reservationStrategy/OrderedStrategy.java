@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Ordered strategy, will reserve the first available seats.
  */
-public class OrderedStrategy implements IGroupReservationStrategy {
+public class OrderedStrategy implements ReservationStrategy {
 
     @Override
     public List<Seat> getReservationSeats(List<Cube> cubes, int nbToReserve) {

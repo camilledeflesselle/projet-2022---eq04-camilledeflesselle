@@ -3,14 +3,14 @@ package ca.ulaval.glo4002.cafe.application.menu;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 
 public enum CoffeeType {
-    AMERICANO(new MenuItemId("Americano")),
-    CAPPUCCINO(new MenuItemId("Cappuccino")),
-    DARK_ROAST(new MenuItemId("Dark Roast")),
-    FLAT_WHITE(new MenuItemId("Flat White")),
-    ESPRESSO(new MenuItemId("Espresso")),
-    LATTE(new MenuItemId("Latte")),
-    MACCHIATO(new MenuItemId("Macchiato")),
-    MOCHA(new MenuItemId("Mocha"));
+    Americano(new MenuItemId("Americano")),
+    Cappuccino(new MenuItemId("Cappuccino")),
+    DarkRoast(new MenuItemId("Dark Roast")),
+    FlatWhite(new MenuItemId("Flat White")),
+    Espresso(new MenuItemId("Espresso")),
+    Latte(new MenuItemId("Latte")),
+    Macchiato(new MenuItemId("Macchiato")),
+    Mocha(new MenuItemId("Mocha"));
 
     private final MenuItemId id;
 

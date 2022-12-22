@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
+
 import java.util.List;
 
 public class Recipe {

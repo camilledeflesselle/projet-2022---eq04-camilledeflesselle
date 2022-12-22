@@ -1,19 +1,19 @@
 package ca.ulaval.glo4002.cafe.application.inventory;
 
-import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
+import ca.ulaval.glo4002.cafe.domain.inventory.InventoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 class InventoryServiceTest {
-    private IInventoryRepository inventoryRepositoryMock;
+    private InventoryRepository inventoryRepositoryMock;
     private InventoryAssembler inventoryAssembler;
     private static final String AN_INGREDIENT_NAME = "ingredientName";
     private InventoryService inventoryService;
 
     @BeforeEach
     void before() {
-        inventoryRepositoryMock = mock(IInventoryRepository.class);
+        inventoryRepositoryMock = mock(InventoryRepository.class);
         inventoryAssembler = mock(InventoryAssembler.class);
         inventoryService = new InventoryService(inventoryRepositoryMock, inventoryAssembler);
     }

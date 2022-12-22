@@ -1,12 +1,12 @@
 package ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy;
 
 public class ReservationStrategyFactory {
-    public IGroupReservationStrategy createReservationStrategy(GroupReservationMethod method) {
+    public ReservationStrategy createReservationStrategy(GroupReservationStrategy method) {
         switch (method) {
-            case FULL_CUBES -> {
+            case FullCubes -> {
                 return new FullCubesStrategy();
             }
-            case NO_LONERS -> {
+            case NoLoners -> {
                 return new NoLonersStrategy();
             }
             default -> {

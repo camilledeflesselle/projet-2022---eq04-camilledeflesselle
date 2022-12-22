@@ -1,13 +1,12 @@
 package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
-import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
-import jakarta.ws.rs.NotFoundException;
+import ca.ulaval.glo4002.cafe.domain.order.OrderRepository;
 
 import java.util.HashMap;
 
-public class OrderRepositoryInMemory implements IOrderRepository {
+public class OrderRepositoryInMemory implements OrderRepository {
     private final HashMap<CustomerId, Order> orders;
 
     public OrderRepositoryInMemory() {
@@ -19,9 +18,6 @@ public class OrderRepositoryInMemory implements IOrderRepository {
     }
 
     public Order findOrderByCustomerId(CustomerId customerId) {
-        if (!this.orders.containsKey(customerId)) {
-            throw new NotFoundException();
-        }
         return this.orders.get(customerId);
     }
 

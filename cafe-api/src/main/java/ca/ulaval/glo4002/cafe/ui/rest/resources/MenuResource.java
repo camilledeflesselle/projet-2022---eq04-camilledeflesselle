@@ -4,7 +4,7 @@ import ca.ulaval.glo4002.cafe.application.menu.MenuService;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.MenuItemDTO;
-import ca.ulaval.glo4002.cafe.ui.rest.validators.menu.MenuItemAssembler;
+import ca.ulaval.glo4002.cafe.ui.rest.assemblers.menu.MenuItemAssembler;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -33,7 +33,7 @@ public class MenuResource {
         Recipe newRecipe = this.menuItemAssembler.menuItemDTOToRecipe(menuItemDTO);
         this.menuService.addMenuItem(newMenuItem, newRecipe);
         return Response
-                .status(200)
+                .ok()
                 .build();
     }
 }

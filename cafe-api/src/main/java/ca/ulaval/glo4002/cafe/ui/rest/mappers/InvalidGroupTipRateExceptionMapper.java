@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.cafe.ui.rest.mappers;
 
-import ca.ulaval.glo4002.cafe.ui.rest.validators.config.InvalidGroupTipRateException;
+import ca.ulaval.glo4002.cafe.ui.rest.assemblers.config.InvalidGroupTipRateException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;

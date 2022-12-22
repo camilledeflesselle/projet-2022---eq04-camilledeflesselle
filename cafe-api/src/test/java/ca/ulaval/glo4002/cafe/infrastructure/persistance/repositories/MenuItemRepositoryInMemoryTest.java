@@ -1,9 +1,10 @@
 package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
-import ca.ulaval.glo4002.cafe.application.menu.CoffeeFactory;
 import ca.ulaval.glo4002.cafe.application.menu.CoffeeType;
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.menu.CoffeeFactory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.menu.MenuItemRepositoryInMemory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +13,8 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MenuItemRepositoryInMemoryTest {
-    private static final String AN_EXISTING_MENU_ITEM_NAME = CoffeeType.AMERICANO.getId().getName();
-    private static final MenuItem AN_EXISTING_MENU_ITEM = new MenuItem(CoffeeType.AMERICANO.getId(), new Amount(2.25f));
+    private static final String AN_EXISTING_MENU_ITEM_NAME = CoffeeType.Americano.getId().getName();
+    private static final MenuItem AN_EXISTING_MENU_ITEM = new MenuItem(CoffeeType.Americano.getId(), new Amount(2.25f));
 
     private MenuItemRepositoryInMemory menuItemRepositoryInMemory;
 

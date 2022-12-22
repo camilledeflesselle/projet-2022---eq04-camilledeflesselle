@@ -1,22 +1,22 @@
 package ca.ulaval.glo4002.cafe.application.layout;
 
-import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
+import ca.ulaval.glo4002.cafe.domain.config.ConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.cube.Cube;
+import ca.ulaval.glo4002.cafe.domain.cube.CubeRepository;
 import ca.ulaval.glo4002.cafe.domain.cube.CubesListFactory;
-import ca.ulaval.glo4002.cafe.domain.cube.ICubeRepository;
-import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerRepository;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.LayoutDTO;
 
 import java.util.List;
 
 public class LayoutService {
     private final CubesListFactory cubesListFactory;
-    private final ICubeRepository cubeRepository;
-    private final ICustomerRepository customerRepository;
+    private final CubeRepository cubeRepository;
+    private final CustomerRepository customerRepository;
     private final LayoutDTOAssembler layoutAssembler;
-    private final IConfigRepository configRepository;
+    private final ConfigRepository configRepository;
 
-    public LayoutService(IConfigRepository configRepository, CubesListFactory cubesListFactory, ICubeRepository cubeRepository, ICustomerRepository customerRepository,  LayoutDTOAssembler layoutAssembler) {
+    public LayoutService(ConfigRepository configRepository, CubesListFactory cubesListFactory, CubeRepository cubeRepository, CustomerRepository customerRepository, LayoutDTOAssembler layoutAssembler) {
         this.configRepository = configRepository;
         this.cubesListFactory = cubesListFactory;
         this.cubeRepository = cubeRepository;

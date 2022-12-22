@@ -10,32 +10,10 @@ import java.util.List;
 /**
  * No loners strategy, the goal is to avoid loners.
  */
-public class NoLonersStrategy implements IGroupReservationStrategy {
+public class NoLonersStrategy implements ReservationStrategy {
     private int nbRemainToReserve;
     private List<Seat> seatToReserve;
     private List<Seat> freeSeatsInCube;
-
-    private void reserveAllRemainingRequestsInCube() {
-        for (int i = 0; i < this.nbRemainToReserve; i++) {
-            Seat seat = this.freeSeatsInCube.get(i);
-            this.seatToReserve.add(seat);
-        }
-        this.nbRemainToReserve = 0;
-    }
-
-    private void reserveRemainingRequestsLeavingTwo() {
-        int nbSeatStillToReserve = this.nbRemainToReserve - 2;
-        for (int i = 0; i < nbSeatStillToReserve; i++) {
-            Seat seat = this.freeSeatsInCube.get(i);
-            this.seatToReserve.add(seat);
-            this.nbRemainToReserve -= 1;
-        }
-    }
-
-    private void reserveEntireCube() {
-        this.seatToReserve.addAll(this.freeSeatsInCube);
-        this.nbRemainToReserve -= this.freeSeatsInCube.size();
-    }
 
     @Override
     public List<Seat> getReservationSeats(List<Cube> cubes, int nbToReserve) {
@@ -62,5 +40,27 @@ public class NoLonersStrategy implements IGroupReservationStrategy {
             throw new NoSeatAvailableException();
         }
         return this.seatToReserve;
+    }
+
+    private void reserveAllRemainingRequestsInCube() {
+        for (int i = 0; i < this.nbRemainToReserve; i++) {
+            Seat seat = this.freeSeatsInCube.get(i);
+            this.seatToReserve.add(seat);
+        }
+        this.nbRemainToReserve = 0;
+    }
+
+    private void reserveRemainingRequestsLeavingTwo() {
+        int nbSeatStillToReserve = this.nbRemainToReserve - 2;
+        for (int i = 0; i < nbSeatStillToReserve; i++) {
+            Seat seat = this.freeSeatsInCube.get(i);
+            this.seatToReserve.add(seat);
+            this.nbRemainToReserve -= 1;
+        }
+    }
+
+    private void reserveEntireCube() {
+        this.seatToReserve.addAll(this.freeSeatsInCube);
+        this.nbRemainToReserve -= this.freeSeatsInCube.size();
     }
 }
