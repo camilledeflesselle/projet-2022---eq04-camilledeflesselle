@@ -24,7 +24,7 @@ import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizerFactory;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.*;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.menu.CoffeeFactory;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.menu.MenuItemRepositoryInMemory;
-import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.TaxesRepositoryInMemory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.TaxRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.ui.rest.assemblers.config.ConfigAssembler;
 import ca.ulaval.glo4002.cafe.ui.rest.assemblers.config.ReservationsAssembler;
 import ca.ulaval.glo4002.cafe.ui.rest.assemblers.inventory.IngredientsAssembler;
@@ -53,7 +53,7 @@ public class ApplicationBinder extends AbstractBinder {
         ReservationRepositoryInMemory reservationRepositoryInMemory = new ReservationRepositoryInMemory();
         CustomerRepositoryInMemory customerRepositoryInMemory = new CustomerRepositoryInMemory();
         BillRepositoryInMemory billRepositoryInMemory = new BillRepositoryInMemory();
-        TaxesRepositoryInMemory taxesRepositoryInMemory = new TaxesRepositoryInMemory();
+        TaxRepositoryInMemory taxesRepositoryInMemory = new TaxRepositoryInMemory();
         MenuItemRepositoryInMemory menuItemRepositoryInMemory = new MenuItemRepositoryInMemory(coffeeFactory);
         InventoryRepositoryInMemory ingredientRepositoryInMemory = new InventoryRepositoryInMemory();
         RecipeRepositoryInMemory recipeRepositoryInMemory = new RecipeRepositoryInMemory(recipeFactory);

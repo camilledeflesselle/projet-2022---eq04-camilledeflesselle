@@ -1,14 +1,14 @@
 package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
-import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.TaxesRepositoryInMemory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.TaxRepositoryInMemory;
 import org.junit.jupiter.api.BeforeEach;
 
-class TaxesRepositoryInMemoryTest {
-    private TaxesRepositoryInMemory taxesRepository;
+class TaxRepositoryInMemoryTest {
+    private TaxRepositoryInMemory taxesRepository;
 
     @BeforeEach
     public void initializeRepository() {
-        taxesRepository = new TaxesRepositoryInMemory();
+        taxesRepository = new TaxRepositoryInMemory();
     }
     /*
     @Test

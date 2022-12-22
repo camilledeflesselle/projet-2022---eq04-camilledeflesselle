@@ -19,8 +19,4 @@ public class BillService {
         }
         return bill;
     }
-
-    public void reset() {
-        this.billRepository.deleteAll();
-    }
 }
