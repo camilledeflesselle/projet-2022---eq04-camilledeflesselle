@@ -8,6 +8,7 @@ import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.Reservation
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategyFactory;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
 import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
+import ca.ulaval.glo4002.cafe.ui.rest.assemblers.config.ReservationsAssembler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +27,7 @@ public class ReservationServiceTest {
     private static ReservationStrategy groupReservationStrategy;
     private static SeatingOrganizer seatingOrganizer;
     private static ReservationFactory reservationFactory;
+    private ReservationsAssembler reservationsAssembler;
 
     @BeforeEach
     public void setup() {
@@ -39,7 +41,8 @@ public class ReservationServiceTest {
         when(config.getReservationMethod()).thenReturn(GroupReservationStrategy.Default);
         when(configRepository.findConfig()).thenReturn(config);
         when(reservationStrategyFactory.createReservationStrategy(GroupReservationStrategy.Default)).thenReturn(groupReservationStrategy);
-        reservationService = new ReservationService(configRepository, reservationStrategyFactory, reservationFactory, reservationRepository, seatingOrganizer);
+        reservationsAssembler = mock(ReservationsAssembler.class);
+        reservationService = new ReservationService(configRepository, reservationStrategyFactory, reservationFactory, reservationRepository, seatingOrganizer, reservationsAssembler);
     }
 
     /*
@@ -139,6 +142,15 @@ public class ReservationServiceTest {
         reservationService.getReservations();
 
         verify(reservationRepository).getReservations();
+    }
+
+    @Test
+    public void whenRequestingReservations_thenReservationsAreSortedByGroupNameAndAssemble() {
+        List<Reservation> SOME_RESERVATIONS = List.of(mock(Reservation.class));
+        when(reservationRepository.getReservations()).thenReturn(SOME_RESERVATIONS);
+        reservationService.getReservations();
+
+        verify(reservationsAssembler).assembleAndSortReservation(SOME_RESERVATIONS);
     }
     /*
     @Test

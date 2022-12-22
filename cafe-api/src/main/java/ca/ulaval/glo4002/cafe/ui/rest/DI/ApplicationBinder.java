@@ -7,6 +7,7 @@ import ca.ulaval.glo4002.cafe.application.close.CloseService;
 import ca.ulaval.glo4002.cafe.application.cooking.CookingService;
 import ca.ulaval.glo4002.cafe.application.cooking.RecipeFactory;
 import ca.ulaval.glo4002.cafe.application.customer.CustomerService;
+import ca.ulaval.glo4002.cafe.application.inventory.InventoryAssembler;
 import ca.ulaval.glo4002.cafe.application.inventory.InventoryService;
 import ca.ulaval.glo4002.cafe.application.layout.LayoutDTOAssembler;
 import ca.ulaval.glo4002.cafe.application.layout.LayoutService;
@@ -25,7 +26,8 @@ import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.menu.Coffe
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.menu.MenuItemRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.TaxesRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.ui.rest.assemblers.config.ConfigAssembler;
-import ca.ulaval.glo4002.cafe.ui.rest.assemblers.inventory.InventoryAssembler;
+import ca.ulaval.glo4002.cafe.ui.rest.assemblers.config.ReservationsAssembler;
+import ca.ulaval.glo4002.cafe.ui.rest.assemblers.inventory.IngredientsAssembler;
 import ca.ulaval.glo4002.cafe.ui.rest.assemblers.menu.MenuItemAssembler;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.ext.Provider;
@@ -57,14 +59,15 @@ public class ApplicationBinder extends AbstractBinder {
         RecipeRepositoryInMemory recipeRepositoryInMemory = new RecipeRepositoryInMemory(recipeFactory);
         OrderRepositoryInMemory orderRepositoryInMemory = new OrderRepositoryInMemory();
         LayoutDTOAssembler layoutDTOAssembler = new LayoutDTOAssembler();
-        ca.ulaval.glo4002.cafe.application.inventory.InventoryAssembler inventoryAssembler = new ca.ulaval.glo4002.cafe.application.inventory.InventoryAssembler();
+        InventoryAssembler inventoryAssembler = new InventoryAssembler();
+        ReservationsAssembler reservationsAssembler = new ReservationsAssembler();
 
         LayoutService layoutService = new LayoutService(configRepositoryInMemory, cubesListFactory, cubeRepositoryInMemory, customerRepositoryInMemory, layoutDTOAssembler);
         BillService billService = new BillService(billRepositoryInMemory);
         InventoryService inventoryService = new InventoryService(ingredientRepositoryInMemory, inventoryAssembler);
         CookingService cookingService = new CookingService(recipeRepositoryInMemory, ingredientRepositoryInMemory, new Cooker());
         CustomerService customerService = new CustomerService(cookingService, customerRepositoryInMemory, ordersFactory, menuItemRepositoryInMemory, orderRepositoryInMemory);
-        ReservationService reservationService = new ReservationService(configRepositoryInMemory, reservationStrategyFactory, reservationFactory, reservationRepositoryInMemory, seatingOrganizer);
+        ReservationService reservationService = new ReservationService(configRepositoryInMemory, reservationStrategyFactory, reservationFactory, reservationRepositoryInMemory, seatingOrganizer, reservationsAssembler);
         CheckInService checkInService = new CheckInService(customerRepositoryInMemory, seatingOrganizer, ordersFactory, orderRepositoryInMemory, reservationRepositoryInMemory);
         CheckOutService checkOutService = new CheckOutService(customerRepositoryInMemory, orderRepositoryInMemory, configRepositoryInMemory, billFactory, billRepositoryInMemory, seatingOrganizer, reservationRepositoryInMemory);
         CloseService closeService = new CloseService(configRepositoryInMemory, cubeRepositoryInMemory, reservationRepositoryInMemory, customerRepositoryInMemory, orderRepositoryInMemory,
@@ -72,7 +75,7 @@ public class ApplicationBinder extends AbstractBinder {
         MenuService menuService = new MenuService(menuItemRepositoryInMemory, recipeRepositoryInMemory);
 
         ConfigAssembler configValidator = new ConfigAssembler(taxesRepositoryInMemory);
-        InventoryAssembler inventoryValidator = new InventoryAssembler(ingredientRepositoryInMemory);
+        IngredientsAssembler inventoryValidator = new IngredientsAssembler(ingredientRepositoryInMemory);
         MenuItemAssembler menuItemAssembler = new MenuItemAssembler(menuItemRepositoryInMemory);
 
         bind(customerService).in(Singleton.class);

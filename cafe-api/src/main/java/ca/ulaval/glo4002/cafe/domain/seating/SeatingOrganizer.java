@@ -25,6 +25,9 @@ public class SeatingOrganizer {
             return this.getFirstFreeSeat();
         }
         Reservation reservation = reservationRepository.findReservationByGroupName(customer.getGroupName());
+        if (reservation == null) {
+            throw new NoReservationsFoundException();
+        }
         return this.findSeatBySeatId(reservation.popFirstReservedSeatId());
     }
 

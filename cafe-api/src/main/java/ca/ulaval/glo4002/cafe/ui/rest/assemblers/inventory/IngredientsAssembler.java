@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class InventoryAssembler {
+public class IngredientsAssembler {
     private final InventoryRepository inventoryRepository;
 
-    public InventoryAssembler(InventoryRepository inventoryRepository) {
+    public IngredientsAssembler(InventoryRepository inventoryRepository) {
         this.inventoryRepository = inventoryRepository;
     }
 

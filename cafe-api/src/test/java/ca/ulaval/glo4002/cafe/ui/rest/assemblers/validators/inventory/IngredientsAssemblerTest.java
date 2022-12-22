@@ -5,7 +5,7 @@ import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import ca.ulaval.glo4002.cafe.domain.inventory.InventoryRepository;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.InventoryRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.InventoryDTO;
-import ca.ulaval.glo4002.cafe.ui.rest.assemblers.inventory.InventoryAssembler;
+import ca.ulaval.glo4002.cafe.ui.rest.assemblers.inventory.IngredientsAssembler;
 import jakarta.ws.rs.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,15 +17,15 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class InventoryAssemblerTest {
-    private InventoryAssembler inventoryAssembler;
+class IngredientsAssemblerTest {
+    private IngredientsAssembler ingredientsAssembler;
 
     private static final IngredientId AN_INGREDIENT_NAME = new IngredientId("ingredient");
 
     @BeforeEach
     public void before() {
         InventoryRepository inventoryRepository = new InventoryRepositoryInMemory();
-        this.inventoryAssembler = new InventoryAssembler(inventoryRepository);
+        this.ingredientsAssembler = new IngredientsAssembler(inventoryRepository);
     }
 
     @Test
@@ -34,7 +34,7 @@ class InventoryAssemblerTest {
         InventoryDTO inventoryDTO = new InventoryDTO(emptyInventoryDTO);
 
         assertThrows(BadRequestException.class,
-            () -> inventoryAssembler.assembleFromDTO(inventoryDTO));
+            () -> ingredientsAssembler.assembleFromDTO(inventoryDTO));
     }
 
     @Test
@@ -44,7 +44,7 @@ class InventoryAssemblerTest {
         InventoryDTO inventoryDTO = new InventoryDTO(inventoryDTOWithNullIngredientName);
 
         assertThrows(BadRequestException.class,
-            () -> inventoryAssembler.assembleFromDTO(inventoryDTO));
+            () -> ingredientsAssembler.assembleFromDTO(inventoryDTO));
     }
 
     @Test
@@ -54,7 +54,7 @@ class InventoryAssemblerTest {
         InventoryDTO inventoryDTO = new InventoryDTO(inventoryDTOWithEmptyIngredientName);
 
         assertThrows(BadRequestException.class,
-            () -> inventoryAssembler.assembleFromDTO(inventoryDTO));
+            () -> ingredientsAssembler.assembleFromDTO(inventoryDTO));
     }
 
     @Test
@@ -64,7 +64,7 @@ class InventoryAssemblerTest {
         InventoryDTO inventoryDTO = new InventoryDTO(inventoryDTOWithNegativeIngredientQuantity);
 
         assertThrows(BadRequestException.class,
-            () -> inventoryAssembler.assembleFromDTO(inventoryDTO));
+            () -> ingredientsAssembler.assembleFromDTO(inventoryDTO));
     }
 
 
@@ -75,7 +75,7 @@ class InventoryAssemblerTest {
         inventoryDTOWithIngredientNameThatDoesExist.put(AN_INGREDIENT_NAME.getName(), 2);
         InventoryDTO inventoryDTO = new InventoryDTO(inventoryDTOWithIngredientNameThatDoesExist);
 
-        List<Ingredient> result = inventoryAssembler.assembleFromDTO(inventoryDTO);
+        List<Ingredient> result = ingredientsAssembler.assembleFromDTO(inventoryDTO);
 
         assertFalse(result.contains(ingredient));
     }

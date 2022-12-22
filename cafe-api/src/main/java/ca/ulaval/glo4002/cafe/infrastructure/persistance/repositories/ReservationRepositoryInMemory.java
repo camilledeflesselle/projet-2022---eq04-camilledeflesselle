@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
-import ca.ulaval.glo4002.cafe.domain.reservation.NoReservationsFoundException;
 import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
 import ca.ulaval.glo4002.cafe.domain.reservation.ReservationRepository;
+import ca.ulaval.glo4002.cafe.domain.seating.NoReservationsFoundException;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.cafe.domain.reservation;
+package ca.ulaval.glo4002.cafe.domain.seating;
 
 public class NoReservationsFoundException extends RuntimeException {
     public NoReservationsFoundException() {

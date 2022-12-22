@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.domain.reservation.Group;
-import ca.ulaval.glo4002.cafe.domain.reservation.NoReservationsFoundException;
+import ca.ulaval.glo4002.cafe.domain.seating.NoReservationsFoundException;
 import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
 import org.junit.jupiter.api.BeforeEach;

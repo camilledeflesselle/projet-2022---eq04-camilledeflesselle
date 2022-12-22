@@ -30,9 +30,7 @@ public class SeatingOrganizerTest {
     private static final SeatId ANOTHER_SEAT_ID = new SeatId(2);
     private static final SeatId A_SEAT_ID_NOT_IN_CUBES = new SeatId(100);
     private final Customer customerWithoutGroup = givenCustomerWithoutGroup();
-
     private final Customer customerWithGroup = givenCustomerWithGroup();
-
     private Group group;
     private CubesListFactory cubesListFactory;
     private ReservationStrategy groupReservationStrategyMock;
@@ -49,6 +47,15 @@ public class SeatingOrganizerTest {
     @Test
     public void givenCubesWithoutFreeSeats_whenFindSeat_thenThrowsNoSeatAvailableException() {
         List<Cube> cubes = givenCubesWithoutFreeSeats();
+        SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes);
+
+        assertThrows(NoSeatAvailableException.class, () -> seatingOrganizer.findSeat(customerWithoutGroup, reservationRepository));
+    }
+
+    @Test
+    public void givenNoReservation_whenFindSeat_thenThrowsNoReservationFoundException() {
+        List<Cube> cubes = givenCubesAndNoReservation();
+
         SeatingOrganizer seatingOrganizer = new SeatingOrganizer(cubes);
 
         assertThrows(NoSeatAvailableException.class, () -> seatingOrganizer.findSeat(customerWithoutGroup, reservationRepository));
@@ -266,5 +273,11 @@ public class SeatingOrganizerTest {
         when(reservation.getLockedSeatsId()).thenReturn(new ArrayList<>(List.of(seatId)));
         when(reservation.popFirstReservedSeatId()).thenReturn(seatId);
         return reservation;
+    }
+
+    private List<Cube> givenCubesAndNoReservation() {
+        List<Cube> cubes = List.of(mock(Cube.class));
+        when(reservationRepository.findReservationByGroupName(anyString())).thenReturn(null);
+        return cubes;
     }
 }
