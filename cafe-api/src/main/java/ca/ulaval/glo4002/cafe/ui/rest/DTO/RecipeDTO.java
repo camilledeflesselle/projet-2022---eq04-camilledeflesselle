@@ -1,14 +1,7 @@
 package ca.ulaval.glo4002.cafe.ui.rest.DTO;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

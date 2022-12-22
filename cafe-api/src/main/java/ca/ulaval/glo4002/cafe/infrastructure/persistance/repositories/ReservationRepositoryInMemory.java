@@ -5,7 +5,6 @@ import ca.ulaval.glo4002.cafe.domain.reservation.NoReservationsFoundException;
 import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,14 +23,8 @@ public class ReservationRepositoryInMemory implements IReservationRepository {
         this.reservations.put(reservation.getGroupName(), reservation);
     }
 
-    public List<Reservation> findReservations() {
-        List<Reservation> sortedReservations = new ArrayList<>();
-        List<String> sortedKeys = new ArrayList<>(this.reservations.keySet());
-        Collections.sort(sortedKeys);
-        for (String name : sortedKeys) {
-            sortedReservations.add(this.reservations.get(name));
-        }
-        return sortedReservations;
+    public List<Reservation> getReservations() {
+        return new ArrayList<>(this.reservations.values());
     }
 
     public Reservation findReservationByGroupName(String groupName) {

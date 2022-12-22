@@ -1,8 +1,6 @@
 package ca.ulaval.glo4002.cafe.domain.menu;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
-import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
-import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 
 public class MenuItem {
     private final MenuItemId id;

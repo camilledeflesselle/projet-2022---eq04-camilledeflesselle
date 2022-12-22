@@ -1,9 +1,9 @@
 package ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy;
 
 public enum GroupReservationStrategy {
-    DEFAULT("Default"),
-    FULL_CUBES("Full Cubes"),
-    NO_LONERS("No Loners");
+    Default("Default"),
+    FullCubes("Full Cubes"),
+    NoLoners("No Loners");
 
     public final String label;
 

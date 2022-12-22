@@ -19,7 +19,7 @@ public class ConfigRepositoryInMemory implements IConfigRepository {
         int cubeSize = 4;
         TaxRate taxRate = new TaxRate(0f);
         TipRate defaultGroupTipRate = new TipRate(0.15f);
-        this.config = new Config(name, cubeNames, cubeSize, taxRate, defaultGroupTipRate, GroupReservationStrategy.DEFAULT);
+        this.config = new Config(name, cubeNames, cubeSize, taxRate, defaultGroupTipRate, GroupReservationStrategy.Default);
     }
 
     @Override

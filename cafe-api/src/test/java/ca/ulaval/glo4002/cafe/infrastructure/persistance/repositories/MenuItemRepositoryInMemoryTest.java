@@ -13,8 +13,8 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MenuItemRepositoryInMemoryTest {
-    private static final String AN_EXISTING_MENU_ITEM_NAME = CoffeeType.AMERICANO.getId().getName();
-    private static final MenuItem AN_EXISTING_MENU_ITEM = new MenuItem(CoffeeType.AMERICANO.getId(), new Amount(2.25f));
+    private static final String AN_EXISTING_MENU_ITEM_NAME = CoffeeType.Americano.getId().getName();
+    private static final MenuItem AN_EXISTING_MENU_ITEM = new MenuItem(CoffeeType.Americano.getId(), new Amount(2.25f));
 
     private MenuItemRepositoryInMemory menuItemRepositoryInMemory;
 

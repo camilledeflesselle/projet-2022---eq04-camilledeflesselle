@@ -19,13 +19,13 @@ public class CoffeeFactory {
 
     private MenuItem create(CoffeeType type) {
         return switch (type) {
-            case AMERICANO -> new MenuItem(type.getId(), new Amount(2.25f));
-            case DARK_ROAST -> new MenuItem(type.getId(), new Amount(2.1f));
-            case CAPPUCCINO -> new MenuItem(type.getId(), new Amount(3.29f));
-            case ESPRESSO, LATTE -> new MenuItem(type.getId(), new Amount(2.95f));
-            case FLAT_WHITE -> new MenuItem(type.getId(), new Amount(3.75f));
-            case MACCHIATO -> new MenuItem(type.getId(), new Amount(4.75f));
-            case MOCHA -> new MenuItem(type.getId(), new Amount(4.15f));
+            case Americano -> new MenuItem(type.getId(), new Amount(2.25f));
+            case DarkRoast -> new MenuItem(type.getId(), new Amount(2.1f));
+            case Cappuccino -> new MenuItem(type.getId(), new Amount(3.29f));
+            case Espresso, Latte -> new MenuItem(type.getId(), new Amount(2.95f));
+            case FlatWhite -> new MenuItem(type.getId(), new Amount(3.75f));
+            case Macchiato -> new MenuItem(type.getId(), new Amount(4.75f));
+            case Mocha -> new MenuItem(type.getId(), new Amount(4.15f));
         };
     }
 }

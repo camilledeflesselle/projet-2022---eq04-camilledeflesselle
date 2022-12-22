@@ -8,4 +8,6 @@ public interface IBillRepository {
     Bill findBillByCustomerId(CustomerId customerId);
 
     void deleteAll();
+
+    int getNumberOfBills();
 }

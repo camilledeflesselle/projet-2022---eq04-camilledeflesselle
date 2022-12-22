@@ -22,7 +22,6 @@ public class ReservationServiceTest {
     private static final int A_GROUP_SIZE = 2;
 
     private static ReservationService reservationService;
-    private static ReservationStrategyFactory reservationStrategyFactory;
     private static IReservationRepository reservationRepository;
     private static IGroupReservationStrategy groupReservationStrategy;
     private static SeatingOrganizer seatingOrganizer;
@@ -30,16 +29,16 @@ public class ReservationServiceTest {
 
     @BeforeEach
     public void setup() {
-        reservationStrategyFactory = mock(ReservationStrategyFactory.class);
+        ReservationStrategyFactory reservationStrategyFactory = mock(ReservationStrategyFactory.class);
         reservationRepository = mock(IReservationRepository.class);
         groupReservationStrategy = mock(IGroupReservationStrategy.class);
         seatingOrganizer = mock(SeatingOrganizer.class);
         reservationFactory = mock(ReservationFactory.class);
         IConfigRepository configRepository = mock(IConfigRepository.class);
         Config config = mock(Config.class);
-        when(config.getReservationMethod()).thenReturn(GroupReservationStrategy.DEFAULT);
+        when(config.getReservationMethod()).thenReturn(GroupReservationStrategy.Default);
         when(configRepository.findConfig()).thenReturn(config);
-        when(reservationStrategyFactory.createReservationStrategy(GroupReservationStrategy.DEFAULT)).thenReturn(groupReservationStrategy);
+        when(reservationStrategyFactory.createReservationStrategy(GroupReservationStrategy.Default)).thenReturn(groupReservationStrategy);
         reservationService = new ReservationService(configRepository, reservationStrategyFactory, reservationFactory, reservationRepository, seatingOrganizer);
     }
 
@@ -139,7 +138,7 @@ public class ReservationServiceTest {
     public void whenRequestingReservations_thenReservationsAreSearchedFromRepository() {
         reservationService.getReservations();
 
-        verify(reservationRepository).findReservations();
+        verify(reservationRepository).getReservations();
     }
     /*
     @Test

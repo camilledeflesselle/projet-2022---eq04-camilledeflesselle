@@ -21,7 +21,7 @@ public class BillRepositoryInMemory implements IBillRepository {
         return this.bills.get(customerId);
     }
 
-    public int getAmount() {
+    public int getNumberOfBills() {
         return bills.size();
     }
 

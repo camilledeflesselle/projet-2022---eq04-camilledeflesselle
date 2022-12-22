@@ -37,7 +37,7 @@ public class ReservationService {
     }
 
     public List<Reservation> getReservations() {
-        return this.reservationRepository.findReservations();
+        return this.reservationRepository.getReservations();
     }
     
 }

@@ -65,7 +65,7 @@ class ConfigAssemblerTest {
     @Test
     public void givenANegativeCubeSize_whenToConfig_thenNotValidateConfig() {
         ConfigDTO configDTO = new ConfigDTO(
-                GroupReservationStrategy.DEFAULT.label, AN_ORGANIZATION_NAME, A_NEGATIVE_CUBE_SIZE, A_COUNTRY, A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
+                GroupReservationStrategy.Default.label, AN_ORGANIZATION_NAME, A_NEGATIVE_CUBE_SIZE, A_COUNTRY, A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
         );
         assertThrows(BadRequestException.class,
                 () -> this.configValidator.assembleConfig(configDTO));
@@ -74,7 +74,7 @@ class ConfigAssemblerTest {
     @Test
     public void givenAnEmptyOrganizationName_whenToConfig_thenNotValidateConfig() {
         ConfigDTO configDTO = new ConfigDTO(
-                GroupReservationStrategy.DEFAULT.label, AN_EMPTY_ORGANIZATION_NAME, A_CUBE_SIZE, A_COUNTRY, A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
+                GroupReservationStrategy.Default.label, AN_EMPTY_ORGANIZATION_NAME, A_CUBE_SIZE, A_COUNTRY, A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
         );
         assertThrows(BadRequestException.class,
                 () -> this.configValidator.assembleConfig(configDTO));
@@ -83,7 +83,7 @@ class ConfigAssemblerTest {
     @Test
     public void givenAnInvalidCountry_whenToConfig_thenThrowInvalidCountryException() {
         ConfigDTO configDTO = new ConfigDTO(
-                GroupReservationStrategy.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
+                GroupReservationStrategy.Default.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
                 "INVALID_COUNTRY", A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
         );
         assertThrows(InvalidCountryException.class,
@@ -123,7 +123,7 @@ class ConfigAssemblerTest {
     public void givenAnNegativeGroupTipRate_whenToConfig_thenThrowInvalidGroupTipRateException() {
         String invalidNegativeGroupTipRate = "-15";
         ConfigDTO configDTO = new ConfigDTO(
-                GroupReservationStrategy.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
+                GroupReservationStrategy.Default.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
                 A_COUNTRY, A_PROVINCE, AN_EMPTY_STATE, new BigDecimal(invalidNegativeGroupTipRate)
         );
 
@@ -135,7 +135,7 @@ class ConfigAssemblerTest {
     public void givenAnValidGroupTipRate_whenToConfig_thenNotThrowInvalidGroupTipRateException() {
         String invalidSuperiorHundredGroupTipRate = "150";
         ConfigDTO configDTO = new ConfigDTO(
-                GroupReservationStrategy.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
+                GroupReservationStrategy.Default.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
                 A_COUNTRY, A_PROVINCE, AN_EMPTY_STATE, new BigDecimal(invalidSuperiorHundredGroupTipRate)
         );
 
@@ -146,7 +146,7 @@ class ConfigAssemblerTest {
     @Test
     public void givenNoneCountryAndEmptyStateAndProvince_whenToConfig_thenReturnConfigNotNull() {
         ConfigDTO configDTO = new ConfigDTO(
-                GroupReservationStrategy.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
+                GroupReservationStrategy.Default.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
                 "None", "", "", A_TIP_RATE
         );
 
@@ -158,7 +158,7 @@ class ConfigAssemblerTest {
     @Test
     public void givenNoneCountryAndEmptyStateAndProvince_whenToConfig_thenReturnConfigWithName() {
         ConfigDTO configDTO = new ConfigDTO(
-                GroupReservationStrategy.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
+                GroupReservationStrategy.Default.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
                 "None", "", "", A_TIP_RATE
         );
 
@@ -172,7 +172,7 @@ class ConfigAssemblerTest {
     @Test
     public void givenNoneCountryAndEmptyStateAndProvince_whenToConfig_thenReturnConfigWithTaxRate() {
         ConfigDTO configDTO = new ConfigDTO(
-                GroupReservationStrategy.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
+                GroupReservationStrategy.Default.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
                 Country.NONE.getCountryCode().getName(), "", "", A_TIP_RATE
         );
 
@@ -184,7 +184,7 @@ class ConfigAssemblerTest {
     @Test
     public void givenNoneCountryAndEmptyStateAndProvince_whenToConfig_thenReturnConfigWithCubesNames() {
         ConfigDTO configDTO = new ConfigDTO(
-                GroupReservationStrategy.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
+                GroupReservationStrategy.Default.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
                 "None", "", "", A_TIP_RATE
         );
 
@@ -196,19 +196,19 @@ class ConfigAssemblerTest {
     @Test
     public void givenNoneCountryAndEmptyStateAndProvince_whenToConfig_thenReturnConfigWithNotNullReservationMethod() {
         ConfigDTO configDTO = new ConfigDTO(
-                GroupReservationStrategy.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
+                GroupReservationStrategy.Default.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
                 "None", "", "", A_TIP_RATE
         );
 
         Config config = this.configValidator.assembleConfig(configDTO);
 
-        assertEquals(GroupReservationStrategy.DEFAULT, config.getReservationMethod());
+        assertEquals(GroupReservationStrategy.Default, config.getReservationMethod());
     }
 
     @Test
     public void givenNoneCountryAndEmptyStateAndProvince_whenToConfig_thenReturnConfigWithNotNullGroupTipRate() {
         ConfigDTO configDTO = new ConfigDTO(
-                GroupReservationStrategy.DEFAULT.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
+                GroupReservationStrategy.Default.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
                 "None", "", "", A_TIP_RATE
         );
 

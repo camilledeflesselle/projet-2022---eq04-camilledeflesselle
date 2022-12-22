@@ -7,7 +7,7 @@ public interface IReservationRepository {
 
     void saveReservation(Reservation reservation);
 
-    List<Reservation> findReservations();
+    List<Reservation> getReservations();
 
     Reservation findReservationByGroupName(String groupName);
 

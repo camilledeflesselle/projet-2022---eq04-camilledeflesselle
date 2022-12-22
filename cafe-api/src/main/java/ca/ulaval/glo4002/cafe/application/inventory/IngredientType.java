@@ -1,16 +1,17 @@
 package ca.ulaval.glo4002.cafe.application.inventory;
 
 public enum IngredientType {
-    CHOCOLATE("Chocolate"),
-    ESPRESSO("Espresso"),
-    MILK("Milk"),
-    WATER("Water");
+    Chocolate("Chocolate"),
+    Espresso("Espresso"),
+    Milk("Milk"),
+    Water("Water");
 
     private final String label;
 
     IngredientType(String label) {
         this.label = label;
     }
+
     public String getLabel() {
         return this.label;
     }

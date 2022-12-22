@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.cafe.application.checkOut;
 
-import ca.ulaval.glo4002.cafe.domain.bill.BillFactory;
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
+import ca.ulaval.glo4002.cafe.domain.bill.BillFactory;
 import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
 import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
 import ca.ulaval.glo4002.cafe.domain.customer.Customer;
@@ -15,12 +15,12 @@ import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
 
 public class CheckOutService {
     private final ICustomerRepository customerRepository;
-    private IOrderRepository orderRepository;
-    private IConfigRepository configRepository;
-    private BillFactory billFactory;
-    private IBillRepository billRepository;
-    private SeatingOrganizer seatingOrganizer;
-    private IReservationRepository reservationRepository;
+    private final IOrderRepository orderRepository;
+    private final IConfigRepository configRepository;
+    private final BillFactory billFactory;
+    private final IBillRepository billRepository;
+    private final SeatingOrganizer seatingOrganizer;
+    private final IReservationRepository reservationRepository;
 
     public CheckOutService(ICustomerRepository customerRepository, IOrderRepository orderRepository, IConfigRepository configRepository, BillFactory billFactory, IBillRepository billRepository, SeatingOrganizer seatingOrganizer, IReservationRepository reservationRepository) {
         this.customerRepository = customerRepository;

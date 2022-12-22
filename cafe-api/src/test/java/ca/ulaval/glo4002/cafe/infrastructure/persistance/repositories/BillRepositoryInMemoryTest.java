@@ -24,14 +24,14 @@ class BillRepositoryInMemoryTest {
 
     @Test
     public void whenInitialized_thenIsEmpty() {
-        assertEquals(0, billRepository.getAmount());
+        assertEquals(0, billRepository.getNumberOfBills());
     }
 
     @Test
     public void givenEmptyBillRepository_whenSavingABill_thenRepositoryHasOneElement() {
         billRepository.saveBillByCustomerId(A_CUSTOMER_ID, billMock);
 
-        assertEquals(1, billRepository.getAmount());
+        assertEquals(1, billRepository.getNumberOfBills());
     }
 
     @Test
@@ -55,6 +55,6 @@ class BillRepositoryInMemoryTest {
 
         billRepository.deleteAll();
 
-        assertEquals(0, billRepository.getAmount());
+        assertEquals(0, billRepository.getNumberOfBills());
     }
 }

@@ -71,7 +71,7 @@ public class ReservationRepositoryInMemoryTest {
         reservationRepositoryInMemory.saveReservation(A_RESERVATION);
         reservationRepositoryInMemory.saveReservation(ANOTHER_RESERVATION);
 
-        List<Reservation> returnedReservations = reservationRepositoryInMemory.findReservations();
+        List<Reservation> returnedReservations = reservationRepositoryInMemory.getReservations();
         List<Reservation> expectedReservations = new ArrayList<>(List.of(A_RESERVATION, ANOTHER_RESERVATION));
 
         assertEquals(expectedReservations, returnedReservations);

@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.cafe.application.checkOut;
 
-import ca.ulaval.glo4002.cafe.domain.bill.BillFactory;
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
+import ca.ulaval.glo4002.cafe.domain.bill.BillFactory;
 import ca.ulaval.glo4002.cafe.domain.bill.IBillRepository;
 import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.config.Config;
@@ -65,7 +65,7 @@ public class CheckOutServiceTest {
     @Test
     public void whenCustomerCheckOut_thenSearchForCustomerByCustomerId() {
         givenCustomerWithoutGroup();
-        givenSeat(A_SEAT_ID);
+        givenSeat();
 
         checkOutService.checkoutCustomer(A_CUSTOMER_ID);
 
@@ -75,7 +75,7 @@ public class CheckOutServiceTest {
     @Test
     public void whenCustomerCheckOut_thenSearchForOrderOfCustomer() {
         givenCustomerWithoutGroup();
-        givenSeat(A_SEAT_ID);
+        givenSeat();
 
         checkOutService.checkoutCustomer(A_CUSTOMER_ID);
 
@@ -98,7 +98,7 @@ public class CheckOutServiceTest {
     @Test
     public void whenCustomerCheckOut_thenRemoveCustomerFromSeat() {
         Customer customer = givenCustomerWithoutGroup();
-        givenSeat(A_SEAT_ID);
+        givenSeat();
 
         checkOutService.checkoutCustomer(A_CUSTOMER_ID);
 
@@ -116,9 +116,9 @@ public class CheckOutServiceTest {
         return customer;
     }
 
-    private void givenSeat(SeatId seatId) {
+    private void givenSeat() {
         Seat seat = mock(Seat.class);
-        when(seat.getId()).thenReturn(seatId);
+        when(seat.getId()).thenReturn(A_SEAT_ID);
         when(seatingOrganizer.findSeat(any(), any())).thenReturn(seat);
     }
 
