@@ -2,13 +2,7 @@ package ca.ulaval.glo4002.cafe.application.reservation;
 
 import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
-import ca.ulaval.glo4002.cafe.domain.cube.Cube;
-import ca.ulaval.glo4002.cafe.domain.customer.Customer;
-import ca.ulaval.glo4002.cafe.domain.reservation.DuplicateGroupNameException;
-import ca.ulaval.glo4002.cafe.domain.reservation.Group;
-import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
-import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
-import ca.ulaval.glo4002.cafe.domain.reservation.ReservationFactory;
+import ca.ulaval.glo4002.cafe.domain.reservation.*;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationMethod;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.IGroupReservationStrategy;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategyFactory;
@@ -33,7 +27,6 @@ public class ReservationServiceTest {
     private static IGroupReservationStrategy groupReservationStrategy;
     private static SeatingOrganizer seatingOrganizer;
     private static ReservationFactory reservationFactory;
-    private static List<Cube> cubes;
 
     @BeforeEach
     public void setup() {
@@ -42,7 +35,6 @@ public class ReservationServiceTest {
         groupReservationStrategy = mock(IGroupReservationStrategy.class);
         seatingOrganizer = mock(SeatingOrganizer.class);
         reservationFactory = mock(ReservationFactory.class);
-        cubes = new ArrayList<>(List.of(mock(Cube.class)));
         IConfigRepository configRepository = mock(IConfigRepository.class);
         Config config = mock(Config.class);
         when(config.getReservationMethod()).thenReturn(GroupReservationMethod.DEFAULT);
@@ -176,21 +168,6 @@ public class ReservationServiceTest {
         verify(seatingOrganizer).findSeatBySeatId(seatId);
     }*/
 
-
-    private Customer givenCustomerWithGroup() {
-        Customer customer = mock(Customer.class);
-        when(customer.hasGroup()).thenReturn(true);
-        when(customer.getGroupName()).thenReturn(A_GROUP_NAME);
-
-        return customer;
-    }
-
-    private Customer givenCustomerWithoutGroup() {
-        Customer customer = mock(Customer.class);
-        when(customer.hasGroup()).thenReturn(false);
-
-        return customer;
-    }
 
     private Group givenGroupWithoutReservation() {
         Group group = mock(Group.class);

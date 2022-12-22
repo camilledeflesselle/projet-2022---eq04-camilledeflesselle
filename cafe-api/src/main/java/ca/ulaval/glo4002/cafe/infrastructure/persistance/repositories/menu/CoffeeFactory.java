@@ -1,7 +1,7 @@
-package ca.ulaval.glo4002.cafe.application.menu;
+package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.menu;
 
+import ca.ulaval.glo4002.cafe.application.menu.CoffeeType;
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
-import ca.ulaval.glo4002.cafe.domain.menu.Coffee;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class CoffeeFactory {
         return coffees;
     }
 
-    public MenuItem create(CoffeeType type) {
+    private MenuItem create(CoffeeType type) {
         return switch (type) {
             case AMERICANO -> new MenuItem(type.getId(), new Amount(2.25f));
             case DARK_ROAST -> new MenuItem(type.getId(), new Amount(2.1f));

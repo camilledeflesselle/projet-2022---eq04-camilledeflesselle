@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.cafe.domain.cube;
 
 import ca.ulaval.glo4002.cafe.domain.seat.Seat;
+import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +76,15 @@ public class Cube {
 
     public boolean isEmpty() {
         return this.getFreeSeats().size() == this.seats.size();
+    }
+
+    public Seat findSeatById(SeatId seatId) {
+        for (Seat seat : this.seats) {
+            if (seat.getId() == seatId) {
+                return seat;
+            }
+        }
+        return null;
     }
 }
 

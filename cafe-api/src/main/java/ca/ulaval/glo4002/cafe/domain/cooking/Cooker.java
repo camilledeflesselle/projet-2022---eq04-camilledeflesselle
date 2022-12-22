@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.cafe.domain.inventory.InsufficentIngredientsException;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
+
 import java.util.Map;
 
 public class Cooker {

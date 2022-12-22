@@ -1,8 +1,8 @@
-package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
+package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.menu;
 
-import ca.ulaval.glo4002.cafe.application.menu.CoffeeFactory;
 import ca.ulaval.glo4002.cafe.domain.menu.IMenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

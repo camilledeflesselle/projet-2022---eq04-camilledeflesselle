@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.cafe.ui.rest.resources;
 
 import ca.ulaval.glo4002.cafe.application.close.CloseService;
-import ca.ulaval.glo4002.cafe.application.config.ConfigService;
 import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.ConfigDTO;
 import ca.ulaval.glo4002.cafe.ui.rest.validators.config.ConfigValidator;

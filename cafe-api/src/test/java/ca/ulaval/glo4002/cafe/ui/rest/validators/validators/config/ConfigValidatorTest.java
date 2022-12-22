@@ -5,7 +5,7 @@ import ca.ulaval.glo4002.cafe.domain.reservation.InvalidGroupReservationMethodEx
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationMethod;
 import ca.ulaval.glo4002.cafe.domain.tax.ITaxesRepository;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.Country;
-import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.TaxesRepositoryInMemory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.TaxesRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.ConfigDTO;
 import ca.ulaval.glo4002.cafe.ui.rest.validators.config.ConfigValidator;
 import ca.ulaval.glo4002.cafe.ui.rest.validators.config.InvalidCountryException;
@@ -16,10 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ConfigValidatorTest {
     private static final String AN_ORGANIZATION_NAME = "Organisation name";

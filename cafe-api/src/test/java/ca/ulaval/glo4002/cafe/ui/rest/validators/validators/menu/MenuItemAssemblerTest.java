@@ -1,11 +1,11 @@
 package ca.ulaval.glo4002.cafe.ui.rest.validators.validators.menu;
 
-import ca.ulaval.glo4002.cafe.application.menu.CoffeeFactory;
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
-import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.MenuItemRepositoryInMemory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.menu.CoffeeFactory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.menu.MenuItemRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.MenuItemDTO;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.RecipeDTO;
 import ca.ulaval.glo4002.cafe.ui.rest.validators.menu.MenuItemAssembler;

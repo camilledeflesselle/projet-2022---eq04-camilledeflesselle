@@ -1,10 +1,8 @@
 package ca.ulaval.glo4002.cafe.ui.rest.validators.menu;
 
 import ca.ulaval.glo4002.cafe.application.inventory.IngredientType;
-import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
-import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.RecipeDTO;
 import jakarta.ws.rs.BadRequestException;
 

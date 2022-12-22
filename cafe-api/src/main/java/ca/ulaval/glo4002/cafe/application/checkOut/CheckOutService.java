@@ -12,10 +12,6 @@ import ca.ulaval.glo4002.cafe.domain.customer.ICustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.order.IOrderRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
-import ca.ulaval.glo4002.cafe.domain.reservation.NoReservationsFoundException;
-import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
-import ca.ulaval.glo4002.cafe.domain.seat.Seat;
-import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
 import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;
 
 public class CheckOutService {
@@ -42,34 +38,10 @@ public class CheckOutService {
         if (customer == null) {
             throw new CustomerDoesNotExistsException();
         }
-        this.unassignSeatToCustomer(customer);
 
         this.createBill(customer);
 
-        if (customer.hasGroup()) {
-            this.removeReservationIfEmpty(customer.getGroupName());
-        }
-    }
-
-    private void unassignSeatToCustomer(Customer customer) {
-        if (customer.hasGroup()) {
-            Reservation reservation = this.reservationRepository.findReservationByGroupName(customer.getGroupName());
-            reservation.checkoutCustomer(customer);
-        }
-        Seat seat = this.seatingOrganizer.findSeatBySeatId(customer.getSeatId());
-        seat.unassign();
-        customer.unsetSeatId();
-    }
-
-    private void removeReservationIfEmpty(String groupName) {
-        Reservation reservation = this.reservationRepository.findReservationByGroupName(groupName);
-        if (!reservation.isEmpty()) return;
-
-        for (SeatId seatId : reservation.getLockedSeatsId()) {
-            this.seatingOrganizer.findSeatBySeatId(seatId).unassign();
-        }
-
-        this.reservationRepository.removeReservationByGroupName(groupName);
+        this.seatingOrganizer.removeCustomerFromSeating(customer, this.reservationRepository);
     }
 
     private void createBill(Customer customer) {

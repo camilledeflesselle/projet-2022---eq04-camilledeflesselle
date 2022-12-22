@@ -12,7 +12,6 @@ import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.domain.order.OrdersFactory;
 import jakarta.ws.rs.NotFoundException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerService {

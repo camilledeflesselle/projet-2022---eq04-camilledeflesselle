@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.cafe.application.menu.CoffeeType;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.domain.recipe.IRecipeRepository;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

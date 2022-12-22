@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.InventoryDTO;
 import jakarta.inject.Inject;
+
 import java.util.List;
 
 public class InventoryService {

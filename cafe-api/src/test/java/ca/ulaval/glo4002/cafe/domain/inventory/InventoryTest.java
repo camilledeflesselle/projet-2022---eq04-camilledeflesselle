@@ -4,7 +4,7 @@ import ca.ulaval.glo4002.cafe.application.inventory.IngredientType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class InventoryTest {
     private static final IngredientId AN_EXISTING_INGREDIENT_ID = new IngredientId(IngredientType.CHOCOLATE.getLabel());

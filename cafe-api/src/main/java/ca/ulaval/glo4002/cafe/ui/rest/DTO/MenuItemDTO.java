@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.cafe.ui.rest.DTO;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)

@@ -2,11 +2,11 @@ package ca.ulaval.glo4002.cafe.application.bill;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.bill.Bill;
-import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
 import ca.ulaval.glo4002.cafe.domain.bill.TipRate;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
+import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

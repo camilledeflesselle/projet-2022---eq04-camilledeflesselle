@@ -1,11 +1,7 @@
 package ca.ulaval.glo4002.cafe.application.reservation;
 
 import ca.ulaval.glo4002.cafe.domain.config.IConfigRepository;
-import ca.ulaval.glo4002.cafe.domain.reservation.DuplicateGroupNameException;
-import ca.ulaval.glo4002.cafe.domain.reservation.Group;
-import ca.ulaval.glo4002.cafe.domain.reservation.IReservationRepository;
-import ca.ulaval.glo4002.cafe.domain.reservation.Reservation;
-import ca.ulaval.glo4002.cafe.domain.reservation.ReservationFactory;
+import ca.ulaval.glo4002.cafe.domain.reservation.*;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.ReservationStrategyFactory;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
 import ca.ulaval.glo4002.cafe.domain.seating.SeatingOrganizer;

@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.InventoryDTO;
 import jakarta.ws.rs.BadRequestException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

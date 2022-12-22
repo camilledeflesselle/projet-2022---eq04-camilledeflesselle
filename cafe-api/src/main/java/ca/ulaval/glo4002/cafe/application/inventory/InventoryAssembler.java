@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.cafe.application.inventory;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.InventoryDTO;
+
 import java.util.HashMap;
 import java.util.Map;
 

@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.cafe.application.inventory;
 import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 class InventoryServiceTest {
     private IInventoryRepository inventoryRepositoryMock;

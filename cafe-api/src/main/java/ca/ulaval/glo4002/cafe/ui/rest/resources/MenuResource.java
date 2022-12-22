@@ -33,7 +33,7 @@ public class MenuResource {
         Recipe newRecipe = this.menuItemAssembler.menuItemDTOToRecipe(menuItemDTO);
         this.menuService.addMenuItem(newMenuItem, newRecipe);
         return Response
-                .status(200)
+                .ok()
                 .build();
     }
 }

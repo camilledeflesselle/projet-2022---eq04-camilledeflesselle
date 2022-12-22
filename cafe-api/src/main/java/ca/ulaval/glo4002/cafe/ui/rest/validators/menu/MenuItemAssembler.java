@@ -8,6 +8,7 @@ import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.MenuItemDTO;
 import jakarta.ws.rs.BadRequestException;
+
 import java.util.List;
 
 public class MenuItemAssembler {
@@ -18,7 +19,6 @@ public class MenuItemAssembler {
         this.menu = menuItemRepository;
         this.recipeValidator = new RecipeValidator();
     }
-
 
     public MenuItem menuItemDTOToMenuItem(MenuItemDTO menuItemDTO) {
         this.validateName(menuItemDTO.getName());

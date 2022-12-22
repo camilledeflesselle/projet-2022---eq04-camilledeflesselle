@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.cafe.domain.inventory.IInventoryRepository;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
+
 import java.util.Arrays;
 
 public class InventoryRepositoryInMemory implements IInventoryRepository {

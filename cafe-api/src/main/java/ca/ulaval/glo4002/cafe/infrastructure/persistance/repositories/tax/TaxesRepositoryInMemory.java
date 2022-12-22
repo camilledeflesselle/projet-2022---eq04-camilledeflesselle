@@ -1,10 +1,9 @@
-package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
+package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax;
 
 import ca.ulaval.glo4002.cafe.domain.tax.Area;
 import ca.ulaval.glo4002.cafe.domain.tax.CountryTaxesRepository;
 import ca.ulaval.glo4002.cafe.domain.tax.ITaxesRepository;
 import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
-import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.Country;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.canadian.CanadianTaxes;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.unitedStates.UnitedStatesTaxes;
 

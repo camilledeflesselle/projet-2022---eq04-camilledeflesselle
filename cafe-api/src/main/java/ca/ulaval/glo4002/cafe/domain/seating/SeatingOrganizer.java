@@ -29,10 +29,6 @@ public class SeatingOrganizer {
         return this.findSeatBySeatId(reservation.popFirstReservedSeatId());
     }
 
-    public List<Cube> getCubes() {
-        return this.cubes;
-    }
-
     public List<SeatId> reserveSeats(int nbSeatToReserve, String groupName, IGroupReservationStrategy groupReservationStrategy) {
         if (nbSeatToReserve > this.getFreeSeats().size()) throw new NoSeatAvailableException();
 
@@ -46,13 +42,18 @@ public class SeatingOrganizer {
         return reservedSeatsId;
     }
 
-    public Seat findSeatBySeatId(SeatId seatId) {
+    public void removeCustomerFromSeating(Customer customer, IReservationRepository reservationRepository) {
+        this.unassignSeatToCustomer(customer, reservationRepository);
+
+        if (customer.hasGroup()) {
+            this.removeReservationIfEmpty(customer.getGroupName(), reservationRepository);
+        }
+    }
+
+    private Seat findSeatBySeatId(SeatId seatId) {
         for (Cube cube : this.cubes) {
-            for (Seat seat : cube.getSeats()) {
-                if (seatId.equals(seat.getId())) {
-                    return seat;
-                }
-            }
+            Seat seat = cube.findSeatById(seatId);
+            if (seat != null) return seat;
         }
         throw new NotFoundException();
     }
@@ -70,4 +71,26 @@ public class SeatingOrganizer {
             freeSeats.addAll(cube.getFreeSeats());
         return freeSeats;
     }
+
+    private void unassignSeatToCustomer(Customer customer, IReservationRepository reservationRepository) {
+        if (customer.hasGroup()) {
+            Reservation reservation = reservationRepository.findReservationByGroupName(customer.getGroupName());
+            reservation.checkoutCustomer(customer);
+        }
+        Seat seat = this.findSeatBySeatId(customer.getSeatId());
+        seat.unassign();
+        customer.unsetSeatId();
+    }
+
+    private void removeReservationIfEmpty(String groupName, IReservationRepository reservationRepository) {
+        Reservation reservation = reservationRepository.findReservationByGroupName(groupName);
+        if (!reservation.isEmpty()) return;
+
+        for (SeatId seatId : reservation.getLockedSeatsId()) {
+            this.findSeatBySeatId(seatId).unassign();
+        }
+
+        reservationRepository.removeReservationByGroupName(groupName);
+    }
+
 }

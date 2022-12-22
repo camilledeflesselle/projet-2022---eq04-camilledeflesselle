@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.cafe.domain.customer;
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
-import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.domain.seat.SeatId;
 import org.junit.jupiter.api.Test;
 
