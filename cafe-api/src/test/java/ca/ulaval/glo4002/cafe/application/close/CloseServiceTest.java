@@ -29,6 +29,7 @@ public class CloseServiceTest {
     private InventoryRepository ingredientRepository;
     private CubesListFactory cubesListFactory;
     private CloseService closeService;
+    private ConfigRepository configRepository;
 
     @BeforeEach
     public void setUp() {
@@ -41,7 +42,7 @@ public class CloseServiceTest {
         recipeRepository = mock(RecipeRepository.class);
         ingredientRepository = mock(InventoryRepository.class);
         cubesListFactory = mock(CubesListFactory.class);
-        ConfigRepository configRepository = mock(ConfigRepository.class);
+        configRepository = mock(ConfigRepository.class);
         when(configRepository.findConfig()).thenReturn(A_CONFIG);
         closeService = new CloseService(configRepository, cubeRepository, reservationRepository, customerRepository, orderRepository, billRepository, menuItemRepository, recipeRepository, ingredientRepository, cubesListFactory);
     }
@@ -108,5 +109,20 @@ public class CloseServiceTest {
 
         verify(cubesListFactory).create(A_CONFIG.getCubesNames(), A_CONFIG.getCubeSize());
         verify(cubeRepository).saveCubes(any());
+    }
+
+    @Test
+    void whenUpdateConfig_thenConfigIsSavedInStorage() {
+        Config config = new Config();
+        closeService.updateConfig(config);
+        verify(configRepository).saveConfig(config);
+    }
+
+    @Test
+    void whenUpdateConfig_thenCloseCoffee() {
+        Config config = new Config();
+        closeService = spy(closeService);
+        closeService.updateConfig(config);
+        verify(closeService).closeCafe();
     }
 }

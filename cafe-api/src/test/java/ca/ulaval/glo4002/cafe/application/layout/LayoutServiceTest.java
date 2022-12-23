@@ -101,25 +101,4 @@ public class LayoutServiceTest {
 
         verify(cubeRepositoryMock, times(2)).saveCubes(cubesListMock);
     }
-
-    /*
-    @Test
-    public void whenUpdateConfiguration_NameIsChanged() {
-        LayoutService layoutService = new LayoutService(configRepositoryMock, cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, layoutAssemblerMock);
-        String newCafeName = "newCafeName";
-
-        layoutService.updateConfig(newCafeName, A_CUBE_SIZE);
-
-        assertEquals(newCafeName, layoutService.getName());
-    }
-
-    @Test
-    public void whenUpdateConfiguration_SizeIsChanged() {
-        LayoutService layoutService = new LayoutService(configRepositoryMock, cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, layoutAssemblerMock);
-        int newCubeSize = 5;
-
-        layoutService.updateConfig(A_CAFE_NAME, newCubeSize);
-
-        assertEquals(newCubeSize, layoutService.getCubeSize());
-    }*/
 }

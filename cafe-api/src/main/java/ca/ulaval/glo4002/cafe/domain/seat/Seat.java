@@ -42,6 +42,5 @@ public class Seat {
     public void unassign() {
         this.status = SeatStatus.Available;
         this.groupName = null;
-
     }
 }

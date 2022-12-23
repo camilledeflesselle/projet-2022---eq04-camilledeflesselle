@@ -25,7 +25,7 @@ public class MenuItemRepositoryInMemory implements MenuItemRepository {
     }
 
     @Override
-    public void saveMenuItem(MenuItem menuItem) {
+    public void save(MenuItem menuItem) {
         menuItems.add(menuItem);
     }
 

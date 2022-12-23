@@ -32,11 +32,6 @@ public class MenuItem {
         return this.id.equals(menuItem.id);
     }
 
-    @Override
-    public int hashCode() {
-        return this.id.hashCode();
-    }
-
     public boolean isCustom() {
         return this.id.isCustom();
     }

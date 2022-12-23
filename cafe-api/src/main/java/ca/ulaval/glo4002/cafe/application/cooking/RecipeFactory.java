@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.cafe.application.cooking;
 
-import ca.ulaval.glo4002.cafe.application.inventory.IngredientType;
+import ca.ulaval.glo4002.cafe.application.inventory.IngredientInLes4Fees;
 import ca.ulaval.glo4002.cafe.application.menu.CoffeeType;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
@@ -9,14 +9,15 @@ import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 import java.util.List;
 
 public class RecipeFactory {
+
     public Recipe createRecipe(CoffeeType coffeeType) {
         Recipe recipe;
         List<Ingredient> ingredients;
 
-        IngredientId milk = new IngredientId(IngredientType.Milk.getLabel());
-        IngredientId water = new IngredientId(IngredientType.Water.getLabel());
-        IngredientId espresso = new IngredientId(IngredientType.Espresso.getLabel());
-        IngredientId chocolate = new IngredientId(IngredientType.Chocolate.getLabel());
+        IngredientId milk = IngredientInLes4Fees.Milk.getId();
+        IngredientId water = IngredientInLes4Fees.Water.getId();
+        IngredientId chocolate = IngredientInLes4Fees.Chocolate.getId();
+        IngredientId espresso = IngredientInLes4Fees.Espresso.getId();
 
         switch (coffeeType) {
             case Americano -> {

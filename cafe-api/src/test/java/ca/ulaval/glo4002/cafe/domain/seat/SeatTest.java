@@ -26,4 +26,20 @@ class SeatTest {
 
         assertEquals(SeatStatus.Reserved, seat.getStatus());
     }
+
+    @Test
+    public void whenInitialized_thenIsAvailable() {
+        Seat seat = new Seat(1);
+
+        assertEquals(SeatStatus.Available, seat.getStatus());
+    }
+
+    @Test
+    public void whenUnAssigned_thenIsAvailable() {
+        Seat seat = new Seat(1, SeatStatus.Occupied);
+
+        seat.unassign();
+
+        assertEquals(SeatStatus.Available, seat.getStatus());
+    }
 }

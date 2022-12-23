@@ -25,10 +25,6 @@ public class InventoryService {
 
     public InventoryDTO getInventory() {
         Inventory inventory = this.inventoryRepository.getInventory();
-        return this.inventoryAssembler.toDTO(inventory);
-    }
-
-    public void reset() {
-        this.inventoryRepository.getInventory().reset();
+        return this.inventoryAssembler.assembleToDTO(inventory);
     }
 }

@@ -5,7 +5,4 @@ public class TipRate extends Rate {
         super(rate);
     }
 
-    public TipRate add(TipRate tipRate) {
-        return new TipRate(this.rate.add(tipRate.rate).doubleValue());
-    }
 }

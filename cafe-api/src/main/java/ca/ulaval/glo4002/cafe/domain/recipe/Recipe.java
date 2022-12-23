@@ -25,7 +25,7 @@ public class Recipe {
     }
 
     public void cookWith(Inventory inventory) {
-        this.ingredients.forEach(inventory::removeQuantity);
+        this.ingredients.forEach(inventory::useIngredient);
     }
 
     public boolean contains(IngredientId name, int quantity) {
