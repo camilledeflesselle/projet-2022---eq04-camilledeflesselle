@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.cafe.application.close;
 
+import ca.ulaval.glo4002.cafe.application.layout.LayoutService;
 import ca.ulaval.glo4002.cafe.domain.bill.BillRepository;
 import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.config.ConfigRepository;
@@ -104,9 +105,8 @@ public class CloseServiceTest {
     }
 
     @Test
-    public void whenClosing_thenANewLayoutIsInitializedAndSaved() {
+    public void whenClosing_cubesAreCreatedAndSavedFromCubeNamesAndCubeSize() {
         closeService.closeCafe();
-
         verify(cubesListFactory).create(A_CONFIG.getCubesNames(), A_CONFIG.getCubeSize());
         verify(cubeRepository).saveCubes(any());
     }
@@ -125,4 +125,5 @@ public class CloseServiceTest {
         closeService.updateConfig(config);
         verify(closeService).closeCafe();
     }
+
 }

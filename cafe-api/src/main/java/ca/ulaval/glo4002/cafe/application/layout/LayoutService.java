@@ -33,9 +33,4 @@ public class LayoutService {
     public LayoutDTO getLayout() {
         return layoutAssembler.createLayoutDTO(this.configRepository.findConfig().getName(), this.cubeRepository.findAll(), this.customerRepository.findAll());
     }
-
-    public void reset() {
-        this.cubeRepository.deleteAll();
-        this.initializeCubes();
-    }
 }

@@ -70,35 +70,4 @@ public class LayoutServiceTest {
 
         verify(layoutAssemblerMock).createLayoutDTO(A_CAFE_NAME, cubesListMock, customerListMock);
     }
-
-    @Test
-    public void whenReset_cubesAreDeletedFromRepository() {
-        LayoutService layoutService = new LayoutService(configRepositoryMock, cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, layoutAssemblerMock);
-
-        layoutService.reset();
-
-        verify(cubeRepositoryMock).deleteAll();
-    }
-
-    @Test
-    public void whenReset_cubesAreCreatedFromCubeNamesAndCubeSize() {
-        LayoutService layoutService = new LayoutService(configRepositoryMock, cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, layoutAssemblerMock);
-        when(cubesListFactoryMock.create(SOME_CUBES_NAME, A_CUBE_SIZE)).thenReturn(cubesListMock);
-        when(cubeRepositoryMock.findAll()).thenReturn(cubesListMock);
-        when(customerRepositoryMock.findAll()).thenReturn(customerListMock);
-
-        layoutService.reset();
-
-        verify(cubesListFactoryMock, times(2)).create(SOME_CUBES_NAME, A_CUBE_SIZE);
-    }
-
-    @Test
-    public void whenReset_cubesAreSavedInRepository() {
-        when(cubesListFactoryMock.create(SOME_CUBES_NAME, A_CUBE_SIZE)).thenReturn(cubesListMock);
-        LayoutService layoutService = new LayoutService(configRepositoryMock, cubesListFactoryMock, cubeRepositoryMock, customerRepositoryMock, layoutAssemblerMock);
-
-        layoutService.reset();
-
-        verify(cubeRepositoryMock, times(2)).saveCubes(cubesListMock);
-    }
 }
