@@ -3,9 +3,11 @@ package ca.ulaval.glo4002.cafe.ui.rest.assemblers.validators.config;
 import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.reservation.InvalidGroupReservationMethodException;
 import ca.ulaval.glo4002.cafe.domain.reservation.reservationStrategy.GroupReservationStrategy;
+import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
 import ca.ulaval.glo4002.cafe.domain.tax.TaxRepository;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.Country;
-import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.TaxesRepositoryInMemory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.TaxRepositoryInMemory;
+import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.canada.CanadaProvinces;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.ConfigDTO;
 import ca.ulaval.glo4002.cafe.ui.rest.assemblers.config.ConfigAssembler;
 import ca.ulaval.glo4002.cafe.ui.rest.assemblers.config.InvalidCountryException;
@@ -17,6 +19,8 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 class ConfigAssemblerTest {
     private static final String AN_ORGANIZATION_NAME = "Organisation name";
@@ -29,17 +33,18 @@ class ConfigAssemblerTest {
     private static final String AN_EMPTY_STATE = "";
     private static final BigDecimal A_TIP_RATE = new BigDecimal(Float.toString(0.015f));
 
-    private ConfigAssembler configValidator;
+    private ConfigAssembler configAssembler;
+    private TaxRepository taxRepository;
 
     @BeforeEach
     public void setupConfigValidator() {
-        TaxRepository taxesRepository = new TaxesRepositoryInMemory();
-        this.configValidator = new ConfigAssembler(taxesRepository);
+        taxRepository = new TaxRepositoryInMemory();
+        configAssembler = new ConfigAssembler(taxRepository);
     }
 
     @Test
-    public void whenConfigDTOisNll_thenThrowBadRequestException() {
-        assertThrows(BadRequestException.class, () -> configValidator.validateConfig(null));
+    public void whenConfigDTOisNull_thenThrowBadRequestException() {
+        assertThrows(BadRequestException.class, () -> configAssembler.validateConfig(null));
     }
 
     @Test
@@ -49,26 +54,26 @@ class ConfigAssemblerTest {
         );
 
         assertThrows(BadRequestException.class,
-                () -> this.configValidator.validateConfig(configDTO));
+                () -> configAssembler.validateConfig(configDTO));
     }
 
     @Test
-    public void givenANonExistingReservationMethod_whenToConfig_thenNotValidateConfig() {
+    public void givenANonExistingReservationMethod_whenAssembleConfigDTO_thenNotValidateConfig() {
         ConfigDTO configDTO = new ConfigDTO(
                 A_NON_EXISTING_GROUP_RESERVATION_METHOD, AN_ORGANIZATION_NAME, A_CUBE_SIZE, A_COUNTRY, A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
         );
 
         assertThrows(InvalidGroupReservationMethodException.class,
-                () -> this.configValidator.assembleConfig(configDTO));
+                () -> configAssembler.assembleToConfig(configDTO));
     }
 
     @Test
-    public void givenANegativeCubeSize_whenToConfig_thenNotValidateConfig() {
+    public void givenANegativeCubeSize_whenAssembleConfigDTO_thenNotValidateConfig() {
         ConfigDTO configDTO = new ConfigDTO(
                 GroupReservationStrategy.Default.label, AN_ORGANIZATION_NAME, A_NEGATIVE_CUBE_SIZE, A_COUNTRY, A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
         );
         assertThrows(BadRequestException.class,
-                () -> this.configValidator.assembleConfig(configDTO));
+                () -> configAssembler.assembleToConfig(configDTO));
     }
 
     @Test
@@ -77,7 +82,7 @@ class ConfigAssemblerTest {
                 GroupReservationStrategy.Default.label, AN_EMPTY_ORGANIZATION_NAME, A_CUBE_SIZE, A_COUNTRY, A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
         );
         assertThrows(BadRequestException.class,
-                () -> this.configValidator.assembleConfig(configDTO));
+                () -> configAssembler.assembleToConfig(configDTO));
     }
 
     @Test
@@ -87,14 +92,14 @@ class ConfigAssemblerTest {
                 "INVALID_COUNTRY", A_PROVINCE, AN_EMPTY_STATE, A_TIP_RATE
         );
         assertThrows(InvalidCountryException.class,
-                () -> this.configValidator.assembleConfig(configDTO));
+                () -> configAssembler.assembleToConfig(configDTO));
     }
 
     @Test
-    public void givenAnValidCountryWithoutProvinceOrState_whenCheckCoutryConfigIsValid_thenReturnTrue() {
+    public void givenAnValidCountryWithoutProvinceOrState_whenCheckCountryConfigIsValid_thenReturnTrue() {
         String aValidCountryWithoutProvinceOrState = "CL";
 
-        boolean isValid = this.configValidator.validateCountry(aValidCountryWithoutProvinceOrState, null, null);
+        boolean isValid = configAssembler.validateCountry(aValidCountryWithoutProvinceOrState, null, null);
 
         assertTrue(isValid);
     }
@@ -104,7 +109,7 @@ class ConfigAssemblerTest {
         String validCountryWithProvince = "CA";
         String validProvinceCorrespondingToCountry = "QC";
 
-        boolean isValid = this.configValidator.validateCountry(validCountryWithProvince, validProvinceCorrespondingToCountry, null);
+        boolean isValid = configAssembler.validateCountry(validCountryWithProvince, validProvinceCorrespondingToCountry, null);
 
         assertTrue(isValid);
     }
@@ -114,7 +119,7 @@ class ConfigAssemblerTest {
         String validCountryWithState = "US";
         String validStateCorrespondingToCountry = "CA";
 
-        boolean isValid = this.configValidator.validateCountry(validCountryWithState, null, validStateCorrespondingToCountry);
+        boolean isValid = configAssembler.validateCountry(validCountryWithState, null, validStateCorrespondingToCountry);
 
         assertTrue(isValid);
     }
@@ -128,7 +133,7 @@ class ConfigAssemblerTest {
         );
 
         assertThrows(InvalidGroupTipRateException.class,
-                () -> this.configValidator.assembleConfig(configDTO));
+                () -> configAssembler.assembleToConfig(configDTO));
     }
 
     @Test
@@ -140,7 +145,7 @@ class ConfigAssemblerTest {
         );
 
         assertThrows(InvalidGroupTipRateException.class,
-                () -> this.configValidator.assembleConfig(configDTO));
+                () -> configAssembler.assembleToConfig(configDTO));
     }
 
     @Test
@@ -150,7 +155,7 @@ class ConfigAssemblerTest {
                 "None", "", "", A_TIP_RATE
         );
 
-        Config config = this.configValidator.assembleConfig(configDTO);
+        Config config = configAssembler.assembleToConfig(configDTO);
 
         assertNotNull(config);
     }
@@ -162,7 +167,7 @@ class ConfigAssemblerTest {
                 "None", "", "", A_TIP_RATE
         );
 
-        Config config = this.configValidator.assembleConfig(configDTO);
+        Config config = configAssembler.assembleToConfig(configDTO);
 
         assertNotNull(config);
 
@@ -173,10 +178,10 @@ class ConfigAssemblerTest {
     public void givenNoneCountryAndEmptyStateAndProvince_whenToConfig_thenReturnConfigWithTaxRate() {
         ConfigDTO configDTO = new ConfigDTO(
                 GroupReservationStrategy.Default.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
-                Country.NONE.getCountryCode().getName(), "", "", A_TIP_RATE
+                Country.None.getCountryCode().getName(), "", "", A_TIP_RATE
         );
 
-        Config config = this.configValidator.assembleConfig(configDTO);
+        Config config = configAssembler.assembleToConfig(configDTO);
 
         assertEquals(0, config.getTaxRate().getRate().doubleValue());
     }
@@ -188,7 +193,7 @@ class ConfigAssemblerTest {
                 "None", "", "", A_TIP_RATE
         );
 
-        Config config = this.configValidator.assembleConfig(configDTO);
+        Config config = configAssembler.assembleToConfig(configDTO);
 
         assertNotNull(config.getCubesNames());
     }
@@ -200,7 +205,7 @@ class ConfigAssemblerTest {
                 "None", "", "", A_TIP_RATE
         );
 
-        Config config = this.configValidator.assembleConfig(configDTO);
+        Config config = configAssembler.assembleToConfig(configDTO);
 
         assertEquals(GroupReservationStrategy.Default, config.getReservationMethod());
     }
@@ -212,11 +217,24 @@ class ConfigAssemblerTest {
                 "None", "", "", A_TIP_RATE
         );
 
-        Config config = this.configValidator.assembleConfig(configDTO);
+        Config config = configAssembler.assembleToConfig(configDTO);
 
         assertEquals(A_TIP_RATE.doubleValue(), config.getGroupTipRate().getRate().doubleValue());
     }
 
+    @Test
+    void whenAssembleConfigWithCountryAndArea_thenFindTaxRateInTaxesRepositoryFromCountryAndArea() {
+        taxRepository = mock(TaxRepository.class);
+        when(taxRepository.findTaxRate(any(), any())).thenReturn(new TaxRate(0.15f));
+        configAssembler = new ConfigAssembler(taxRepository);
+        ConfigDTO configDTO = new ConfigDTO(
+                GroupReservationStrategy.Default.label, AN_ORGANIZATION_NAME, A_CUBE_SIZE,
+                "CA", "QC", "", A_TIP_RATE
+        );
 
+        configAssembler.assembleToConfig(configDTO);
+
+        verify(taxRepository).findTaxRate(Country.Canada.getCountryCode(), CanadaProvinces.QUEBEC.getProvinceCode());
+    }
 
 }

@@ -1,15 +1,14 @@
 package ca.ulaval.glo4002.cafe.domain.inventory;
 
-import ca.ulaval.glo4002.cafe.application.inventory.IngredientType;
+import ca.ulaval.glo4002.cafe.application.inventory.IngredientInLes4Fees;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class InventoryTest {
-    private static final IngredientId AN_EXISTING_INGREDIENT_ID = new IngredientId(IngredientType.Chocolate.getLabel());
+    private static final IngredientId AN_EXISTING_INGREDIENT_ID = IngredientInLes4Fees.Espresso.getId();
     private static final Ingredient AN_EXISTING_INGREDIENT = new Ingredient(AN_EXISTING_INGREDIENT_ID, 0);
-
     private Inventory inventory;
 
     @BeforeEach
@@ -18,12 +17,10 @@ class InventoryTest {
         givenIngredientsInInventory();
     }
 
-
     @Test
     void whenInitialized_thenAllIngredientsInStorageHaveAQuantityOfZero() {
         this.allIngredientsInStorageHaveAQuantityOfZero();
     }
-
 
     @Test
     void whenAddIngredientsForIngredientsInStorage_thenTheirQuantitiesAreUpdated() {
@@ -35,7 +32,7 @@ class InventoryTest {
     @Test
     void givenIngredientInInventoryWithPositiveQuantity_whenRemoveThisIngredientWithThisQuantity_thenQuantityEqualsZero() {
         inventory.addQuantity(AN_EXISTING_INGREDIENT);
-        inventory.removeQuantity(AN_EXISTING_INGREDIENT);
+        inventory.useIngredient(AN_EXISTING_INGREDIENT);
         this.allIngredientsInStorageHaveAQuantityOfZero();
     }
 

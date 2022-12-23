@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.canadian;
+package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.canada;
 
 import ca.ulaval.glo4002.cafe.domain.tax.Area;
 import ca.ulaval.glo4002.cafe.domain.tax.CountryTaxRepository;
@@ -8,11 +8,11 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class CanadianTax implements CountryTaxRepository {
+public class CanadaTax implements CountryTaxRepository {
     private final Map<Area, TaxRate> provinceTaxes;
-    public CanadianTax() {
-        this.provinceTaxes = Arrays.stream(CanadianProvinces.values())
-                .collect(Collectors.toMap(CanadianProvinces::getProvinceCode, CanadianProvinces::getTaxRate));
+    public CanadaTax() {
+        this.provinceTaxes = Arrays.stream(CanadaProvinces.values())
+                .collect(Collectors.toMap(CanadaProvinces::getProvinceCode, CanadaProvinces::getTaxRate));
     }
 
     @Override

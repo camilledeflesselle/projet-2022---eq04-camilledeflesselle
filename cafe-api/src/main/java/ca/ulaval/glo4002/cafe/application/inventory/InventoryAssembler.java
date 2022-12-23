@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class InventoryAssembler {
 
-    public InventoryDTO toDTO(Inventory inventory) {
+    public InventoryDTO assembleToDTO(Inventory inventory) {
         return new InventoryDTO(this.getInventoryStringify(inventory));
     }
 

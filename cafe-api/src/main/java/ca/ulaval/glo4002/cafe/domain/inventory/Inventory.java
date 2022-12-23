@@ -31,7 +31,7 @@ public class Inventory {
         this.inventory.replaceAll((ingredientId, quantity) -> 0);
     }
 
-    public void removeQuantity(Ingredient anExistingIngredient) {
+    public void useIngredient(Ingredient anExistingIngredient) {
         int oldQuantity = this.inventory.get(anExistingIngredient.getId());
         this.inventory.put(anExistingIngredient.getId(), oldQuantity - anExistingIngredient.getQuantity());
     }

@@ -30,7 +30,7 @@ class MenuServiceTest {
     void whenAddMenuItem_thenAddMenuItem() {
         menuService.addMenuItem(menuItem, recipe);
 
-        verify(menuItemRepository).saveMenuItem(menuItem);
+        verify(menuItemRepository).save(menuItem);
         verify(recipeRepository).save(recipe);
     }
 }

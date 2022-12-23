@@ -4,25 +4,21 @@ import ca.ulaval.glo4002.cafe.domain.tax.Area;
 import ca.ulaval.glo4002.cafe.domain.tax.CountryTaxRepository;
 import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
 import ca.ulaval.glo4002.cafe.domain.tax.TaxRepository;
-import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.canadian.CanadianTax;
-import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.unitedStates.UnitedStatesTax;
 
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static java.util.Map.entry;
-
-public class TaxesRepositoryInMemory implements TaxRepository {
+public class TaxRepositoryInMemory implements TaxRepository {
     private final Map<Area, TaxRate> federalTaxes;
     private final Map<Area, CountryTaxRepository> taxesByCountries;
-    public TaxesRepositoryInMemory() {
+    public TaxRepositoryInMemory() {
+        TaxRepositoryFactory taxRepositoryFactory = new TaxRepositoryFactory();
         this.federalTaxes = Arrays.stream(Country.values())
                 .collect(Collectors.toMap(Country::getCountryCode, Country::getTaxRate));
-        this.taxesByCountries = Map.ofEntries(
-                entry(Country.CANADA.getCountryCode(), new CanadianTax()),
-                entry(Country.UNITED_STATES.getCountryCode(), new UnitedStatesTax())
-        );
+        this.taxesByCountries = Arrays.stream(Country.values())
+                .filter(Country::hasAreas)
+                .collect(Collectors.toMap(Country::getCountryCode, taxRepositoryFactory::create));
     }
 
     public TaxRate findTaxRate(Area country, Area area) {

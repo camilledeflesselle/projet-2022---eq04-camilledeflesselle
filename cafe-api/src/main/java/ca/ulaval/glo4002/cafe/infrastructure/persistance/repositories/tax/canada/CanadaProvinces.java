@@ -1,9 +1,9 @@
-package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.canadian;
+package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.canada;
 
 import ca.ulaval.glo4002.cafe.domain.tax.Area;
 import ca.ulaval.glo4002.cafe.domain.tax.TaxRate;
 
-public enum CanadianProvinces {
+public enum CanadaProvinces {
     ALBERTA("AB", 0f),
     BRITISH_COLUMBIA("BC", 7f),
     MANITOBA("MB", 7f),
@@ -20,7 +20,7 @@ public enum CanadianProvinces {
     private final Area provinceCode;
     private final TaxRate taxRate;
 
-    CanadianProvinces(String provinceCode, float taxRate) {
+    CanadaProvinces(String provinceCode, float taxRate) {
         this.provinceCode = new Area(provinceCode);
         this.taxRate = new TaxRate(taxRate);
     }

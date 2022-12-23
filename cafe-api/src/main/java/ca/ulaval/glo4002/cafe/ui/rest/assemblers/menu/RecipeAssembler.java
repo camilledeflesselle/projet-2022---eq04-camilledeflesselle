@@ -1,8 +1,7 @@
 package ca.ulaval.glo4002.cafe.ui.rest.assemblers.menu;
 
-import ca.ulaval.glo4002.cafe.application.inventory.IngredientType;
+import ca.ulaval.glo4002.cafe.application.inventory.IngredientInLes4Fees;
 import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
-import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.RecipeDTO;
 import jakarta.ws.rs.BadRequestException;
 
@@ -29,16 +28,11 @@ public class RecipeAssembler {
             throw new BadRequestException("Coffee ingredient quantity cannot be empty or negative.");
         }
 
-        if(!ingredients.keySet().stream().allMatch(IngredientType::contains)) {
-            throw new BadRequestException("Coffee ingredient name is not valid.");
-        }
-
-        Arrays.stream(IngredientType.values()).map(IngredientType::getLabel).forEach(ingredient -> {
-            if (!ingredients.containsKey(ingredient)) {
-                throw new BadRequestException("Coffee ingredient " + ingredient + " is missing.");
+        Arrays.stream(IngredientInLes4Fees.values()).map(IngredientInLes4Fees::getId).forEach(ingredientId -> {
+            if (!ingredients.containsKey(ingredientId.getName())) {
+                throw new BadRequestException("Coffee ingredient " + ingredientId.getName() + " is missing.");
             }
-            IngredientId id = new IngredientId(ingredient);
-            Ingredient ingredientRecipe = new Ingredient(id, ingredients.get(ingredient));
+            Ingredient ingredientRecipe = new Ingredient(ingredientId, ingredients.get(ingredientId.getName()));
             ingredientsRecipe.add(ingredientRecipe);
         });
         return ingredientsRecipe;

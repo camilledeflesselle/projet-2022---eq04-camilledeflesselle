@@ -30,14 +30,14 @@ public class CheckOutServiceTest {
     private static final SeatId A_SEAT_ID = new SeatId(1);
     private static final TipRate A_GROUP_TIP_RATE = new TipRate(0.15f);
     private static final boolean CUSTOMER_HAS_GROUP = true;
-
-    private static CheckOutService checkOutService;
     private static CustomerRepository customerRepository;
     private static OrderRepository orderRepository;
-    private BillFactory billFactory;
-    private BillRepository billRepository;
-    private SeatingOrganizer seatingOrganizer;
-    private ReservationRepository reservationRepository;
+    private static BillFactory billFactory;
+    private static BillRepository billRepository;
+    private static SeatingOrganizer seatingOrganizer;
+    private static ReservationRepository reservationRepository;
+
+    private static CheckOutService checkOutService;
 
     @BeforeEach
     public void setup() {

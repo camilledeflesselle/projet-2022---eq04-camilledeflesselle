@@ -31,7 +31,6 @@ class CoffeeTest {
         assertEquals(A_PRICE, coffee.getPrice());
     }
 
-
     @Test
     void whenMakeCoffee_thenTakeIngredientsOfRecipeInStorage() {
         Inventory inventory = mock(Inventory.class);

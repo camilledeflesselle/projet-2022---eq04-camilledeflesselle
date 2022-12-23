@@ -49,7 +49,7 @@ public class ConfigAssembler {
         }
     }
 
-    public Config assembleConfig(ConfigDTO configDTO) {
+    public Config assembleToConfig(ConfigDTO configDTO) {
         this.validateConfig(configDTO);
         this.config.setCubeSize(configDTO.getCubeSize());
         this.config.setOrganizationName(configDTO.getOrganizationName());
@@ -93,13 +93,13 @@ public class ConfigAssembler {
         if (countryId == null) return false;
         Area area = null;
         switch (countryId) {
-            case CANADA:
+            case Canada:
                 area = new Area(province);
                 break;
-            case UNITED_STATES:
+            case UnitedStates:
                 area = new Area(state);
                 break;
-            case CL, NONE:
+            case Cl, None:
                 break;
             default:
                 return false;

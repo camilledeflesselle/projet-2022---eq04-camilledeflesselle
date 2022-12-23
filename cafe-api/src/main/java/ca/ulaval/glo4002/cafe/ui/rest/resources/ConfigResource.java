@@ -28,7 +28,7 @@ public class ConfigResource {
 
     @POST
     public Response config(ConfigDTO configDTO) {
-        Config config = configValidator.assembleConfig(configDTO);
+        Config config = configValidator.assembleToConfig(configDTO);
         this.closeService.updateConfig(config);
         return Response
                 .ok()

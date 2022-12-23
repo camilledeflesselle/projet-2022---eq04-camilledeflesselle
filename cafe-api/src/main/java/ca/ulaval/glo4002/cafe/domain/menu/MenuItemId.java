@@ -26,11 +26,6 @@ public class MenuItemId {
         return this.name.equals(id.name);
     }
 
-    @Override
-    public int hashCode() {
-        return this.name.hashCode();
-    }
-
     public boolean isCustom() {
         return this.isCustom;
     }

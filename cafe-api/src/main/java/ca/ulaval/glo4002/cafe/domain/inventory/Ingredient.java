@@ -23,10 +23,6 @@ public class Ingredient {
         return this.quantity;
     }
 
-    public void useAll() {
-        this.quantity = 0;
-    }
-
     public void checkIfEnough(Integer quantity) {
         if (quantity > this.quantity) {
             throw new InsufficentIngredientsException();

@@ -20,7 +20,6 @@ class OrderRepositoryInMemoryTest {
     private static final MenuItem MENU_ITEM_1 = new MenuItem(new MenuItemId("cheese"), new Amount(13.25f));
     private static final Order FIRST_ORDER = ordersFactory.create(List.of(MENU_ITEM_1));
 
-
     private OrderRepositoryInMemory ordersRepositoryInMemory;
 
     @BeforeEach

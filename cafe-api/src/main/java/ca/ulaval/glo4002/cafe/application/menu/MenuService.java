@@ -15,7 +15,7 @@ public class MenuService {
     }
 
     public void addMenuItem(MenuItem menuItem, Recipe recipe) {
-        this.menuItemRepository.saveMenuItem(menuItem);
+        this.menuItemRepository.save(menuItem);
         this.recipeRepository.save(recipe);
     }
 }
