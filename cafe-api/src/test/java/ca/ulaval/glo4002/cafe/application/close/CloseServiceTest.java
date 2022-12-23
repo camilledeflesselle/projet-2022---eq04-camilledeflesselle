@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.cafe.application.close;
 
-import ca.ulaval.glo4002.cafe.application.layout.LayoutService;
 import ca.ulaval.glo4002.cafe.domain.bill.BillRepository;
 import ca.ulaval.glo4002.cafe.domain.config.Config;
 import ca.ulaval.glo4002.cafe.domain.config.ConfigRepository;

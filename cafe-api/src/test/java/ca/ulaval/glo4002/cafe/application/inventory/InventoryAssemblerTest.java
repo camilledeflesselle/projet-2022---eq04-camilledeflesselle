@@ -4,7 +4,7 @@ import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.InventoryDTO;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
 class InventoryAssemblerTest {
@@ -16,6 +16,6 @@ class InventoryAssemblerTest {
 
         InventoryDTO inventoryDTO = inventoryAssembler.assembleToDTO(inventory);
 
-        assertEquals(inventoryDTO.getInventory().size(), inventory.getInventory().size());
+        assertEquals(inventoryDTO.getInventory().size(), inventory.getIngredients().size());
     }
 }

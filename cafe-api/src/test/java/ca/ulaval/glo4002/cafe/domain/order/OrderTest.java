@@ -1,8 +1,8 @@
 package ca.ulaval.glo4002.cafe.domain.order;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
-import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
+import ca.ulaval.glo4002.cafe.domain.inventory.Ingredients;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -115,9 +114,9 @@ public class OrderTest {
         given2RecipesInRepositoryWithSameIngredientAndDifferentQuantities(recipeRepository, 1, 3, AN_INGREDIENT_ID);
         order = givenOrderWith2MenuItems();
 
-        Map<IngredientId, Integer> returnedMap = order.getAllIngredientsQuantities(recipeRepository);
+        Ingredients ingredientsNeeded = order.getAllIngredientsQuantities(recipeRepository);
 
-        assertEquals(4, returnedMap.get(AN_INGREDIENT_ID));
+        assertEquals(4, ingredientsNeeded.findIngredientQuantity(AN_INGREDIENT_ID));
     }
 
     private Order givenOrderWith2MenuItems() {
@@ -129,8 +128,12 @@ public class OrderTest {
     }
 
     private void given2RecipesInRepositoryWithSameIngredientAndDifferentQuantities(RecipeRepository recipeRepository, int quantity1, int quantity2, IngredientId ingredientId) {
-        Recipe recipe1 = new Recipe(A_MENU_ITEM_ID,List.of(new Ingredient(ingredientId, quantity1)));
-        Recipe recipe2 = new Recipe(ANOTHER_MENU_ITEM_ID,List.of(new Ingredient(ingredientId, quantity2)));
+        Ingredients ingredients1 = new Ingredients();
+        ingredients1.addIngredient(ingredientId, quantity1);
+        Ingredients ingredients2 = new Ingredients();
+        ingredients2.addIngredient(ingredientId, quantity2);
+        Recipe recipe1 = new Recipe(A_MENU_ITEM_ID, ingredients1);
+        Recipe recipe2 = new Recipe(ANOTHER_MENU_ITEM_ID, ingredients2);
         when(recipeRepository.findById(A_MENU_ITEM_ID)).thenReturn(recipe1);
         when(recipeRepository.findById(ANOTHER_MENU_ITEM_ID)).thenReturn(recipe2);
     }

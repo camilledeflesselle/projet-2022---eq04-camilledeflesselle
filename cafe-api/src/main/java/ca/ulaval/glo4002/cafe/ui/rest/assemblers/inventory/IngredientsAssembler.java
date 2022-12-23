@@ -1,13 +1,11 @@
 package ca.ulaval.glo4002.cafe.ui.rest.assemblers.inventory;
 
-import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
+import ca.ulaval.glo4002.cafe.domain.inventory.Ingredients;
 import ca.ulaval.glo4002.cafe.domain.inventory.InventoryRepository;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.InventoryDTO;
 import jakarta.ws.rs.BadRequestException;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class IngredientsAssembler {
@@ -17,8 +15,8 @@ public class IngredientsAssembler {
         this.inventoryRepository = inventoryRepository;
     }
 
-    public List<Ingredient> assembleFromDTO(InventoryDTO inventoryDTO) {
-        List<Ingredient> ingredients = new ArrayList<>();
+    public Ingredients assembleFromDTO(InventoryDTO inventoryDTO) {
+        Ingredients newIngredients = new Ingredients();
         Map<String, Integer> inventory = inventoryDTO.getInventory();
 
         if (inventory.isEmpty()) {
@@ -32,12 +30,11 @@ public class IngredientsAssembler {
             if (inventory.get(ingredientName) < 0) {
                 throw new BadRequestException("Ingredient quantity cannot be negative");
             }
-            if (this.inventoryRepository.getInventory().contains(ingredientName)) {
+            if (this.inventoryRepository.getInventory().contains(new IngredientId(ingredientName))) {
                 IngredientId id = new IngredientId(ingredientName);
-                Ingredient ingredient = new Ingredient(id, inventory.get(ingredientName));
-                ingredients.add(ingredient);
+                newIngredients.addIngredient(id, inventory.get(ingredientName));
             }
         }
-        return ingredients;
+        return newIngredients;
     }
 }

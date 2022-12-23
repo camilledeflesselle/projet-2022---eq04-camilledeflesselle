@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.application.inventory.IngredientInLes4Fees;
-import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,7 @@ class InventoryRepositoryInMemoryTest {
     @Test
     void whenSaveInventory_thenInventoryIsUpdated() {
         Inventory inventory = new Inventory();
-        inventory.addIngredient(new Ingredient(IngredientInLes4Fees.Milk.getId(), 10));
+        inventory.addIngredient(IngredientInLes4Fees.Milk.getId(), 10);
         inventoryRepository.save(inventory);
 
         assertEquals(inventory, inventoryRepository.getInventory());
@@ -34,7 +33,7 @@ class InventoryRepositoryInMemoryTest {
     @Test
     void whenResetInventory_thenAllIngredientsOfLes4FeesHaveZeroQuantity() {
         Inventory inventory = inventoryRepository.getInventory();
-        inventory.addIngredient(new Ingredient(IngredientInLes4Fees.Milk.getId(), 10));
+        inventory.addIngredient(IngredientInLes4Fees.Milk.getId(), 10);
         inventoryRepository.save(inventory);
 
         inventoryRepository.reset();

@@ -2,17 +2,15 @@ package ca.ulaval.glo4002.cafe.application.cooking;
 
 import ca.ulaval.glo4002.cafe.application.inventory.IngredientInLes4Fees;
 import ca.ulaval.glo4002.cafe.application.menu.CoffeeType;
-import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
+import ca.ulaval.glo4002.cafe.domain.inventory.Ingredients;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
-
-import java.util.List;
 
 public class RecipeFactory {
 
     public Recipe createRecipe(CoffeeType coffeeType) {
-        Recipe recipe;
-        List<Ingredient> ingredients;
+
+        Ingredients ingredients = new Ingredients();
 
         IngredientId milk = IngredientInLes4Fees.Milk.getId();
         IngredientId water = IngredientInLes4Fees.Water.getId();
@@ -21,59 +19,38 @@ public class RecipeFactory {
 
         switch (coffeeType) {
             case Americano -> {
-                ingredients = List.of(
-                        new Ingredient(espresso, 50),
-                        new Ingredient(water, 50)
-                );
-                recipe = new Recipe(coffeeType.getId(), ingredients);
+                ingredients.addIngredient(espresso, 50);
+                ingredients.addIngredient(water, 50);
             }
             case DarkRoast -> {
-                ingredients = List.of(
-                        new Ingredient(espresso, 40),
-                        new Ingredient(water, 40),
-                        new Ingredient(chocolate, 10),
-                        new Ingredient(milk, 10)
-                );
-                recipe = new Recipe(coffeeType.getId(), ingredients);
+                ingredients.addIngredient(espresso, 40);
+                ingredients.addIngredient(water, 40);
+                ingredients.addIngredient(chocolate, 10);
+                ingredients.addIngredient(milk, 10);
             }
             case Cappuccino -> {
-                ingredients = List.of(
-                        new Ingredient(espresso, 50),
-                        new Ingredient(water, 40),
-                        new Ingredient(milk, 10)
-                );
-                recipe = new Recipe(coffeeType.getId(), ingredients);
+                ingredients.addIngredient(espresso, 50);
+                ingredients.addIngredient(milk, 40);
+                ingredients.addIngredient(milk, 10);
             }
             case Espresso -> {
-                ingredients = List.of(
-                        new Ingredient(espresso, 60)
-                );
-                recipe = new Recipe(coffeeType.getId(), ingredients);
+                ingredients.addIngredient(espresso, 60);
             }
             case FlatWhite, Latte -> {
-                ingredients = List.of(
-                        new Ingredient(espresso, 50),
-                        new Ingredient(milk, 50)
-                );
-                recipe = new Recipe(coffeeType.getId(), ingredients);
+                ingredients.addIngredient(espresso, 50);
+                ingredients.addIngredient(milk, 50);
             }
             case Macchiato -> {
-                ingredients = List.of(
-                        new Ingredient(espresso, 80),
-                        new Ingredient(milk, 20)
-                );
-                recipe = new Recipe(coffeeType.getId(), ingredients);
+                ingredients.addIngredient(espresso, 80);
+                ingredients.addIngredient(milk, 20);
             }
             case Mocha -> {
-                ingredients = List.of(
-                        new Ingredient(espresso, 50),
-                        new Ingredient(milk, 40),
-                        new Ingredient(chocolate, 10)
-                );
-                recipe = new Recipe(coffeeType.getId(), ingredients);
+                ingredients.addIngredient(espresso, 50);
+                ingredients.addIngredient(milk, 40);
+                ingredients.addIngredient(chocolate, 10);
             }
             default -> throw new IllegalArgumentException("Invalid coffee type");
         }
-        return recipe;
+        return new Recipe(coffeeType.getId(), ingredients);
     }
 }

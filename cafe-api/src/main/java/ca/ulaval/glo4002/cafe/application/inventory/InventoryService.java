@@ -1,12 +1,10 @@
 package ca.ulaval.glo4002.cafe.application.inventory;
 
-import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
+import ca.ulaval.glo4002.cafe.domain.inventory.Ingredients;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.domain.inventory.InventoryRepository;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.InventoryDTO;
 import jakarta.inject.Inject;
-
-import java.util.List;
 
 public class InventoryService {
     private final InventoryRepository inventoryRepository;
@@ -18,9 +16,10 @@ public class InventoryService {
         this.inventoryAssembler = inventoryAssembler;
     }
 
-    public void addIngredientsInInventory(List<Ingredient> ingredients) {
+    public void addIngredientsInInventory(Ingredients ingredients) {
         Inventory inventory = this.inventoryRepository.getInventory();
-        ingredients.forEach(inventory::addIngredient);
+        inventory.addIngredientsQuantitiesFrom(ingredients);
+        this.inventoryRepository.save(inventory);
     }
 
     public InventoryDTO getInventory() {

@@ -1,7 +1,7 @@
 package ca.ulaval.glo4002.cafe.ui.rest.assemblers.validators.inventory;
 
-import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
+import ca.ulaval.glo4002.cafe.domain.inventory.Ingredients;
 import ca.ulaval.glo4002.cafe.domain.inventory.InventoryRepository;
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.InventoryRepositoryInMemory;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.InventoryDTO;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -70,13 +69,12 @@ class IngredientsAssemblerTest {
 
     @Test
     public void givenAnInventoryDTOWithAnIngredientNameThatDoesExist_whenAssembleFromDTO_thenNotAddIngredientToList() {
-        Ingredient ingredient = new Ingredient(AN_INGREDIENT_NAME, 0);
         Map<String, Integer> inventoryDTOWithIngredientNameThatDoesExist = new HashMap<>();
         inventoryDTOWithIngredientNameThatDoesExist.put(AN_INGREDIENT_NAME.getName(), 2);
         InventoryDTO inventoryDTO = new InventoryDTO(inventoryDTOWithIngredientNameThatDoesExist);
 
-        List<Ingredient> result = ingredientsAssembler.assembleFromDTO(inventoryDTO);
+        Ingredients result = ingredientsAssembler.assembleFromDTO(inventoryDTO);
 
-        assertFalse(result.contains(ingredient));
+        assertFalse(result.contains(AN_INGREDIENT_NAME));
     }
 }

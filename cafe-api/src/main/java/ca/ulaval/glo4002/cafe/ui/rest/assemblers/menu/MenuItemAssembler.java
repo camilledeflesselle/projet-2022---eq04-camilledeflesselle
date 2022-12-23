@@ -1,15 +1,13 @@
 package ca.ulaval.glo4002.cafe.ui.rest.assemblers.menu;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
-import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
+import ca.ulaval.glo4002.cafe.domain.inventory.Ingredients;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 import ca.ulaval.glo4002.cafe.ui.rest.DTO.MenuItemDTO;
 import jakarta.ws.rs.BadRequestException;
-
-import java.util.List;
 
 public class MenuItemAssembler {
     private final MenuItemRepository menu;
@@ -30,7 +28,7 @@ public class MenuItemAssembler {
 
     public Recipe menuItemDTOToRecipe(MenuItemDTO menuItemDTO) {
         MenuItemId menuItemId = new MenuItemId(menuItemDTO.getName(), true);
-        List<Ingredient> ingredients = this.recipeAssembler.assembleRecipeDTOToRecipe(menuItemDTO.getIngredients());
+        Ingredients ingredients = this.recipeAssembler.assembleRecipeDTOToRecipe(menuItemDTO.getIngredients());
         return new Recipe(menuItemId, ingredients);
     }
 

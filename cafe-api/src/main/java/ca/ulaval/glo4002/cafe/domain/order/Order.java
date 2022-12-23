@@ -1,18 +1,16 @@
 package ca.ulaval.glo4002.cafe.domain.order;
 
 import ca.ulaval.glo4002.cafe.domain.bill.Amount;
-import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
+import ca.ulaval.glo4002.cafe.domain.inventory.Ingredients;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 import ca.ulaval.glo4002.cafe.domain.recipe.RecipeRepository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Order {
-    private List<MenuItem> menuItems;
+    private final List<MenuItem> menuItems;
 
     public Order(List<MenuItem> menuItems) {
         this.menuItems = menuItems;
@@ -31,25 +29,19 @@ public class Order {
         return this;
     }
 
-    public void make(RecipeRepository recipeRepository, Inventory inventoryRepository) {
+    public void make(RecipeRepository recipeRepository, Inventory inventory) {
         menuItems.forEach(menuItem -> {
             Recipe recipe = recipeRepository.findById(menuItem.getId());
-            recipe.cookWith(inventoryRepository);
+            recipe.cookWith(inventory);
         });
     }
 
-    public Map<IngredientId, Integer> getAllIngredientsQuantities(RecipeRepository recipeRepository) {
-        Map<IngredientId, Integer> ingredients = new HashMap<>();
+    public Ingredients getAllIngredientsQuantities(RecipeRepository recipeRepository) {
+        Ingredients ingredients = new Ingredients();
 
         menuItems.forEach(menuItem -> {
             Recipe recipe = recipeRepository.findById(menuItem.getId());
-            recipe.getIngredients().forEach(ingredient -> {
-                if (ingredients.containsKey(ingredient.getId())) {
-                    ingredients.put(ingredient.getId(), ingredients.get(ingredient.getId()) + ingredient.getQuantity());
-                } else {
-                    ingredients.put(ingredient.getId(), ingredient.getQuantity());
-                }
-            });
+            ingredients.addIngredientsQuantitiesFrom(recipe.getIngredients());
         });
         return ingredients;
     }

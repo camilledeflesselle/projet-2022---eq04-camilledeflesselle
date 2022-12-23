@@ -2,19 +2,16 @@ package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.application.cooking.RecipeFactory;
 import ca.ulaval.glo4002.cafe.application.inventory.IngredientInLes4Fees;
-import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
+import ca.ulaval.glo4002.cafe.domain.inventory.Ingredients;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemId;
 import ca.ulaval.glo4002.cafe.domain.recipe.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class RecipeRepositoryInMemoryTest {
     private static final boolean IS_CUSTOM = true;
-    private static final boolean IS_NOT_CUSTOM = false;
     private RecipeRepositoryInMemory recipeRepositoryInMemory;
 
     @BeforeEach
@@ -25,9 +22,7 @@ class RecipeRepositoryInMemoryTest {
 
     @Test
     public void whenAddRecipe_thenStorageSizeIncrease() {
-        Recipe recipe = new Recipe(new MenuItemId("recipe1"),
-                List.of(new Ingredient(IngredientInLes4Fees.Milk.getId(), 10),
-                        new Ingredient(IngredientInLes4Fees.Milk.getId(), 10)));
+        Recipe recipe = new Recipe(new MenuItemId("recipe1"), new Ingredients());
 
         int oldSize = recipeRepositoryInMemory.getAmount();
 
@@ -38,9 +33,10 @@ class RecipeRepositoryInMemoryTest {
 
     @Test
     public void whenSearchAnExistingRecipeInStorageByName_thenReturnsThisRecipe() {
-        Recipe recipe = new Recipe(new MenuItemId("recipe1"),
-                List.of(new Ingredient(IngredientInLes4Fees.Espresso.getId(), 10),
-                        new Ingredient(IngredientInLes4Fees.Milk.getId(), 10)));
+        Ingredients ingredients = new Ingredients();
+        ingredients.addIngredient(IngredientInLes4Fees.Espresso.getId(), 10);
+        ingredients.addIngredient(IngredientInLes4Fees.Milk.getId(), 10);
+        Recipe recipe = new Recipe(new MenuItemId("recipe1"), ingredients);
         recipeRepositoryInMemory.save(recipe);
 
         Recipe recipeFound = recipeRepositoryInMemory.findById(new MenuItemId("recipe1"));
@@ -50,9 +46,10 @@ class RecipeRepositoryInMemoryTest {
 
     @Test
     public void whenDeleteAllCustomRecipes_thenStorageSizeDecrease() {
-        Recipe recipe = new Recipe(new MenuItemId("recipe1", true),
-                List.of(new Ingredient(IngredientInLes4Fees.Espresso.getId(), 10),
-                        new Ingredient(IngredientInLes4Fees.Milk.getId(), 10)));
+        Ingredients ingredients = new Ingredients();
+        ingredients.addIngredient(IngredientInLes4Fees.Espresso.getId(), 10);
+        ingredients.addIngredient(IngredientInLes4Fees.Milk.getId(), 10);
+        Recipe recipe = new Recipe(new MenuItemId("recipe1", IS_CUSTOM), ingredients);
         recipeRepositoryInMemory.save(recipe);
 
         int oldSize = recipeRepositoryInMemory.getAmount();
@@ -64,9 +61,10 @@ class RecipeRepositoryInMemoryTest {
 
     @Test
     public void whenDeleteAllCustomRecipes_thenStorageDoesNotContainCustomRecipes() {
-        Recipe recipe = new Recipe(new MenuItemId("recipe1", IS_CUSTOM),
-                List.of(new Ingredient(IngredientInLes4Fees.Espresso.getId(), 10),
-                        new Ingredient(IngredientInLes4Fees.Milk.getId(), 10)));
+        Ingredients ingredients = new Ingredients();
+        ingredients.addIngredient(IngredientInLes4Fees.Espresso.getId(), 10);
+        ingredients.addIngredient(IngredientInLes4Fees.Milk.getId(), 10);
+        Recipe recipe = new Recipe(new MenuItemId("recipe1", IS_CUSTOM), ingredients);
         recipeRepositoryInMemory.save(recipe);
 
         recipeRepositoryInMemory.deleteAllCustom();
@@ -78,9 +76,10 @@ class RecipeRepositoryInMemoryTest {
 
     @Test
     public void whenDeleteAllCustomRecipes_thenNotRemoveNonCustomRecipes() {
-        Recipe recipe = new Recipe(new MenuItemId("recipe1", IS_NOT_CUSTOM),
-                List.of(new Ingredient(IngredientInLes4Fees.Espresso.getId(), 10),
-                        new Ingredient(IngredientInLes4Fees.Milk.getId(), 10)));
+        Ingredients ingredients = new Ingredients();
+        ingredients.addIngredient(IngredientInLes4Fees.Espresso.getId(), 10);
+        ingredients.addIngredient(IngredientInLes4Fees.Milk.getId(), 10);
+        Recipe recipe = new Recipe(new MenuItemId("recipe1"), ingredients);
         recipeRepositoryInMemory.save(recipe);
 
         recipeRepositoryInMemory.deleteAllCustom();

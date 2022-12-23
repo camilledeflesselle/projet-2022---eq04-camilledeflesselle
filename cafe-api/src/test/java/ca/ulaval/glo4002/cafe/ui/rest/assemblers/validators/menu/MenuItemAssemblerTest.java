@@ -94,7 +94,7 @@ class MenuItemAssemblerTest {
     public void givenAValidMenuItemDTO_whenAssembleRecipe_thenThereIs4Ingredients() {
         MenuItemDTO menuItemDTO = new MenuItemDTO(SOME_NAME_NOT_IN_MENU, new RecipeDTO(SOME_CORRECT_INGREDIENTS), SOME_PRICE);
 
-        assertEquals(4, menuItemAssembler.menuItemDTOToRecipe(menuItemDTO).getIngredients().size());
+        assertEquals(4, menuItemAssembler.menuItemDTOToRecipe(menuItemDTO).getNumberOfIngredients());
     }
 
     @Test
@@ -103,7 +103,7 @@ class MenuItemAssemblerTest {
 
         Recipe recipe = menuItemAssembler.menuItemDTOToRecipe(menuItemDTO);
 
-        SOME_CORRECT_INGREDIENTS.forEach((name, quantity) -> assertTrue(recipe.contains(new IngredientId(name), quantity)));
+        SOME_CORRECT_INGREDIENTS.forEach((name, quantity) -> assertTrue(recipe.contains(new IngredientId(name))));
     }
 
     @Test

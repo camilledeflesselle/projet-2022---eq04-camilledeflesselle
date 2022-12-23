@@ -1,8 +1,6 @@
 package ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories;
 
 import ca.ulaval.glo4002.cafe.application.inventory.IngredientInLes4Fees;
-import ca.ulaval.glo4002.cafe.domain.inventory.Ingredient;
-import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.domain.inventory.InventoryRepository;
 
@@ -32,7 +30,7 @@ public class InventoryRepositoryInMemory implements InventoryRepository {
 
     private void initializeInventory() {
         this.inventory = new Inventory();
-        Arrays.stream(IngredientInLes4Fees.values()).map((IngredientInLes4Fees name) -> new Ingredient(new IngredientId(name.getId().getName()), 0)).forEach(inventory::addIngredient);
+        Arrays.stream(IngredientInLes4Fees.values()).forEach(ingredientId -> inventory.addIngredient(ingredientId.getId(), 0));
     }
 
 }

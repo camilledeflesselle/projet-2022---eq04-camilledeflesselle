@@ -16,7 +16,7 @@ public class InventoryAssembler {
     private Map<String, Integer> getInventoryStringify(Inventory inventory) {
         Map<String, Integer> stringInventory = new HashMap<>();
 
-        for (IngredientId ingredientId : inventory.getInventory().keySet()) {
+        for (IngredientId ingredientId : inventory.getIngredients().keySet()) {
             stringInventory.put(ingredientId.getName(), inventory.findIngredientQuantity(ingredientId));
         }
         return stringInventory;

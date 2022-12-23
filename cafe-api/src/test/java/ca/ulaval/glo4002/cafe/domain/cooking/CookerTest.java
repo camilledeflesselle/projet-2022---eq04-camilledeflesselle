@@ -1,20 +1,23 @@
 package ca.ulaval.glo4002.cafe.domain.cooking;
 
 import ca.ulaval.glo4002.cafe.domain.inventory.IngredientId;
+import ca.ulaval.glo4002.cafe.domain.inventory.Ingredients;
 import ca.ulaval.glo4002.cafe.domain.inventory.Inventory;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
 import ca.ulaval.glo4002.cafe.domain.recipe.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class CookerTest {
-    private static final Map<IngredientId, Integer> NEEDED_QUANTITIES = Map.of(new IngredientId("An ingredient"), 1);
-    private static final Integer NULL_INVENTORY_QUANTITY = 0;
+    private static final IngredientId AN_INGREDIENT_ID = new IngredientId("Milk");
+    private static final Ingredients NEEDED_QUANTITIES = new Ingredients() {
+        {
+            addIngredient(AN_INGREDIENT_ID, 10);
+        }
+    };
     private RecipeRepository recipeRepository;
     private Inventory inventory;
     private Order order;
@@ -36,14 +39,19 @@ class CookerTest {
 
     @Test
     public void whenCheckIfEnoughIngredientsForOrderInInventory_thenOrderGetIngredientsNeededAccordingToRecipeRepository() {
+        when(order.getAllIngredientsQuantities(recipeRepository)).thenReturn(NEEDED_QUANTITIES);
+        when(inventory.hasMoreIngredients(NEEDED_QUANTITIES)).thenReturn(true);
+
         cooker.checkIfEnoughIngredients(order, inventory, recipeRepository);
+
         verify(order).getAllIngredientsQuantities(recipeRepository);
+        verify(inventory).hasMoreIngredients(NEEDED_QUANTITIES);
     }
 
     @Test
     public void givenNotEnoughIngredients_whenCheckIfEnoughIngredientsForOrderInInventory_thenRaiseInsufficientIngredientException() {
         when(order.getAllIngredientsQuantities(recipeRepository)).thenReturn(NEEDED_QUANTITIES);
-        when(inventory.findIngredientQuantity(new IngredientId("An ingredient"))).thenReturn(NULL_INVENTORY_QUANTITY);
+        when(inventory.hasMoreIngredients(NEEDED_QUANTITIES)).thenReturn(false);
         assertThrows(InsufficentIngredientsException.class, () -> cooker.checkIfEnoughIngredients(order, inventory, recipeRepository));
     }
 }

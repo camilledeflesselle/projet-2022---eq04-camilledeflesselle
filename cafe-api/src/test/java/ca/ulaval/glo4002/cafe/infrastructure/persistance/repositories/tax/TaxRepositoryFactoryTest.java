@@ -5,7 +5,7 @@ import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.canada
 import ca.ulaval.glo4002.cafe.infrastructure.persistance.repositories.tax.unitedStates.UnitedStatesTax;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TaxRepositoryFactoryTest {
 

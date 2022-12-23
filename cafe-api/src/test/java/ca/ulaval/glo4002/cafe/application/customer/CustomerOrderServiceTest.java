@@ -1,7 +1,9 @@
 package ca.ulaval.glo4002.cafe.application.customer;
 
 import ca.ulaval.glo4002.cafe.application.cooking.CookingService;
-import ca.ulaval.glo4002.cafe.domain.customer.*;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerDoesNotExistException;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerId;
+import ca.ulaval.glo4002.cafe.domain.customer.CustomerRepository;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItem;
 import ca.ulaval.glo4002.cafe.domain.menu.MenuItemRepository;
 import ca.ulaval.glo4002.cafe.domain.order.Order;
